@@ -1,29 +1,30 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Home() {
   return (
-    <div className="bg-red-500 p-8 min-h-screen">
-      <h1 className="text-white text-4xl font-bold mb-4">
-        ¡Tailwind CSS está funcionando!
-      </h1>
-      <p className="text-yellow-300 text-xl mb-6">
-        Si ves fondo rojo y este texto amarillo, todo está bien.
-      </p>
-
-      {/* Usando nombres de colores simplificados */}
-      <div className="bg-primary p-6 rounded-lg mb-4">
-        <h2 className="text-white text-2xl font-bold">
-          Color Personalizado Terracota
-        </h2>
-        <p className="text-white/80">
-          Este div debería ser TERRACOTA (#d4825a)
+    <main className="min-h-screen bg-background flex items-center justify-center px-4 text-text-primary">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="text-center space-y-6"
+      >
+        <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight">
+          Our website is coming soon
+        </h1>
+        <p className="text-text-muted text-lg max-w-xl mx-auto">
+          We’re working on something beautiful. Soon you’ll be able to explore
+          our branding and web development services.
         </p>
-      </div>
-
-      <div className="bg-background p-6 rounded-lg border border-gray-400">
-        <h2 className="text-text-primary text-2xl font-bold">
-          Fondo Personalizado Oscuro
-        </h2>
-        <p className="text-text-muted">Este div debería ser NEGRO (#020617)</p>
-      </div>
-    </div>
+        <a
+          href="mailto:hello@okrices.com"
+          className="inline-block mt-4 px-6 py-3 bg-primary text-white rounded-xl hover:opacity-90 transition"
+        >
+          Contact Us
+        </a>
+      </motion.div>
+    </main>
   );
 }

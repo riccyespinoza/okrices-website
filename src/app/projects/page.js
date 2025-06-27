@@ -1,26 +1,35 @@
+import ProjectCard from "@/components/ProjectCard";
+
+const projects = [
+  {
+    title: "Branding for Creative Agency",
+    description: "A bold, modern identity system for a digital-first business.",
+  },
+  {
+    title: "Website for Architecture Studio",
+    description:
+      "A responsive, elegant portfolio with motion and case studies.",
+  },
+  {
+    title: "Minimal eCommerce Redesign",
+    description:
+      "Focus on clarity, usability and conversion for a better shopping experience.",
+  },
+];
+
 export default function ProjectsPage() {
   return (
-    <section className="max-w-4xl mx-auto py-16">
-      <h1 className="text-3xl font-semibold mb-6">Projects</h1>
-      <p className="text-text-muted mb-6">
-        Here youll soon find a curated selection of visual identity and web
-        development projects. Each one is designed with purpose, strategy, and
-        elegance.
-      </p>
-      <ul className="space-y-4 text-text-muted">
-        <li className="border-l-4 border-accent pl-4">
-          <strong>Branding for Creative Agency</strong> – A bold, modern
-          identity system for a digital-first business.
-        </li>
-        <li className="border-l-4 border-accent pl-4">
-          <strong>Website for Architecture Studio</strong> – A responsive,
-          elegant portfolio with motion and case studies.
-        </li>
-        <li className="border-l-4 border-accent pl-4">
-          <strong>Minimal eCommerce Redesign</strong> – Focused on clarity,
-          usability and conversion.
-        </li>
-      </ul>
+    <section className="max-w-6xl mx-auto py-16 px-4">
+      <h1 className="text-3xl font-semibold mb-8">Projects</h1>
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={index}
+            title={project.title}
+            description={project.description}
+          />
+        ))}
+      </div>
     </section>
   );
 }

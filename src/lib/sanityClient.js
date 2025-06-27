@@ -1,8 +1,9 @@
-import { createClient } from "@sanity/client";
+// src/lib/sanityClient.js
+import { createClient } from "next-sanity";
 
-export const sanity = createClient({
-  projectId: "tu_projectId", // ← Copia esto desde sanity.config.js
+export const client = createClient({
+  projectId: "fc3g5u62",
   dataset: "production",
-  apiVersion: "2023-01-01",
-  useCdn: true,
+  apiVersion: "2025-06-27",
+  useCdn: false,
 });

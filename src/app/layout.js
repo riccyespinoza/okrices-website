@@ -1,15 +1,16 @@
 import "./globals.css";
+import MainLayout from "@/components/MainLayout";
 
 export const metadata = {
-  title: "OkRices Website", 
-  description: "Website con Tailwind CSS",
+  title: "Okrices – Visual Identity & Web Studio",
+  description: "Transforming ideas into clear and functional brands.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body className="antialiased">
-        {children}
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
   );

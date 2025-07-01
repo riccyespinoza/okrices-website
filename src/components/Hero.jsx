@@ -1,34 +1,45 @@
 "use client";
-
+import AnimatedLogo from "@/components/AnimatedLogo";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-[80vh] flex items-center justify-center text-center px-6 bg-primary">
+    <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 bg-primary text-light overflow-hidden">
+      {/* Logo flotante al fondo */}
+      <AnimatedLogo className="absolute -z-10 bottom-10 right-10" />
+
+      {/* Fade-in container */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-3xl backdrop-blur-md bg-white/5 p-8 rounded-2xl border border-white/10"
+        className="max-w-3xl"
       >
-        <h1 className="text-4xl md:text-5xl font-extrabold text-light mb-4">
-          Welcome to <span className="text-accent">Okrices</span>
+        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
+          We turn business ideas into <br className="hidden md:block" />
+          clear, functional brands.
         </h1>
-        <p className="text-mutedgray text-lg mb-6">
-          Your brand deserves to be clear, functional, and elegant. Let’s build
-          it together.
+
+        <p className="mt-6 text-lg text-cream">
+          We are a visual identity & web development studio that creates
+          strategic solutions to communicate exactly what you need to say.
         </p>
 
-        <Link href="/contact">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-accent text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all hover:bg-opacity-80"
+        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/projects"
+            className="bg-accent text-white px-6 py-3 rounded-lg text-sm font-medium transition hover:scale-105"
           >
-            Let’s Talk
-          </motion.button>
-        </Link>
+            Explore Our Work
+          </Link>
+          <Link
+            href="/services"
+            className="border border-accent text-accent px-6 py-3 rounded-lg text-sm font-medium transition hover:bg-accent hover:text-white"
+          >
+            View Services
+          </Link>
+        </div>
       </motion.div>
     </section>
   );

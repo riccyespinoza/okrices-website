@@ -1,135 +1,129 @@
+// src/app/services/branding/page.jsx
 export const metadata = {
-  title: "Identidad Visual & Branding | Okrices",
+  title: "Branding & Visual Identity | Okrices",
   description:
-    "Branding profesional Florida, diseño identidad visual, diseño de logos Fort Lauderdale, paquetes branding premium, estrategia profesional de marca.",
+    "Branding services Florida, visual identity design, logo design Fort Lauderdale, premium branding packages, professional brand strategy.",
 };
 
-export default function BrandingPageEs() {
+const packages = [
+  {
+    name: "Basic Identity",
+    time: "1 Week",
+    desc: "Perfect for freelancers or startups needing professional brand basics quickly.",
+    bullet: [
+      "Master logo (2 concepts, 1 revision round)",
+      "Custom color palette & typography",
+      "Essential brand guide (2 pages)",
+      "Files delivered: SVG, PNG, JPG, PDF, AI",
+    ],
+    price: "$900 – $1,400 USD",
+    cta: "Start Basic",
+  },
+  {
+    name: "Pro Identity",
+    time: "2-3 Weeks",
+    desc: "Ideal for growing businesses looking to enhance their visual presence across multiple channels.",
+    bullet: [
+      "Everything in Basic, plus:",
+      "Logo variants (horizontal, icon, inverse)",
+      "Expanded brand guide (5 pages)",
+      "Social media kit (3 posts)",
+      "Business card & favicon templates",
+      "Moodboard & visual inspiration",
+    ],
+    price: "$2,500 – $3,800 USD",
+    cta: "Start Pro",
+  },
+  {
+    name: "Premium Identity",
+    time: "4-5 Weeks",
+    desc: "Comprehensive branding for businesses ready to strategically scale.",
+    bullet: [
+      "Everything in Pro, plus:",
+      "Strategy workshop (2-hour session)",
+      "Complete social media kit (12 posts)",
+      "Extended brand guide (12 pages)",
+      "Extra applications (packaging, uniforms, mockups)",
+      "Dynamic identity (animations, adaptable colors)",
+    ],
+    price: "$6,000 – $8,500 USD",
+    cta: "Start Premium",
+  },
+];
+
+export default function BrandingPage() {
   return (
-    <main className="max-w-3xl mx-auto py-16 px-4">
-      <h1 className="text-3xl font-extrabold mb-4">
-        Construye una Marca Premium Que Destaque
-      </h1>
-      <p className="mb-8 text-lg">
-        En Okrices creamos identidades visuales que comunican claramente la
-        historia única, valores y personalidad de tu marca. Nuestro enfoque
-        elegante y minimalista asegura que tu marca cause una primera impresión
-        memorable y genere confianza en tus clientes.
-      </p>
+    <main className="py-24 px-6 max-w-5xl mx-auto">
+      {/* HERO */}
+      <section className="text-center mb-20">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-light">
+          Build a&nbsp;<span className="text-accent">Premium Brand</span>
+          &nbsp;That Stands&nbsp;Out
+        </h1>
+        <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-300">
+          At Okrices we craft visual identities that communicate your brand’s
+          unique story, values and personality. Our elegant, minimalist approach
+          makes a memorable first impression and builds customer trust.
+        </p>
+      </section>
 
-      <h2 className="text-xl font-bold mt-12 mb-2">
-        ¿Por qué invertir en Branding profesional?
-      </h2>
-      <p className="mb-8">
-        Una identidad inconsistente debilita la confianza y reduce la conexión
-        con los clientes. Nuestras identidades diseñadas estratégicamente ayudan
-        a las empresas a lograr reconocimiento más rápido, generando
-        credibilidad en menos interacciones.
-      </p>
+      {/* WHY INVEST */}
+      <section className="mb-16 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-light">
+          Why Invest in Professional Branding?
+        </h2>
+        <p className="max-w-3xl mx-auto text-gray-300">
+          An inconsistent brand weakens trust and reduces engagement. Our
+          strategic identities achieve quicker recognition, building credibility
+          within fewer interactions.
+        </p>
+      </section>
 
-      <h2 className="text-xl font-bold mt-12 mb-4">
-        Nuestros Paquetes de Branding
-      </h2>
-
-      <div className="space-y-8">
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-          <h3 className="font-bold text-lg mb-1">
-            Identidad Básica <span className="font-normal">(1 semana)</span>
-          </h3>
-          <p className="mb-2 text-gray-300">
-            Ideal para freelancers o startups que necesitan rápido lo esencial
-            de una marca profesional.
-          </p>
-          <ul className="list-disc ml-5 text-gray-300 mb-2">
-            <li>Logo maestro (2 conceptos, 1 ronda de revisión)</li>
-            <li>Paleta de colores & tipografía personalizada</li>
-            <li>Guía básica de marca (2 páginas)</li>
-            <li>Archivos entregados: SVG, PNG, JPG, PDF, AI</li>
-          </ul>
-          <p className="font-semibold mb-2">Precio: $900 – $1,400 USD</p>
-          <a
-            href="/es/contact"
-            className="inline-block mt-2 px-5 py-2 bg-primary-400 text-white rounded-2xl font-bold shadow hover:bg-primary-500 transition"
+      {/* PACKAGES */}
+      <section className="space-y-12">
+        {packages.map((pkg) => (
+          <article
+            key={pkg.name}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8
+                       hover:shadow-lg hover:-translate-y-1 transition"
           >
-            Iniciar Básico
-          </a>
-        </div>
+            <h3 className="text-xl md:text-2xl font-bold text-light mb-1">
+              {pkg.name}{" "}
+              <span className="font-normal text-gray-400">({pkg.time})</span>
+            </h3>
+            <p className="text-gray-300 mb-4">{pkg.desc}</p>
 
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-          <h3 className="font-bold text-lg mb-1">
-            Identidad Pro <span className="font-normal">(2-3 semanas)</span>
-          </h3>
-          <p className="mb-2 text-gray-300">
-            Ideal para negocios en crecimiento que buscan mejorar su presencia
-            visual en múltiples canales.
-          </p>
-          <ul className="list-disc ml-5 text-gray-300 mb-2">
-            <li>Todo lo Básico, además:</li>
-            <li>Variantes logo (horizontal, ícono, inverso)</li>
-            <li>Guía extendida de marca (5 páginas)</li>
-            <li>Kit redes sociales (3 posts)</li>
-            <li>Plantilla tarjeta & favicon</li>
-            <li>Moodboard & inspiración visual</li>
-          </ul>
-          <p className="font-semibold mb-2">Precio: $2,500 – $3,800 USD</p>
-          <a
-            href="/es/contact"
-            className="inline-block mt-2 px-5 py-2 bg-primary-400 text-white rounded-2xl font-bold shadow hover:bg-primary-500 transition"
-          >
-            Iniciar Pro
-          </a>
-        </div>
+            <ul className="space-y-2 mb-4 list-disc list-inside text-gray-300">
+              {pkg.bullet.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
 
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-          <h3 className="font-bold text-lg mb-1">
-            Identidad Premium <span className="font-normal">(4-5 semanas)</span>
-          </h3>
-          <p className="mb-2 text-gray-300">
-            Branding integral para empresas listas para escalar
-            estratégicamente.
-          </p>
-          <ul className="list-disc ml-5 text-gray-300 mb-2">
-            <li>Todo lo Pro, además:</li>
-            <li>Workshop estrategia (sesión 2 horas)</li>
-            <li>Kit completo redes sociales (12 posts)</li>
-            <li>Guía extendida de marca (12 páginas)</li>
-            <li>Aplicaciones extra (packaging, uniforme, mockups)</li>
-            <li>Identidad dinámica (animaciones, colores adaptables)</li>
-          </ul>
-          <p className="font-semibold mb-2">Precio: $6,000 – $8,500 USD</p>
-          <a
-            href="/es/contact"
-            className="inline-block mt-2 px-5 py-2 bg-primary-400 text-white rounded-2xl font-bold shadow hover:bg-primary-500 transition"
-          >
-            Iniciar Premium
-          </a>
-        </div>
-      </div>
+            <p className="font-semibold text-light mb-4">{pkg.price}</p>
 
-      <h2 className="text-xl font-bold mt-12 mb-2">Preguntas frecuentes</h2>
-      <ul className="list-disc ml-5 text-gray-300 mb-6">
-        <li>
-          <b>¿Cuántas revisiones tengo?</b> Cada paquete incluye hasta 2 rondas
-          de revisión.
-        </li>
-        <li>
-          <b>¿Costos extra?</b> Impresión, licencias de tipografías premium y
-          mockups avanzados se cotizan aparte.
-        </li>
-      </ul>
+            <a
+              href="/contact"
+              className="inline-block bg-accent text-light font-medium px-6 py-3 rounded-xl hover:bg-accent/80 transition"
+            >
+              {pkg.cta}
+            </a>
+          </article>
+        ))}
+      </section>
 
-      <section className="mt-12 text-center">
-        <h3 className="text-2xl font-bold mb-2">
-          ¿Listo para elevar tu marca?
+      {/* CTA */}
+      <section className="text-center mt-24">
+        <h3 className="text-2xl md:text-3xl font-bold mb-3 text-light">
+          Ready to Elevate Your Brand?
         </h3>
-        <p className="mb-3">
-          Comienza tu proyecto hoy mismo con claridad y confianza.
+        <p className="text-gray-300 mb-6">
+          Start your project today with confidence and clarity.
         </p>
         <a
-          href="/es/contact"
-          className="inline-block px-6 py-3 bg-primary-400 text-white font-bold rounded-2xl shadow-lg hover:bg-primary-500 transition"
+          href="/contact"
+          className="inline-block bg-accent text-light font-medium px-7 py-3 rounded-xl hover:bg-accent/80 transition"
         >
-          Contactar a Okrices
+          Contact&nbsp;Okrices
         </a>
       </section>
     </main>

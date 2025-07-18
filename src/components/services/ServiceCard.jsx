@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FiCheck } from "react-icons/fi";
 
 export default function ServiceCard({
   title,
@@ -9,28 +10,52 @@ export default function ServiceCard({
   href,
 }) {
   return (
-    <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10 p-8 max-w-2xl mx-auto my-8">
-      <h2 className="text-2xl md:text-3xl font-bold mb-2">{title}</h2>
-      <p className="mb-4 text-gray-200">{description}</p>
-      <ul className="mb-3 list-disc list-inside text-gray-300">
+    <article
+      className="bg-white/5 backdrop-blur-sm border border-white/10
+                 rounded-2xl p-8 max-w-3xl mx-auto my-12
+                 hover:shadow-lg hover:-translate-y-1 transition"
+    >
+      {/* Título */}
+      <h2 className="text-2xl md:text-3xl font-bold mb-4 text-light drop-shadow">
+        {title}
+      </h2>
+
+      {/* Intro */}
+      <p className="text-gray-300 mb-6">{description}</p>
+
+      {/* Lo que incluye */}
+      <ul className="space-y-2 mb-6">
         {list.map((item, i) => (
-          <li key={i}>{item}</li>
+          <li key={i} className="flex items-start gap-2 text-gray-200">
+            <FiCheck className="text-accent mt-1" />
+            {item}
+          </li>
         ))}
       </ul>
-      <div className="mb-3">
-        <b>Benefits:</b>
-        <ul className="list-disc list-inside text-gray-300">
-          {benefits.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ul>
-      </div>
+
+      {/* Beneficios */}
+      {benefits?.length > 0 && (
+        <div className="mb-8">
+          <h4 className="font-semibold text-light mb-2">Benefits</h4>
+          <ul className="space-y-2">
+            {benefits.map((b, i) => (
+              <li key={i} className="flex items-start gap-2 text-gray-200">
+                <FiCheck className="text-accent mt-1" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* CTA */}
       <Link
         href={href}
-        className="inline-block mt-4 px-6 py-2 rounded-xl bg-primary-400 text-white font-bold shadow hover:bg-primary-500 transition"
+        className="inline-block bg-accent text-light font-medium px-6 py-3
+                   rounded-xl hover:bg-accent/80 transition"
       >
         {cta}
       </Link>
-    </div>
+    </article>
   );
 }

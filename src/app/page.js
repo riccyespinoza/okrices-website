@@ -1,6 +1,8 @@
 // src/app/page.jsx
 import Hero from "@/components/home/Hero";
+import IntroSection from "@/components/home/IntroSection";
 import ServicesSection from "@/components/home/ServicesSection";
+
 import AboutSection from "@/components/home/AboutSection";
 import BenefitsSection from "@/components/home/BenefitsSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
@@ -11,11 +13,11 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <IntroSection />
       <ServicesSection />
-      <AboutSection />
-      <BenefitsSection />
-      <TestimonialsSection />
       <FeaturedProjectsSection />
+
+      <TestimonialsSection />
 
       <CtaSection />
     </>

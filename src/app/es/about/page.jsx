@@ -51,6 +51,7 @@ export default function AboutPageEs() {
       />
 
       <CTAAbout
+        title="Creemos algo juntos"
         text="¿Listo para elevar tu marca? Cuéntanos sobre tu proyecto—estamos aquí para ayudarte a alcanzar el éxito."
         buttonLabel="Trabajemos juntos"
         buttonHref="/es/contact"

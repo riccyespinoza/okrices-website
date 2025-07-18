@@ -6,32 +6,36 @@ import {
   FaPuzzlePiece,
 } from "react-icons/fa";
 
-const valuesIcons = [
-  <FaCheckCircle className="text-primary-400" />, // Professionalism
-  <FaPalette className="text-primary-400" />, // Creativity
-  <FaFeather className="text-primary-400" />, // Elegance
-  <FaBullseye className="text-primary-400" />, // Precision
-  <FaPuzzlePiece className="text-primary-400" />, // Adaptability
+const icons = [
+  FaCheckCircle, // Professionalism
+  FaPalette, // Creativity
+  FaFeather, // Elegance
+  FaBullseye, // Precision
+  FaPuzzlePiece, // Adaptability
 ];
 
 export default function ValuesAbout({ values, title = "Our Values" }) {
   return (
-    <section className="py-16 px-4 flex justify-center">
-      <div className="max-w-5xl w-full bg-white/10 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10 p-8">
-        <h3 className="text-2xl md:text-3xl font-semibold text-center mb-8 text-primary drop-shadow">
-          {title}
-        </h3>
-        <div className="grid md:grid-cols-5 gap-8">
-          {values.map((item, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <span className="mb-3 text-3xl">{valuesIcons[i]}</span>
-              <p className="font-bold mb-1 text-light">{item.label}</p>
-              <span className="text-sm text-gray-300 text-center">
-                {item.desc}
-              </span>
+    <section className="bg-primary py-24 px-4">
+      <h3 className="text-center text-3xl md:text-4xl font-bold mb-14">
+        {title}
+      </h3>
+
+      <div className="grid gap-8 md:grid-cols-5 max-w-6xl mx-auto">
+        {values.map((v, i) => {
+          const Icon = icons[i];
+          return (
+            <div
+              key={v.label}
+              className="bg-white/5 backdrop-blur-sm border border-white/10
+                         rounded-xl p-6 text-center hover:scale-105 transition"
+            >
+              <Icon className="text-accent text-3xl mb-3 mx-auto" />
+              <h4 className="font-semibold text-light mb-2">{v.label}</h4>
+              <p className="text-gray-300 text-sm">{v.desc}</p>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );

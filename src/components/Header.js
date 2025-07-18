@@ -123,7 +123,7 @@ export default function Header() {
             {texts.contact}
           </Link>
           {/* selector de idioma */}
-          <LanguageSwitcher />
+          {/* <LanguageSwitcher /> */}
         </nav>
       </div>
     </header>

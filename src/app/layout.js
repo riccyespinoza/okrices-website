@@ -6,6 +6,12 @@ import Script from "next/script"; // ← importa Script
 export const metadata = {
   title: "Okrices – Visual Identity & Web Studio",
   description: "Transforming ideas into clear and functional brands.",
+  icons: {
+    icon: "/favicon.ico", // para navegadores de escritorio
+    shortcut: "/favicon.ico", // “pinned” en macOS
+    apple: "/apple-touch-icon.png", // opcional para iOS
+    // icon: "/favicon.svg",            // si usas SVG
+  },
 };
 
 export default function RootLayout({ children }) {

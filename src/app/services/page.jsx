@@ -1,49 +1,59 @@
-// src/app/services/page.jsx
-import { services } from "@/data/services"; // 1️⃣ importar datos
-import Link from "next/link";
+import ServicesHero from "@/components/services/ServicesHero";
+import ServiceCard from "@/components/services/ServiceCard";
+import ProcessSection from "@/components/services/ProcessSection";
+import ServicesCTA from "@/components/services/ServicesCTA";
 
 export const metadata = {
-  title: "Services – Okrices",
+  title: "Services | Okrices",
   description:
-    "Brand identity and web design services crafted remotely from Fort Lauderdale, FL.",
+    "Branding services Florida, professional web design, brand identity packages, elegant websites, web development process, creative design, WordPress designer Fort Lauderdale.",
 };
 
 export default function ServicesPage() {
   return (
-    <section className="max-w-5xl mx-auto py-16 space-y-16 px-6">
-      {/* Encabezado de la página */}
-      <header className="text-center">
-        <h1 className="text-4xl font-extrabold text-primary">Services</h1>
-        <p className="text-text-muted mt-4 max-w-2xl mx-auto">
-          Digital-first branding & web solutions crafted remotely from Fort
-          Lauderdale, FL. Choose the block you need or combine both for an
-          end-to-end experience.
+    <main>
+      <ServicesHero />
+      <ServiceCard
+        title="Branding & Visual Identity"
+        description="Your brand is more than a logo—it's your story. We help businesses facing inconsistent branding that undermines customer trust and impacts sales. Through elegant visual identities, we ensure clarity, consistency, and immediate recognition."
+        list={[
+          "Professional logo with variations (horizontal, vertical, icon).",
+          "Custom color palette & typography selection.",
+          "Essential brand guide or detailed brand book (according to your package).",
+          "Visual mockups (cards, social media profiles).",
+        ]}
+        benefits={[
+          "Achieve brand recognition quicker—usually within 5-7 interactions, instead of 10 or more—directly boosting trust and sales.",
+        ]}
+        cta="View Branding Packages"
+        href="/services/branding"
+      />
+      <ServiceCard
+        title="Web Design & Development"
+        description="We create websites designed to convert, solving problems such as slow load times, poor user experience, or lack of online presence. Our designs are responsive, easy to manage, SEO-friendly, and tailored to your business goals—be it generating leads, online sales, or reservations."
+        list={[
+          "Elegant, responsive website.",
+          "Easy-to-use CMS (Content Management System).",
+          "SEO basics included (local optimization).",
+          "Options for e-commerce or booking integrations.",
+        ]}
+        benefits={[
+          "Expect approximately 30% more leads thanks to improved speed and optimized user experience.",
+        ]}
+        cta="View Web Packages"
+        href="/services/web-design"
+      />
+      <section className="text-center py-4 text-gray-400 text-xs">
+        <p>
+          <b>Platforms we use:</b> We strategically choose between leading
+          platforms like WordPress, Shopify, WooCommerce, or Webflow depending
+          on your goals and budget. For highly customized or advanced
+          functionality, we use modern frameworks tailored specifically to your
+          needs.
         </p>
-      </header>
-
-      {/* 2️⃣ Recorremos (map) la lista */}
-      {services.map((s) => (
-        <section key={s.id} id={s.slug} className="space-y-4">
-          <h2 className="text-2xl font-bold text-light">{s.title_en}</h2>
-          <p className="text-text-muted">{s.tagline_en}</p>
-
-          <ul className="list-disc list-inside ml-4 text-text-muted space-y-1">
-            {s.bullets_en.map((b, i) => (
-              <li key={i}>{b}</li>
-            ))}
-          </ul>
-        </section>
-      ))}
-
-      {/* Llamada a la acción */}
-      <div className="text-center pt-8">
-        <Link
-          href="/contact"
-          className="inline-block bg-accent text-white px-8 py-3 rounded-lg text-sm font-semibold transition hover:scale-105"
-        >
-          Request a free consultation →
-        </Link>
-      </div>
-    </section>
+      </section>
+      <ProcessSection />
+      <ServicesCTA />
+    </main>
   );
 }

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.okrices.com
+
+# Sitemaps
+Sitemap: https://www.okrices.com/sitemap.xml

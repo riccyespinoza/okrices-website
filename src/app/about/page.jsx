@@ -50,6 +50,7 @@ export default function AboutPage() {
       />
 
       <CTAAbout
+        title="Let's Create Together"
         text="Ready to elevate your brand? Tell us about your project—we're here to help you succeed."
         buttonLabel="Work With Us"
         buttonHref="/contact"

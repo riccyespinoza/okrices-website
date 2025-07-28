@@ -1,5 +1,5 @@
 import ServicesHero from "@/components/services/ServicesHero";
-import ServiceCard from "@/components/services/ServiceCard";
+import ServiceCard from "@/components/services/ServiceCards";
 import ProcessSection from "@/components/services/ProcessSection";
 import ServicesCTA from "@/components/services/ServicesCTA";
 

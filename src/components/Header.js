@@ -22,7 +22,6 @@ export default function Header() {
         services: "Servicios",
         branding: "Identidad Visual & Branding",
         web: "Diseño y Desarrollo Web",
-        allServices: "Todos los Servicios",
         projects: "Proyectos",
         contact: "Contacto",
       }
@@ -31,7 +30,6 @@ export default function Header() {
         services: "Services",
         branding: "Branding & Visual Identity",
         web: "Web Design & Development",
-        allServices: "All Services",
         projects: "Projects",
         contact: "Contact",
       };
@@ -40,6 +38,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const panelRef = useRef(null);
+  const servicesRef = useRef(null);
 
   // Detectar scroll para cambiar estilo del header
   useEffect(() => {
@@ -54,7 +53,12 @@ export default function Header() {
   // cerrar panel móvil al click fuera
   useEffect(() => {
     function onClickOutside(e) {
-      if (panelRef.current && !panelRef.current.contains(e.target)) {
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(e.target) &&
+        servicesRef.current &&
+        !servicesRef.current.contains(e.target)
+      ) {
         setMobileOpen(false);
         setServicesOpen(false);
       }
@@ -92,38 +96,33 @@ export default function Header() {
             {texts.about}
           </Link>
 
-          {/* Dropdown Servicios hover */}
+          {/* Dropdown Servicios hover mejorado */}
           <div
-            className="relative"
-            onMouseEnter={() => setServicesOpen(true)}
-            onMouseLeave={() => setServicesOpen(false)}
+            ref={servicesRef}
+            className="relative group" // Usamos group para mejor control del hover
           >
-            <button className="flex items-center hover:text-accent transition-colors duration-300">
+            <Link
+              href={`${prefix}/services`}
+              className="flex items-center hover:text-accent transition-colors duration-300"
+            >
               {texts.services} <FaChevronDown className="ml-1" />
-            </button>
-            {servicesOpen && (
-              <div className="absolute top-full mt-2 w-56 bg-deepblue/90 backdrop-blur-md border border-white/10 rounded-lg shadow-lg overflow-hidden">
-                <Link
-                  href={`${prefix}/services/branding`}
-                  className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
-                >
-                  {texts.branding}
-                </Link>
-                <Link
-                  href={`${prefix}/services/web-design`}
-                  className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
-                >
-                  {texts.web}
-                </Link>
-                <div className="border-t border-white/10" />
-                <Link
-                  href={`${prefix}/services`}
-                  className="block px-4 py-2 font-semibold hover:bg-accent/10 transition-colors duration-300"
-                >
-                  {texts.allServices}
-                </Link>
-              </div>
-            )}
+            </Link>
+
+            {/* Menú desplegable - visible cuando el grupo tiene hover */}
+            <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 top-full left-0 mt-2 w-56 bg-deepblue/90 backdrop-blur-md border border-white/10 rounded-lg shadow-lg overflow-hidden transition-all duration-300">
+              <Link
+                href={`${prefix}/services/branding`}
+                className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
+              >
+                {texts.branding}
+              </Link>
+              <Link
+                href={`${prefix}/services/web-design`}
+                className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
+              >
+                {texts.web}
+              </Link>
+            </div>
           </div>
 
           <Link
@@ -170,15 +169,23 @@ export default function Header() {
 
             {/* Acordeón Servicios */}
             <div>
-              <button
-                className="flex items-center justify-between w-full hover:text-accent transition-colors duration-300"
-                onClick={() => setServicesOpen(!servicesOpen)}
-              >
-                {texts.services}{" "}
-                <FaChevronDown
-                  className={`ml-1 transform transition ${servicesOpen ? "rotate-180" : ""}`}
-                />
-              </button>
+              <div className="flex items-center justify-between">
+                <Link
+                  href={`${prefix}/services`}
+                  onClick={() => setMobileOpen(false)}
+                  className="hover:text-accent transition-colors duration-300"
+                >
+                  {texts.services}
+                </Link>
+                <button
+                  className="p-1"
+                  onClick={() => setServicesOpen(!servicesOpen)}
+                >
+                  <FaChevronDown
+                    className={`transition ${servicesOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
               {servicesOpen && (
                 <div className="mt-2 pl-4 flex flex-col space-y-2">
                   <Link
@@ -194,13 +201,6 @@ export default function Header() {
                     className="hover:text-accent transition-colors duration-300"
                   >
                     {texts.web}
-                  </Link>
-                  <Link
-                    href={`${prefix}/services`}
-                    onClick={() => setMobileOpen(false)}
-                    className="hover:text-accent font-semibold transition-colors duration-300"
-                  >
-                    {texts.allServices}
                   </Link>
                 </div>
               )}

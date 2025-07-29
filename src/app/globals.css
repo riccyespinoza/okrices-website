@@ -1,7 +1,203 @@
+/* globals.css */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+/* Estilos base */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: "Outfit", sans-serif;
+    @apply text-light;
+    background-color: #060a12;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl;
+  }
+
+  p {
+    @apply text-base md:text-lg leading-relaxed;
+  }
+
+  a {
+    @apply transition duration-300;
+  }
+}
+
+/* Componentes reutilizables */
+@layer components {
+  /* Botones con degradado y efectos mejorados */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-md font-medium transition-all duration-300 text-base transform hover:scale-105 hover:shadow-lg;
+  }
+
+  .btn-primary {
+    @apply text-light focus:ring-2 focus:ring-accent/50 focus:outline-none;
+    background: linear-gradient(90deg, #a55130, #b66e41);
+    box-shadow: 0 4px 10px rgba(165, 81, 48, 0.2);
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(90deg, #b66e41, #a55130);
+    box-shadow: 0 6px 15px rgba(165, 81, 48, 0.3);
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border border-accent text-accent hover:bg-accent/10 focus:ring-2 focus:ring-accent/50 focus:outline-none;
+  }
+
+  /* Tarjetas con efecto de hover consistente */
+  .card {
+    @apply bg-deepblue/20 backdrop-blur-sm border border-white/5 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-accent/10;
+  }
+
+  /* Secciones */
+  .section-spacing {
+    @apply py-24 md:py-32;
+  }
+
+  /* Títulos de sección */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold mb-12 md:mb-16;
+  }
+
+  /* Highlight para palabras específicas */
+  .highlight {
+    @apply text-accent;
+  }
+
+  /* Tarjetas de servicios */
+  .service-card {
+    @apply bg-deepblue/20 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 hover:shadow-lg hover:shadow-accent/10;
+  }
+
+  /* Tarjetas de proyectos */
+  .project-card {
+    @apply relative overflow-hidden rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 hover:shadow-lg hover:shadow-accent/15;
+  }
+
+  /* Tarjetas de testimonios */
+  .testimonial-card {
+    @apply bg-deepblue/20 backdrop-blur-sm border border-white/5 rounded-lg p-6 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 hover:shadow-lg hover:shadow-accent/10;
+  }
+}
+
+/* Utilidades personalizadas */
+@layer utilities {
+  /* Fondo con ruido sutil */
+  .bg-noise-svg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  }
+
+  /* Tarjetas con efecto de vidrio esmerilado */
+  .glass-card {
+    @apply bg-[#0D1521]/30 backdrop-blur-sm border border-white/5 rounded-lg;
+  }
+
+  /* Efecto de botón con degradado */
+  .btn-gradient {
+    background: linear-gradient(90deg, #a55130, #b66e41);
+    transition: all 0.3s ease;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(90deg, #b66e41, #a55130);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 15px rgba(165, 81, 48, 0.3);
+  }
+
+  /* Capa de ruido sutil */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    opacity: 0.015;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+
+  /* FONDO ESTÁTICO EXACTO */
+  /* =================================================== */
+
+  /* Fondo estático que coincide exactamente con la imagen de referencia */
+  .background-exact {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    background-color: #060a12; /* Base muy oscura */
+    overflow: hidden;
+  }
+
+  .background-exact::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+      /* Degradado naranja principal en la esquina inferior derecha */
+      radial-gradient(
+        circle at 95% 95%,
+        rgba(165, 81, 48, 0.8) 0%,
+        rgba(165, 81, 48, 0.4) 20%,
+        rgba(165, 81, 48, 0.1) 45%,
+        rgba(13, 21, 33, 0) 65%
+      ),
+      /* Toque azul en la parte media derecha */
+        radial-gradient(
+          ellipse at 80% 50%,
+          rgba(42, 77, 105, 0.3) 0%,
+          rgba(42, 77, 105, 0.1) 40%,
+          rgba(13, 21, 33, 0) 70%
+        ),
+      /* Toque gris muy sutil en la parte superior */
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(50, 50, 70, 0.1) 0%,
+          rgba(13, 21, 33, 0) 60%
+        );
+    filter: blur(90px);
+  }
+
+  /* Añade estas clases a tu globals.css */
+
+  /* Botón con degradado y efectos de hover */
+  .btn-gradient {
+    background: linear-gradient(90deg, #a55130, #b66e41);
+    box-shadow: 0 4px 10px rgba(165, 81, 48, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(90deg, #b66e41, #a55130);
+    box-shadow: 0 6px 15px rgba(165, 81, 48, 0.3);
+    transform: translateY(-2px);
+  }
 }

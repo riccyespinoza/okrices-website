@@ -13,9 +13,10 @@ export default function FeaturedProjectsGrid({ projects }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.15, duration: 0.6 }}
+          whileHover={{ scale: 1.05 }} // Añadido efecto de escala al hover
           className="bg-white/5 backdrop-blur-md border border-white/10
                      rounded-xl overflow-hidden hover:shadow-lg
-                     hover:-translate-y-1 transition"
+                     transition"
         >
           <Link href={`/projects/${p.slug.current}`}>
             <img

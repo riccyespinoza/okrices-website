@@ -1,31 +1,45 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
-// 👉 Relleno de ejemplo. Luego cámbialo por datos reales.
 const testimonials = [
   {
     name: "Sarah L.",
     role: "CEO, BloomTech",
-    avatar: "/avatars/avatar1.jpg",
-    quote:
-      "Okrices elevated our brand beyond expectations. Their attention to detail is unmatched.",
+    quote: "Okrices elevated ...",
   },
   {
     name: "Jason R.",
     role: "Founder, GreenHub",
-    avatar: "/avatars/avatar2.jpg",
-    quote:
-      "The website is fast, beautiful and easy to manage. Highly recommend working with them!",
+    quote: "The website is fast ...",
   },
   {
     name: "María E.",
     role: "Marketing Lead, Viva Health",
-    avatar: "/avatars/avatar3.jpg",
-    quote:
-      "Working bilingually was seamless. They truly understood our vision and delivered.",
+    quote: "Working bilingually ...",
   },
 ];
+
+// Variantes de animación
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 export default function TestimonialsInner() {
   return (
@@ -34,39 +48,19 @@ export default function TestimonialsInner() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      variants={{
-        hidden: {},
-        show: {
-          transition: {
-            staggerChildren: 0.15,
-          },
-        },
-      }}
+      variants={containerVariants}
     >
       {testimonials.map((t, i) => (
         <motion.div
           key={i}
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            show: { opacity: 1, y: 0 },
-          }}
-          className="backdrop-blur-md bg-light/5 border border-darkgray/40 rounded-2xl p-6 flex flex-col h-full"
+          variants={itemVariants}
+          whileHover={{ scale: 1.05 }}
+          className="bg-deepblue/30 backdrop-blur-sm border border-white/10 rounded-lg p-6 text-light flex flex-col"
         >
-          <div className="flex items-center mb-4">
-            <Image
-              src={t.avatar}
-              alt={t.name}
-              width={48}
-              height={48}
-              className="rounded-full mr-4 object-cover"
-            />
-            <div>
-              <p className="font-semibold text-light">{t.name}</p>
-              <p className="text-text-muted text-sm">{t.role}</p>
-            </div>
-          </div>
-
-          <p className="text-text-muted flex-1">“{t.quote}”</p>
+          <div className="text-accent text-3xl mb-2">"</div>
+          <h4 className="font-semibold mb-1">{t.name}</h4>
+          <p className="text-sm text-gray-400 mb-4">{t.role}</p>
+          <p className="flex-1 text-gray-300 italic">{t.quote}</p>
         </motion.div>
       ))}
     </motion.div>

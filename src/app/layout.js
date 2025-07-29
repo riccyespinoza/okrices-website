@@ -1,40 +1,48 @@
 // app/layout.jsx
 import "./globals.css";
 import MainLayout from "@/components/MainLayout";
-import Script from "next/script"; // ← importa Script
+import Script from "next/script";
+import ScrollToTopButton from "@/components/shared/ScrollToTopButton";
+
+// 1) Importa Google Font Outfit
+import { Outfit } from "next/font/google";
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  variable: "--font-outfit",
+});
 
 export const metadata = {
   title: "Okrices – Visual Identity & Web Studio",
   description: "Transforming ideas into clear and functional brands.",
-  icons: {
-    icon: "/favicon.ico", // para navegadores de escritorio
-    shortcut: "/favicon.ico", // “pinned” en macOS
-    apple: "/apple-touch-icon.png", // opcional para iOS
-    // icon: "/favicon.svg",            // si usas SVG
-  },
 };
 
 export default function RootLayout({ children }) {
-  // Solo cargaremos Plausible cuando:
-  // 1) El build sea production, y
-  // 2) El flag esté en "true" (hoy es "false")
   const enableAnalytics =
     process.env.NODE_ENV === "production" &&
     process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === "true";
 
   return (
-    <html lang="en">
-      <body className="antialiased flex flex-col min-h-screen bg-primary text-light">
-        {/* Plausible */}
+    <html lang="en" className={outfit.variable}>
+      <body className="relative min-h-screen font-sans text-light">
+        {/* Plausible (solo en producción) */}
         {enableAnalytics && (
           <Script
-            strategy="lazyOnload" // no bloquea el render
-            data-domain="okrices.com" // tu dominio canónico
+            strategy="lazyOnload"
+            data-domain="okrices.com"
             src="https://plausible.io/js/script.js"
           />
         )}
 
+        {/* Fondo estático exacto */}
+        <div className="background-exact"></div>
+
+        {/* Ruido sutil */}
+        <div className="noise-overlay"></div>
+
+        {/* Contenido principal */}
         <MainLayout>{children}</MainLayout>
+        <ScrollToTopButton />
       </body>
     </html>
   );

@@ -1,59 +1,46 @@
-import ServicesHero from "@/components/services/ServicesHero";
-import ServiceCard from "@/components/services/ServiceCards";
-import ProcessSection from "@/components/services/ProcessSection";
-import ServicesCTA from "@/components/services/ServicesCTA";
+import Link from "next/link";
 
-export const metadata = {
-  title: "Services | Okrices",
-  description:
-    "Branding services Florida, professional web design, brand identity packages, elegant websites, web development process, creative design, WordPress designer Fort Lauderdale.",
-};
+export default function Services() {
+  // Datos temporales mientras solucionas el problema principal
+  const services = [
+    {
+      id: 1,
+      title: "Web Design",
+      description: "Custom web design solutions",
+      slug: "web-design",
+    },
+    {
+      id: 2,
+      title: "Branding",
+      description: "Complete brand identity",
+      slug: "branding",
+    },
+  ];
 
-export default function ServicesPage() {
   return (
-    <main>
-      <ServicesHero />
-      <ServiceCard
-        title="Branding & Visual Identity"
-        description="Your brand is more than a logo—it's your story. We help businesses facing inconsistent branding that undermines customer trust and impacts sales. Through elegant visual identities, we ensure clarity, consistency, and immediate recognition."
-        list={[
-          "Professional logo with variations (horizontal, vertical, icon).",
-          "Custom color palette & typography selection.",
-          "Essential brand guide or detailed brand book (according to your package).",
-          "Visual mockups (cards, social media profiles).",
-        ]}
-        benefits={[
-          "Achieve brand recognition quicker—usually within 5-7 interactions, instead of 10 or more—directly boosting trust and sales.",
-        ]}
-        cta="View Branding Packages"
-        href="/services/branding"
-      />
-      <ServiceCard
-        title="Web Design & Development"
-        description="We create websites designed to convert, solving problems such as slow load times, poor user experience, or lack of online presence. Our designs are responsive, easy to manage, SEO-friendly, and tailored to your business goals—be it generating leads, online sales, or reservations."
-        list={[
-          "Elegant, responsive website.",
-          "Easy-to-use CMS (Content Management System).",
-          "SEO basics included (local optimization).",
-          "Options for e-commerce or booking integrations.",
-        ]}
-        benefits={[
-          "Expect approximately 30% more leads thanks to improved speed and optimized user experience.",
-        ]}
-        cta="View Web Packages"
-        href="/services/web-design"
-      />
-      <section className="text-center py-4 text-gray-400 text-xs">
-        <p>
-          <b>Platforms we use:</b> We strategically choose between leading
-          platforms like WordPress, Shopify, WooCommerce, or Webflow depending
-          on your goals and budget. For highly customized or advanced
-          functionality, we use modern frameworks tailored specifically to your
-          needs.
-        </p>
-      </section>
-      <ProcessSection />
-      <ServicesCTA />
+    <main className="min-h-screen py-20">
+      <div className="container mx-auto px-4">
+        <h1 className="text-4xl font-bold mb-8">Our Services</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {services && services.length > 0 ? (
+            services.map((service) => (
+              <div key={service.id} className="p-6 border rounded-lg">
+                <h2 className="text-2xl font-semibold mb-2">{service.title}</h2>
+                <p className="mb-4">{service.description}</p>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  Learn more →
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p>No services available at the moment.</p>
+          )}
+        </div>
+      </div>
     </main>
   );
 }

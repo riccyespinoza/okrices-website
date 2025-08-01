@@ -12,7 +12,8 @@ export default function FeaturedProjectsGrid({ projects }) {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.15, duration: 0.6 }}
+          // transition={{ delay: i * 0.12, duration: 0.45 }}
+          //  transition={{ delay: index * 0.12, duration: 0.45 }}
           whileHover={{ scale: 1.05 }} // Añadido efecto de escala al hover
           className="bg-white/5 backdrop-blur-md border border-white/10
                      rounded-xl overflow-hidden hover:shadow-lg

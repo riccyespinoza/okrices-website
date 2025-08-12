@@ -1,3 +1,5 @@
+// src/app/services/web-design/page.jsx
+import WebHero from "@/components/web/WebHero"; // hero nuevo
 import { getServices } from "@/lib/getServices";
 import ServiceCards from "@/components/services/ServiceCards";
 
@@ -8,48 +10,53 @@ export const metadata = {
 };
 
 export default async function WebDesignPage() {
+  // fetch de paquetes Web desde Sanity
   const services = await getServices("en", "web");
 
   return (
-    <main className="py-24 px-6 sm:px-8 lg:px-0 max-w-5xl mx-auto">
-      {/* HERO */}
-      <section className="text-center mb-20">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-light">
-          Websites Designed to <span className="text-accent">Convert</span> &
-          Captivate
-        </h1>
-        <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-300">
-          We craft minimalist, responsive websites that enhance your online
-          presence, increase leads and deliver a premium user experience. From
-          landing pages to e-commerce, we tailor packages to meet your goals.
-        </p>
+    <main>
+      {/* hero con mismo look & feel que Branding */}
+      <WebHero />
+
+      {/* paquetes */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-light">
+              Choose Your <span className="text-accent">Web Package</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-gray-300">
+              Pick the solution that best fits your goals and budget.
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <ServiceCards services={services} />
+          </div>
+        </div>
       </section>
 
-      {/* PACKAGES */}
-      <div className="px-0">
-        <ServiceCards services={services} />
-      </div>
-
-      {/* EXTRA NOTE */}
+      {/* nota extra + CTA idéntica a Branding */}
       <p className="mt-10 text-sm text-gray-400 text-center">
         Extra: Hosting, domain and premium plugins billed separately at direct
         cost.
       </p>
 
-      {/* CTA */}
-      <section className="text-center mt-20">
-        <h3 className="text-2xl md:text-3xl font-bold mb-3 text-light">
-          Ready to Enhance Your Online Presence?
-        </h3>
-        <p className="text-gray-300 mb-6">
-          Contact us today and let’s start building your perfect website.
-        </p>
-        <a
-          href="/contact"
-          className="inline-block bg-accent text-light font-medium px-7 py-3 rounded-xl hover:bg-accent/80 transition"
-        >
-          Contact Okrices
-        </a>
+      <section className="py-24 md:py-32">
+        <div className="max-w-3xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h3 className="text-3xl md:text-4xl font-bold mb-8 text-light">
+            Ready to Enhance Your Online Presence?
+          </h3>
+          <p className="text-lg md:text-xl text-gray-300 mb-10">
+            Let’s build something exceptional together.
+          </p>
+          <a
+            href="/contact"
+            className="inline-block text-light px-6 py-3 rounded-md font-medium transition-all duration-300 btn-gradient"
+          >
+            Contact&nbsp;Okrices
+          </a>
+        </div>
       </section>
     </main>
   );

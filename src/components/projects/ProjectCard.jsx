@@ -1,6 +1,4 @@
-// src/components/projects/ProjectCard.jsx
 "use client";
-
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -12,22 +10,16 @@ export default function ProjectCard({ project, index }) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ scale: 1.05 }} // zoom en hover
-      transition={{
-        delay: index * 0.12, // mismo stagger
-        duration: 0.45,
-        type: "spring", // opcional: rebote suave
-        stiffness: 300,
-      }}
+      transition={{ delay: index * 0.12, duration: 0.45 }}
       className="bg-mutedgray/10 border border-darkgray rounded-xl
-                 overflow-hidden hover:border-accent transition-transform"
+                 overflow-hidden hover:border-accent transition"
     >
       <Link href={`/projects/${slug.current}`}>
         {image?.asset?.url && (
           <img
             src={image.asset.url}
-            alt={image.alt || title}
-            className="w-full h-44 object-cover transition-transform duration-300 group-hover:scale-105"
+            alt={image?.alt || title}
+            className="w-full h-44 object-cover"
           />
         )}
         <div className="p-6">

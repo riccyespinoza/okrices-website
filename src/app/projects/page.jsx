@@ -42,34 +42,31 @@ export default async function ProjectsPage() {
           </div>
         </Reveal>
       </section>
-
-      {/* GRID de proyectos */}
       <section className="py-24 md:py-32 max-w-6xl mx-auto px-6">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, i) => (
-            <Reveal
-              as={Link}
-              key={p._id}
-              href={`/projects/${p.slug.current}`}
-              delay={i * 0.1}
-              className="project-card group"
-            >
-              {/* Cover */}
-              <img
-                src={p.image?.asset?.url}
-                alt={p.image?.alt || p.title}
-                className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-              />
+            <Reveal key={p._id} delay={i * 0.1} className="project-card group">
+              <Link
+                href={`/projects/${p.slug.current}`}
+                className="block rounded-xl overflow-hidden"
+              >
+                {/* Cover */}
+                <img
+                  src={p.image?.asset?.url}
+                  alt={p.image?.alt || p.title}
+                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                />
 
-              {/* Caption */}
-              <div className="p-5">
-                <h2 className="font-semibold text-lg mb-1 text-light">
-                  {p.title}
-                </h2>
-                <p className="text-gray-400 text-sm line-clamp-2">
-                  {p.description}
-                </p>
-              </div>
+                {/* Caption */}
+                <div className="p-5">
+                  <h2 className="font-semibold text-lg mb-1 text-light">
+                    {p.title}
+                  </h2>
+                  <p className="text-gray-400 text-sm line-clamp-2">
+                    {p.description}
+                  </p>
+                </div>
+              </Link>
             </Reveal>
           ))}
         </div>

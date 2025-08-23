@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@portabletext/react": "^3.2.1",
     "@sanity/client": "^7.6.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "framer-motion": "^12.20.1",

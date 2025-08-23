@@ -1,62 +1,67 @@
-// src/lib/getProjects.js
-import { client } from "./sanityClient";
+// lib/getProjects.js
 
-/** ▸ Todos los proyectos (la query que ya usabas) */
+import { client } from "./sanityClient"; // Asegúrate de que esta ruta a tu cliente de Sanity sea correcta
+
+/**
+ * Fetches ALL projects with the necessary data for card views (like /projects page).
+ */
 export async function getProjects() {
-  const query = `*[_type == "project"]{
+  const query = `*[_type == "project"] | order(_createdAt desc){
     _id,
     title,
     slug,
-    description,
-    image{
+    overview, // Usamos overview para la descripción en las tarjetas
+    cardImage{
       asset->{_id, url},
       alt
-    },
-    url
+    }
   }`;
-
   return await client.fetch(query);
 }
 
-/** ▸ Un proyecto por slug (ya existente) */
+/**
+ * Fetches ONE single project with the complete data structure for the detail page.
+ */
 export async function getProjectBySlug(slug) {
   const query = `*[_type == "project" && slug.current == $slug][0]{
-    _id,
+    // --- Hero Info ---
     title,
-    slug,
-    description,
-    image{
-      asset->{_id, url},
-      alt
-    },
+    projectType,
     url,
-    date,
-    gallery[]{
-      asset->{_id, url}
-    }
+    showUrlButton,
+    mainImage{ asset->{_id, url}, alt },
+    
+    // --- Key Data ---
+    client,
+    services,
+    year,
+    location,
+    
+    // --- Text Content ---
+    overview,
+    challenge,
+    solution,
+    impact,
+    
+    // --- Visuals ---
+    gallery[]{ asset->{_id, url}, alt }
   }`;
-
   return await client.fetch(query, { slug });
 }
 
-/** ▸ 🆕 Proyectos destacados
- *    - Aquí devolvemos los 3 más recientes.
- *    - Si prefieres marcarlos con un campo boolean `featured`
- *      en tu schema, cámbialo a:
- *      `*[_type=="project" && featured==true]{ … }`
+/**
+ * Fetches the 3 most recent projects for the featured section on the homepage.
  */
 export async function getFeaturedProjects() {
   const query = `*[_type == "project"] | order(_createdAt desc)[0...3]{
     _id,
     title,
     slug,
-    description,
-    image{
+    overview, // Usamos overview para la descripción en las tarjetas
+    cardImage{
       asset->{_id, url},
       alt
-    },
-    url
+    }
   }`;
-
   return await client.fetch(query);
 }

@@ -3,13 +3,13 @@ import "./globals.css";
 import MainLayout from "@/components/MainLayout";
 import Script from "next/script";
 import ScrollToTopButton from "@/components/shared/ScrollToTopButton";
+import { ThemeProvider } from "@/context/ThemeContext";
 
-// 1) Importa Google Font Outfit
 import { Outfit } from "next/font/google";
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
-  variable: "--font-outfit",
+  variable: "--font-outfit", // Esto crea la variable CSS
 });
 
 export const metadata = {
@@ -23,26 +23,26 @@ export default function RootLayout({ children }) {
     process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === "true";
 
   return (
+    // La variable de la fuente se aplica al <html>
     <html lang="en" className={outfit.variable}>
-      <body className="relative min-h-screen font-sans text-light">
-        {/* Plausible (solo en producción) */}
-        {enableAnalytics && (
-          <Script
-            strategy="lazyOnload"
-            data-domain="okrices.com"
-            src="https://plausible.io/js/script.js"
-          />
-        )}
+      {/* El body ya no tiene clases de color o fuente que creen conflictos */}
+      <body className="relative min-h-screen">
+        <ThemeProvider>
+          {enableAnalytics && (
+            <Script
+              strategy="lazyOnload"
+              data-domain="okrices.com"
+              src="https://plausible.io/js/script.js"
+            />
+          )}
 
-        {/* Fondo estático exacto */}
-        <div className="background-exact"></div>
+          {/* Estos elementos de fondo son correctos aquí */}
+          <div className="background-exact"></div>
+          <div className="noise-overlay"></div>
 
-        {/* Ruido sutil */}
-        <div className="noise-overlay"></div>
-
-        {/* Contenido principal */}
-        <MainLayout>{children}</MainLayout>
-        <ScrollToTopButton />
+          <MainLayout>{children}</MainLayout>
+          <ScrollToTopButton />
+        </ThemeProvider>
       </body>
     </html>
   );

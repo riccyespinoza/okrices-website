@@ -1,6 +1,9 @@
 // tailwind.config.js
 
 module.exports = {
+  // ✅ ESTA ES LA LÍNEA CRUCIAL QUE HABILITA EL MODO OSCURO POR CLASE
+  darkMode: "class",
+
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",

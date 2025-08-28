@@ -1,7 +1,9 @@
 // src/app/projects/page.jsx
+
 import Link from "next/link";
 import { getProjects } from "@/lib/getProjects";
-import Reveal from "@/components/shared/Reveal"; // nuevo wrapper
+import Reveal from "@/components/shared/Reveal";
+import Section from "@/components/shared/Section"; // Importa tu componente Section
 
 export const metadata = {
   title: "Projects | Okrices",
@@ -11,7 +13,7 @@ export const metadata = {
 export default async function ProjectsPage() {
   const projects = await getProjects();
 
-  if (!projects?.length) {
+  if (!projects || projects.length === 0) {
     return (
       <main className="min-h-screen flex items-center justify-center">
         <p className="text-gray-400">No projects available.</p>
@@ -21,8 +23,8 @@ export default async function ProjectsPage() {
 
   return (
     <main>
-      {/* HERO – igual que Branding/Web */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16 pb-20 overflow-hidden">
+      {/* HERO – Envuelto en Section para consistencia */}
+      <Section withContainer={true} spacing="pt-40 pb-20">
         <Reveal className="text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-variable">
             Our <span className="text-accent">Projects</span>
@@ -31,46 +33,45 @@ export default async function ProjectsPage() {
             A selection of brands and websites crafted for ambitious clients.
           </p>
         </Reveal>
+      </Section>
 
-        {/* Indicador de scroll (opcional) */}
-        <Reveal
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          delay={1.2}
-        >
-          <div className="w-6 h-10 border-2 border-light/30 rounded-full flex justify-center">
-            <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2 animate-bounce" />
-          </div>
-        </Reveal>
-      </section>
-      <section className="py-24 md:py-32 max-w-6xl mx-auto px-6">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+      {/* GRILLA DE PROYECTOS – Ahora con el diseño moderno */}
+      <Section withContainer={false} spacing="pb-24 md:pb-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 max-w-screen-xl mx-auto">
           {projects.map((p, i) => (
-            <Reveal key={p._id} delay={i * 0.1} className="project-card group">
+            <Reveal key={p._id} delay={i * 0.1}>
               <Link
                 href={`/projects/${p.slug.current}`}
-                className="block rounded-xl overflow-hidden"
+                className="group relative block rounded-xl overflow-hidden shadow-lg"
               >
-                {/* Cover */}
-                <img
-                  src={p.image?.asset?.url}
-                  alt={p.image?.alt || p.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+                {/* 1. SE CORRIGE EL DISEÑO Y EL NOMBRE DEL CAMPO DE LA IMAGEN */}
+                <div className="aspect-video w-full overflow-hidden">
+                  <img
+                    src={p.cardImage?.asset?.url}
+                    alt={p.cardImage?.alt || p.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
 
-                {/* Caption */}
-                <div className="p-5">
-                  <h2 className="font-semibold text-lg mb-1 text-light">
+                {/* 2. SE AÑADE EL OVERLAY CON TEXTO QUE APARECE CON HOVER */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent
+                             opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0
+                             transition-all duration-300 ease-in-out"
+                >
+                  <h3 className="font-bold text-xl text-white mb-1">
                     {p.title}
-                  </h2>
-                  <p className="text-gray-400 text-sm line-clamp-2">
-                    {p.description}
+                  </h3>
+                  {/* 3. SE CORRIGE EL CAMPO DE LA DESCRIPCIÓN */}
+                  <p className="text-gray-300 text-sm line-clamp-2">
+                    {p.overview}
                   </p>
                 </div>
               </Link>
             </Reveal>
           ))}
         </div>
-      </section>
+      </Section>
     </main>
   );
 }

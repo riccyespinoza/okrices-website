@@ -8,11 +8,11 @@ const Container = ({ children, className, fluid = false, ...props }) => {
     <div
       className={twMerge(
         // ✅ Perilla 1: Padding reducido a 1rem (16px) a los lados.
-        "mx-auto px-4",
-
+        "mx-auto px-4", 
+        
         // ✅ Perilla 2: Ancho máximo aumentado a 2xl.
-        fluid ? "max-w-screen-2xl" : "max-w-7xl",
-
+        fluid ? "max-w-screen-2xl" : "max-w-7xl", 
+        
         className
       )}
       {...props}

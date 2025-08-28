@@ -7,15 +7,26 @@ import { useState, useRef, useEffect } from "react";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 export default function Header() {
-  // detectar ruta para idioma
+  // --- Estados y Lógica del Idioma ---
   const pathname = usePathname();
   const isSpanish = pathname?.startsWith("/es");
   const prefix = isSpanish ? "/es" : "";
 
-  // Estado para detectar scroll
-  const [scrolled, setScrolled] = useState(false);
+  // Lógica para detectar si estamos en una página de detalle de proyecto (ej: /projects/oka-wise)
+  const isProjectDetailPage =
+    /^\/projects\/[^/]+$/.test(pathname) ||
+    /^\/es\/projects\/[^/]+$/.test(pathname);
 
-  // textos en ambos idiomas
+  // --- Estados para la Interfaz y el Scroll ---
+  const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const panelRef = useRef(null);
+  const servicesRef = useRef(null);
+
+  // --- Textos para Internacionalización ---
   const texts = isSpanish
     ? {
         about: "Sobre Nosotros",
@@ -34,23 +45,34 @@ export default function Header() {
         contact: "Contact",
       };
 
-  // estados para móvil
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const panelRef = useRef(null);
-  const servicesRef = useRef(null);
+  // --- Efectos (Hooks) ---
 
-  // Detectar scroll para cambiar estilo del header
+  // Efecto para controlar la visibilidad del header al hacer scroll
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 10);
+
+      if (mobileOpen) {
+        setVisible(true);
+        setLastScrollY(currentScrollY);
+        return;
+      }
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY, mobileOpen]);
 
-  // cerrar panel móvil al click fuera
+  // Efecto para cerrar el menú móvil al hacer clic fuera
   useEffect(() => {
     function onClickOutside(e) {
       if (
@@ -67,27 +89,52 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
+  // --- Renderizado del Componente ---
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 px-6 py-3 transition-all duration-300 ${
         scrolled || mobileOpen
           ? "bg-deepblue/80 backdrop-blur-md shadow-lg"
           : "bg-transparent"
-      }`}
+      } ${visible ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Logo */}
+        {/* --- Logo Dinámico --- */}
         <Link href={isSpanish ? "/es" : "/"} className="flex items-center">
-          <Image
-            src="/logo-okrices.svg"
-            alt="Okrices logo"
-            width={150}
-            height={45}
-            priority
-          />
+          {/* Logo para Desktop y Tablet (oculto en móvil) */}
+          <div className="hidden md:block">
+            <Image
+              src={
+                isProjectDetailPage && !scrolled
+                  ? "/logo-okrices_white.svg"
+                  : "/logo-okrices.svg"
+              }
+              alt="Okrices logo"
+              width={150}
+              height={45}
+              priority
+            />
+          </div>
+
+          {/* Logo para Móvil (visible solo en móvil) */}
+          {/* NOTA: Asegúrate de tener 'logo-octopus_white.svg' en tu carpeta /public */}
+          <div className="block md:hidden">
+            <Image
+              src={
+                isProjectDetailPage && !scrolled
+                  ? "/logo-octopus_white.svg"
+                  : "/logo-octopus.svg"
+              }
+              alt="Okrices isotype"
+              width={40}
+              height={40}
+              priority
+            />
+          </div>
         </Link>
 
-        {/* Navegación Desktop */}
+        {/* --- Navegación Desktop --- */}
         <nav className="hidden md:flex items-center space-x-6 text-base">
           <Link
             href={`${prefix}/about`}
@@ -96,19 +143,13 @@ export default function Header() {
             {texts.about}
           </Link>
 
-          {/* Dropdown Servicios hover mejorado */}
-          <div
-            ref={servicesRef}
-            className="relative group" // Usamos group para mejor control del hover
-          >
+          <div ref={servicesRef} className="relative group">
             <Link
               href={`${prefix}/services`}
               className="flex items-center hover:text-accent transition-colors duration-300"
             >
               {texts.services} <FaChevronDown className="ml-1" />
             </Link>
-
-            {/* Menú desplegable - visible cuando el grupo tiene hover */}
             <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 top-full left-0 mt-2 w-56 bg-deepblue/90 backdrop-blur-md border border-white/10 rounded-lg shadow-lg overflow-hidden transition-all duration-300">
               <Link
                 href={`${prefix}/services/branding`}
@@ -139,7 +180,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Botón Hamburger móvil */}
+        {/* --- Botón Hamburger móvil --- */}
         <button
           className="md:hidden text-2xl"
           onClick={() => {
@@ -152,7 +193,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Panel Móvil */}
+      {/* --- Panel Móvil --- */}
       {mobileOpen && (
         <div
           ref={panelRef}
@@ -167,7 +208,6 @@ export default function Header() {
               {texts.about}
             </Link>
 
-            {/* Acordeón Servicios */}
             <div>
               <div className="flex items-center justify-between">
                 <Link

@@ -16,7 +16,10 @@ export async function getProjects() {
       alt
     }
   }`;
-  return await client.fetch(query);
+
+  // ✅ REVALIDACIÓN AÑADIDA:
+  // Next.js intentará regenerar esta página en segundo plano como máximo una vez cada 60 segundos.
+  return await client.fetch(query, {}, { next: { revalidate: 60 } });
 }
 
 /**
@@ -46,7 +49,10 @@ export async function getProjectBySlug(slug) {
     // --- Visuals ---
     gallery[]{ asset->{_id, url}, alt }
   }`;
-  return await client.fetch(query, { slug });
+
+  // ✅ REVALIDACIÓN AÑADIDA:
+  // Lo mismo aplica para las páginas de detalle de cada proyecto.
+  return await client.fetch(query, { slug }, { next: { revalidate: 60 } });
 }
 
 /**
@@ -63,5 +69,8 @@ export async function getFeaturedProjects() {
       alt
     }
   }`;
-  return await client.fetch(query);
+
+  // ✅ REVALIDACIÓN AÑADIDA:
+  // También para los proyectos destacados en la página de inicio.
+  return await client.fetch(query, {}, { next: { revalidate: 60 } });
 }

@@ -39,9 +39,10 @@ export function middleware(request) {
 }
 
 // Configuración para que el middleware solo se ejecute en las rutas necesarias.
+// Código Corregido (La Solución)
 export const config = {
   matcher: [
-    // Omitir todas las rutas de archivos internos (_next, api, etc.).
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    // Omitir todas las rutas que contienen un punto (archivos estáticos) o que son internas de Next.js.
+    "/((?!api|_next/static|_next/image|.*\\..*).*)",
   ],
 };

@@ -12,7 +12,7 @@ module.exports = {
     extend: {
       colors: {
         // Colores principales
-        primary: "#0d1419", // Fondo principal oscuro
+        primary: "#060a12", // Fondo principal oscuro
         accent: {
           DEFAULT: "#a55130", // Naranja/Terracota
           light: "#b66e41", // Naranja más claro
@@ -57,8 +57,21 @@ module.exports = {
         dark: "#0d1419",
       },
       fontFamily: {
-        sans: ["var(--font-outfit)", "Outfit", "sans-serif"],
+        sans: [
+          "var(--font-outfit)",
+          "Outfit",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "Noto Sans",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
       },
+
       fontSize: {
         "2xs": ["0.625rem", { lineHeight: "0.75rem" }], // 10px
         xs: ["0.75rem", { lineHeight: "1rem" }], // 12px
@@ -96,6 +109,7 @@ module.exports = {
         "fade-in": "fadeIn 0.5s ease-in-out",
         "slide-up": "slideUp 0.5s ease-out",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "scroll-dot": "scrollDot 1.5s ease-in-out infinite",
       },
       keyframes: {
         fadeIn: {
@@ -105,6 +119,11 @@ module.exports = {
         slideUp: {
           "0%": { transform: "translateY(20px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        scrollDot: {
+          "0%": { transform: "translateY(0)", opacity: ".9" },
+          "50%": { transform: "translateY(16px)", opacity: ".4" },
+          "100%": { transform: "translateY(0)", opacity: ".9" },
         },
       },
     },

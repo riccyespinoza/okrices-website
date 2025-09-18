@@ -39,7 +39,8 @@ export default function ServicesCTA() {
           >
             <a
               href="/contact"
-              className="inline-block text-light px-6 py-3 rounded-md font-medium transition-all duration-300 btn-gradient"
+              className="btn btn-gradient"
+              aria-label="Request Your Quote"
             >
               Request Your Quote
             </a>

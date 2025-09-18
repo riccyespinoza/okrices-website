@@ -11,14 +11,17 @@ export default async function FeaturedProjectsSection() {
   if (!projects?.length) return null;
 
   return (
-    <Section spacing="py-24 md:py-32">
+    <Section spacing="py-24 md:py-32" aria-labelledby="home-projects">
       {/* 
         MODIFICACIÓN: El título ahora tiene su propio contenedor para mantenerse
         centrado, mientras que la grilla de proyectos se deja fuera para que 
         pueda ocupar el ancho completo.
       */}
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+        <h2
+          id="home-projects"
+          className="text-3xl md:text-4xl font-bold text-center mb-16"
+        >
           Featured <span className="text-accent">Projects</span>
         </h2>
       </div>
@@ -40,7 +43,8 @@ export default async function FeaturedProjectsSection() {
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-16">
         <a
           href="/projects"
-          className="inline-block text-light px-6 py-3 rounded-md font-medium transition-all duration-300 btn-gradient"
+          className="btn btn-gradient inline-block px-6 py-3 rounded-md font-medium"
+          aria-label="View all case studies"
         >
           View All
         </a>

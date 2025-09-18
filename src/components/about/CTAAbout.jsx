@@ -40,7 +40,8 @@ export default function CTAAbout({
           >
             <a
               href={buttonHref}
-              className="inline-block text-light px-6 py-3 rounded-md font-medium transition-all duration-300 btn-gradient"
+              className="btn btn-gradient"
+              aria-label={buttonLabel}
             >
               {buttonLabel}
             </a>

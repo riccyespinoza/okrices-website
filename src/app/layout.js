@@ -1,4 +1,4 @@
-// app/layout.jsx
+// src/app/layout.jsx
 import "./globals.css";
 import MainLayout from "@/components/MainLayout";
 import Script from "next/script";
@@ -8,13 +8,21 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { Outfit } from "next/font/google";
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-outfit", // Esto crea la variable CSS
+  weight: ["300", "400", "600", "700"], // solo los que usas
+  variable: "--font-outfit",
+  display: "swap",
 });
 
 export const metadata = {
   title: "Okrices – Visual Identity & Web Studio",
   description: "Transforming ideas into clear and functional brands.",
+  themeColor: "#060a12", // color del navegador (móvil)
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }) {
@@ -23,22 +31,19 @@ export default function RootLayout({ children }) {
     process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === "true";
 
   return (
-    // La variable de la fuente se aplica al <html>
-    <html lang="en" className={outfit.variable}>
-      {/* El body ya no tiene clases de color o fuente que creen conflictos */}
+    <html lang="en" className={outfit.variable} suppressHydrationWarning>
       <body className="relative min-h-screen">
         <ThemeProvider>
           {enableAnalytics && (
             <Script
-              strategy="lazyOnload"
-              data-domain="okrices.com"
-              src="https://plausible.io/js/script.js"
+              strategy="afterInteractive" // no bloquea el render
+              data-domain="okrices.com" // o tu dominio/vercel domain
+              src="https://plausible.io/js/script.tagged-events.js"
             />
           )}
 
-          {/* Estos elementos de fondo son correctos aquí */}
-          <div className="background-exact"></div>
-          <div className="noise-overlay"></div>
+          {/* Fondo unificado y barato de pintar */}
+          <div className="background-exact with-noise" aria-hidden="true" />
 
           <MainLayout>{children}</MainLayout>
           <ScrollToTopButton />

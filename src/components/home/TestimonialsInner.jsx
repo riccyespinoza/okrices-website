@@ -1,3 +1,5 @@
+// src/components/home/TestimonialsInner.jsx
+
 "use client";
 import { motion } from "framer-motion";
 

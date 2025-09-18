@@ -13,13 +13,7 @@ import {
 import Section from "../shared/Section";
 import Container from "../shared/Container";
 
-const icons = [
-  FaCheckCircle, // Professionalism
-  FaPalette, // Creativity
-  FaFeather, // Elegance
-  FaBullseye, // Precision
-  FaPuzzlePiece, // Adaptability
-];
+const icons = [FaCheckCircle, FaPalette, FaFeather, FaBullseye, FaPuzzlePiece];
 
 export default function ValuesAbout({ values, title = "Our Values" }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -28,10 +22,7 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   };
 
@@ -40,10 +31,7 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.1, 0.25, 1.0],
-      },
+      transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1.0] },
     },
   };
 
@@ -65,7 +53,7 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
           </p>
         </motion.div>
 
-        {/* Values Grid - Una sola fila */}
+        {/* Values Grid */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto"
           variants={containerVariants}
@@ -86,7 +74,7 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
                 className="relative group"
               >
                 <motion.div
-                  className="relative h-full p-6 rounded-lg glass-card-advanced border border-white/5 transition-all duration-300 cursor-pointer"
+                  className="relative h-full p-6 rounded-lg glass-card-advanced border border-white/5 cursor-pointer transition-transform transition-colors duration-300"
                   animate={{
                     y: isHovered ? -5 : 0,
                     borderColor: isHovered
@@ -100,12 +88,10 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
                   {/* Icon container */}
                   <motion.div
                     className="mb-4 relative"
-                    animate={{
-                      scale: isHovered ? 1.1 : 1,
-                    }}
+                    animate={{ scale: isHovered ? 1.1 : 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-gradient-to-br from-accent/20 to-accent/10 group-hover:from-accent/30 group-hover:to-accent/20 transition-all duration-300">
+                    <div className="w-14 h-14 mx-auto flex items-center justify-center rounded-full bg-gradient-to-br from-accent/20 to-accent/10 group-hover:from-accent/30 group-hover:to-accent/20 transition-colors duration-300">
                       <Icon className="w-7 h-7 text-accent" />
                     </div>
 
@@ -117,6 +103,7 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
                         scale: isHovered ? 1.5 : 1,
                       }}
                       transition={{ duration: 0.3 }}
+                      aria-hidden="true"
                     />
                   </motion.div>
 

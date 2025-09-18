@@ -1,3 +1,4 @@
+// src/components/home/ProcessSection.jsx
 // *** Server Component ***
 import { FiSearch, FiPenTool, FiCode, FiPackage } from "react-icons/fi";
 import ProcessStep from "@/components/shared/ProcessStep";
@@ -37,10 +38,12 @@ export default function ProcessSection() {
           concept to launch.
         </p>
 
-        {/* Grid → columna única en mobile, 4 columnas en desktop */}
         <div className="relative">
           {/* Línea de conexión — visible solo en screens ≥ md */}
-          <div className="hidden md:block absolute inset-0 flex items-center">
+          <div
+            className="hidden md:block absolute inset-0 flex items-center"
+            aria-hidden="true"
+          >
             <div className="w-full h-px bg-darkgray/60" />
           </div>
 

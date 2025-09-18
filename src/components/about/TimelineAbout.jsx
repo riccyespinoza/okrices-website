@@ -9,7 +9,6 @@ import Container from "../shared/Container";
 export default function TimelineAbout({ founder, history }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  // Timeline data
   const timelineData = [
     {
       year: "2020",
@@ -46,10 +45,14 @@ export default function TimelineAbout({ founder, history }) {
             {history}
           </p>
         </motion.div>
+
         {/* Timeline Horizontal */}
         <div className="relative mb-20">
           {/* Línea horizontal */}
-          <div className="absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+          <div
+            className="absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent/30 to-transparent"
+            aria-hidden="true"
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             {timelineData.map((item, index) => (
@@ -65,7 +68,7 @@ export default function TimelineAbout({ founder, history }) {
               >
                 {/* Círculo del timeline */}
                 <motion.div
-                  className="relative z-10 flex items-center justify-center w-16 h-16 rounded-full border-2 border-accent/50 bg-deepblue mb-6 transition-all duration-300"
+                  className="relative z-10 flex items-center justify-center w-16 h-16 rounded-full border-2 border-accent/50 bg-deepblue mb-6 transition-transform transition-colors duration-300"
                   animate={{
                     scale: hoveredIndex === index ? 1.1 : 1,
                     borderColor:
@@ -107,6 +110,7 @@ export default function TimelineAbout({ founder, history }) {
                 className="w-24 h-24 rounded-full bg-gradient-to-br from-accent to-accent/70 flex items-center justify-center flex-shrink-0"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
+                aria-hidden="true"
               >
                 <span className="text-3xl font-bold text-light">
                   {founder[0][0]}

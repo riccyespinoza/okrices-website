@@ -1,5 +1,8 @@
+// src/sections/LogoGallery.jsx
 "use client";
+
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 
 export default function LogoGallery() {
   const ref = useRef(null);
@@ -7,6 +10,7 @@ export default function LogoGallery() {
   // Auto-scroll loop
   useEffect(() => {
     const el = ref.current;
+    if (!el) return;
     const id = setInterval(() => {
       el.scrollLeft += 1;
       if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0;
@@ -24,11 +28,21 @@ export default function LogoGallery() {
       <h2 className="text-2xl md:text-3xl font-medium text-light text-center">
         Selected Logos
       </h2>
+
       <div ref={ref} className="flex gap-10 overflow-x-auto scrollbar-hide">
         {logos.concat(logos).map((src, i) => (
-          <img key={i} src={src} alt="" className="h-20 shrink-0" />
+          <span key={i} className="relative h-20 w-[120px] shrink-0">
+            <Image
+              src={src}
+              alt="" /* decorativo */
+              fill
+              sizes="120px"
+              className="object-contain"
+            />
+          </span>
         ))}
       </div>
+
       <p className="text-center">
         <a href="/projects?filter=logo" className="text-accent underline">
           View full logo gallery →

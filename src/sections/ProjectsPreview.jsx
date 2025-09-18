@@ -1,14 +1,14 @@
 // src/sections/ProjectsPreview.jsx
 // Propósito: traer los proyectos desde Sanity (vía getProjects) y mostrar
-// solo los 3 más recientes en la Home.  Cada tarjeta enlaza a /projects/[slug].
+// solo los 3 más recientes en la Home. Cada tarjeta enlaza a /projects/[slug].
 
 import Link from "next/link";
+import Image from "next/image";
 import { getProjects } from "@/lib/getProjects";
 
 export default async function ProjectsPreview() {
-  // 1. Traemos TODOS los proyectos y nos quedamos con los 3 primeros
   const projects = await getProjects();
-  const featured = projects.slice(0, 3);
+  const featured = (projects || []).slice(0, 3);
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-6 py-24 space-y-10">
@@ -27,21 +27,28 @@ export default async function ProjectsPreview() {
               key={p._id}
               className="bg-background/80 border border-white/10 rounded-xl overflow-hidden group"
             >
-              <Link href={`/projects/${p.slug.current}`}>
+              <Link
+                href={`/projects/${p.slug.current}`}
+                aria-label={`View case study: ${p.title}`}
+              >
+                {/* Imagen de la tarjeta */}
                 {p.image?.asset?.url && (
-                  <img
-                    src={p.image.asset.url}
-                    alt={p.image.alt || p.title}
-                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  <div className="relative w-full h-48 overflow-hidden">
+                    <Image
+                      src={p.image.asset.url}
+                      alt={p.image.alt || `${p.title} — preview`}
+                      fill
+                      sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                    />
+                  </div>
                 )}
+
                 <div className="p-4 space-y-1">
                   <h3 className="text-lg font-semibold text-light">
                     {p.title}
                   </h3>
-                  {/* Puedes mostrar la categoría si la tienes:
-                      <span className="text-xs text-accent">Brand Identity</span>
-                  */}
+                  {/* <span className="text-xs text-accent">Brand Identity</span> */}
                 </div>
               </Link>
             </article>
@@ -50,10 +57,7 @@ export default async function ProjectsPreview() {
       )}
 
       <div className="text-center">
-        <Link
-          href="/projects"
-          className="inline-block bg-accent text-white px-8 py-3 rounded-lg text-sm font-semibold transition hover:scale-105"
-        >
+        <Link href="/projects" className="btn btn-gradient">
           See all projects →
         </Link>
       </div>

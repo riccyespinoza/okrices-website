@@ -1,7 +1,7 @@
 // src/components/ProjectContent.jsx
-
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -12,21 +12,14 @@ import {
   FiZap,
   FiTrendingUp,
   FiAlertCircle,
-  FiArrowUpRight,
 } from "react-icons/fi";
 
-// --- Animaciones ---
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-// --- Sub-componentes para un código limpio ---
-
+/* --- Sub-componentes --- */
 const DetailCard = ({ icon, title, text }) => {
   if (!text) return null;
   return (
@@ -53,15 +46,14 @@ const KeyDataCard = ({ icon, title, value }) => {
   );
 };
 
-// --- Componente Principal ---
-
+/* --- Componente principal --- */
 export default function ProjectContent({ project }) {
   const getImageUrl = (source) => source?.asset?.url || null;
   const mainImageUrl = getImageUrl(project.mainImage);
 
   return (
     <main className="min-h-screen text-light">
-      {/* --- 1. HERO SECTION --- */}
+      {/* 1) HERO con imagen prioritaria */}
       <motion.header
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -70,14 +62,19 @@ export default function ProjectContent({ project }) {
       >
         {mainImageUrl && (
           <div className="absolute inset-0 z-0">
-            <img
+            <Image
               src={mainImageUrl}
-              alt={`Hero background for ${project.title}`}
-              className="w-full h-full object-cover"
+              alt={`${project.title} — case study cover`}
+              fill
+              priority
+              fetchPriority="high"
+              sizes="(max-width:768px) 100vw, 1200px"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
           </div>
         )}
+
         <div className="relative z-10 w-full max-w-5xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -98,9 +95,8 @@ export default function ProjectContent({ project }) {
         </div>
       </motion.header>
 
-      {/* --- Contenido Estándar (ancho normal) --- */}
+      {/* 2) Datos clave */}
       <div className="max-w-5xl mx-auto px-6">
-        {/* --- 2. FICHA RÁPIDA CON DATOS CLAVE --- */}
         <motion.section
           variants={itemVariants}
           initial="hidden"
@@ -130,7 +126,7 @@ export default function ProjectContent({ project }) {
           />
         </motion.section>
 
-        {/* --- 3. OVERVIEW Y DETALLES --- */}
+        {/* 3) Overview + Detalles */}
         <div className="space-y-24 md:space-y-32">
           <motion.section
             variants={itemVariants}
@@ -173,7 +169,7 @@ export default function ProjectContent({ project }) {
         </div>
       </div>
 
-      {/* --- 4. VISUAL GALLERY (sección de ancho completo) --- */}
+      {/* 4) Visual Gallery (ancho completo) */}
       {project.gallery?.length > 0 && (
         <motion.section
           variants={itemVariants}
@@ -191,7 +187,7 @@ export default function ProjectContent({ project }) {
 
                 return (
                   <div
-                    key={img.asset?._id}
+                    key={img.asset?._id || index}
                     className="grid md:grid-cols-5 gap-8 items-stretch"
                   >
                     <motion.div
@@ -199,14 +195,17 @@ export default function ProjectContent({ project }) {
                       whileHover={{ scale: 1.03 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <div className="w-full h-full rounded-lg overflow-hidden bg-gray-800">
-                        <img
+                      <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-800 aspect-[4/3] md:aspect-auto">
+                        <Image
                           src={getImageUrl(img)}
                           alt={img.alt || `Gallery image ${index + 1}`}
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 800px"
+                          className="object-cover"
                         />
                       </div>
                     </motion.div>
+
                     {nextImg && (
                       <motion.div
                         className={
@@ -215,11 +214,13 @@ export default function ProjectContent({ project }) {
                         whileHover={{ scale: 1.03 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
-                        <div className="w-full h-full rounded-lg overflow-hidden bg-gray-800">
-                          <img
+                        <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-800 aspect-[4/3] md:aspect-auto">
+                          <Image
                             src={getImageUrl(nextImg)}
                             alt={nextImg.alt || `Gallery image ${index + 2}`}
-                            className="w-full h-full object-cover"
+                            fill
+                            sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 700px"
+                            className="object-cover"
                           />
                         </div>
                       </motion.div>
@@ -232,9 +233,8 @@ export default function ProjectContent({ project }) {
         </motion.section>
       )}
 
-      {/* Contenedor final para el CTA, vuelve al ancho estándar */}
+      {/* 5) CTA final */}
       <div className="max-w-5xl mx-auto px-6">
-        {/* --- 5. CTA FINAL --- */}
         <motion.div
           variants={itemVariants}
           initial="hidden"

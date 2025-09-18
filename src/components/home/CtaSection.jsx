@@ -1,3 +1,4 @@
+// src/components/home/CtaSection.jsx
 "use client";
 
 import { motion } from "framer-motion";
@@ -6,10 +7,11 @@ import Container from "../shared/Container";
 
 export default function CtaSection() {
   return (
-    <Section spacing="py-24 md:py-32">
+    <Section spacing="py-24 md:py-32" aria-labelledby="home-cta">
       <Container>
         <div className="max-w-3xl mx-auto text-center">
           <motion.h2
+            id="home-cta"
             className="text-3xl md:text-4xl font-bold mb-8 text-light"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -27,7 +29,8 @@ export default function CtaSection() {
           >
             <a
               href="/contact"
-              className="inline-block text-light px-6 py-3 rounded-md font-medium transition-all duration-300 btn-gradient"
+              className="btn btn-gradient"
+              aria-label="Start Your Project"
             >
               Start Your Project
             </a>

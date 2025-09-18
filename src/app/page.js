@@ -11,13 +11,21 @@ export default function Home() {
     // Eliminamos el bg-page-gradient ya que ahora el fondo se define a nivel global en layout.js
     <main>
       <Hero />
-      <FeaturedProjectsSection />
-      <IntroSection />
-
-      <ServicesSection />
-
-      <TestimonialsSection />
-      <CtaSection />
+      <section className="section-lazy">
+        <FeaturedProjectsSection />
+      </section>
+      <section className="section-lazy">
+        <IntroSection />
+      </section>
+      <section className="section-lazy">
+        <ServicesSection />
+      </section>
+      <section className="section-lazy">
+        <TestimonialsSection />
+      </section>
+      <section className="section-lazy">
+        <CtaSection />
+      </section>
     </main>
   );
 }

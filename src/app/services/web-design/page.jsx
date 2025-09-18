@@ -1,5 +1,5 @@
 // src/app/services/web-design/page.jsx
-import WebHero from "@/components/web/WebHero"; // hero nuevo
+import WebHero from "@/components/web/WebHero";
 import { getServices } from "@/lib/getServices";
 import ServiceCards from "@/components/services/ServiceCards";
 
@@ -52,7 +52,8 @@ export default async function WebDesignPage() {
           </p>
           <a
             href="/contact"
-            className="inline-block text-light px-6 py-3 rounded-md font-medium transition-all duration-300 btn-gradient"
+            className="btn btn-gradient"
+            aria-label="Contact Okrices"
           >
             Contact&nbsp;Okrices
           </a>

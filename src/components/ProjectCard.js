@@ -2,16 +2,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function ProjectCard({ project, index = 0 }) {
-  // Espera que el fetch traiga: title, slug, description, cardImage{asset->{url}}
+  // Espera: { title, description, slug, cardImage{asset{url}, alt} }
   const { title, description, slug, cardImage } = project || {};
   const imgUrl = cardImage?.asset?.url;
-
-  // 🔎 DEBUG
-  console.log("ProjectCard -> project:", project);
-  console.log("ProjectCard -> imgUrl:", imgUrl);
 
   return (
     <motion.div
@@ -27,18 +24,28 @@ export default function ProjectCard({ project, index = 0 }) {
       }}
       className="bg-mutedgray/10 border border-darkgray rounded-xl overflow-hidden hover:border-accent transition-transform"
     >
-      <Link href={`/projects/${slug?.current ?? ""}`} className="block">
+      <Link
+        href={`/projects/${slug?.current ?? ""}`}
+        className="block"
+        aria-label={`View case study: ${title}`}
+      >
         {/* Imagen de la tarjeta */}
         {imgUrl ? (
-          <img
-            src={imgUrl}
-            alt={title || "Project image"}
-            className="w-full h-44 object-cover"
-            loading="lazy"
-          />
+          <div className="relative aspect-video w-full">
+            <Image
+              src={imgUrl}
+              alt={
+                cardImage?.alt ||
+                `${title} — ${description?.slice(0, 80) || "case study"}`
+              }
+              fill
+              sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+              className="object-cover"
+            />
+          </div>
         ) : (
-          // Fallback visual por si algún proyecto no tiene cardImage
-          <div className="w-full h-44 bg-darkgray/40 flex items-center justify-center">
+          // Fallback visual por si no hay imagen
+          <div className="relative aspect-video w-full bg-darkgray/40 flex items-center justify-center">
             <span className="text-sm text-text-muted">Image coming soon</span>
           </div>
         )}

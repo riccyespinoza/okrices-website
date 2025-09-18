@@ -1,3 +1,5 @@
+// src/components/home/ServicesSection.jsx
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -45,7 +47,7 @@ export default function ServicesSection() {
   ];
 
   return (
-    <Section spacing="py-24 md:py-32">
+    <Section spacing="py-24 md:py-32" aria-labelledby="home-services">
       <Container>
         <motion.div
           className="text-center"
@@ -54,13 +56,16 @@ export default function ServicesSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-16">
+          <h2
+            id="home-services"
+            className="text-3xl md:text-4xl font-bold mb-16"
+          >
             Featured <span className="text-accent">Services</span>
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-10 mb-12">
+          <ul className="grid md:grid-cols-2 gap-10 mb-12">
             {services.map((service) => (
-              <motion.div
+              <motion.li
                 key={service.id}
                 variants={itemVariants}
                 whileHover={{ scale: 1.05 }}
@@ -73,14 +78,15 @@ export default function ServicesSection() {
                   </h3>
                   <p className="text-gray-400 text-sm">{service.description}</p>
                 </div>
-              </motion.div>
+              </motion.li>
             ))}
-          </div>
+          </ul>
 
           <motion.div variants={itemVariants}>
             <a
               href="/services"
-              className="inline-block text-light px-6 py-3 rounded-md font-medium transition-all duration-300 btn-gradient"
+              className="btn btn-gradient inline-block px-6 py-3 rounded-md font-medium"
+              aria-label="Discover all services"
             >
               Discover More
             </a>

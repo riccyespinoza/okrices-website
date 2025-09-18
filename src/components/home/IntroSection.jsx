@@ -1,4 +1,4 @@
-// Ejemplo para mejorar la IntroSection
+// src/components/home/IntroSection.jsx
 "use client";
 import { motion } from "framer-motion";
 import Section from "../shared/Section";
@@ -44,7 +44,7 @@ export default function IntroSection() {
   };
 
   return (
-    <Section spacing="py-16 md:py-24">
+    <Section spacing="py-16 md:py-24" aria-labelledby="home-intro">
       <Container>
         <motion.div
           className="text-center max-w-3xl mx-auto"
@@ -54,6 +54,7 @@ export default function IntroSection() {
           viewport={{ once: true, amount: 0.1 }}
         >
           <motion.h2
+            id="home-intro"
             className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4"
             variants={titleVariants}
           >

@@ -1,14 +1,22 @@
-// src/components/AboutSection.jsx
+// src/components/home/AboutSection.jsx
+import Image from "next/image";
+import Link from "next/link";
+
 export default function AboutSection() {
   return (
-    <section id="about" className="py-20 bg-primary text-light">
+    <section id="about" className="py-20 text-light">
       <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
-        {/* Imagen o ilustración */}
-        <img
-          src="/about/me.webp"
-          alt="Riccy Espinoza – Founder"
-          className="rounded-lg shadow-lg w-full h-72 object-cover"
-        />
+        {/* Imagen */}
+        <div className="relative w-full h-72 rounded-lg overflow-hidden shadow-lg">
+          <Image
+            src="/about/me.webp" // desde /public/about/me.webp
+            alt="Riccy Espinoza – Founder"
+            fill
+            sizes="(max-width:768px) 100vw, 600px" // 1 columna en móvil, ~600px en desktop
+            className="object-cover"
+            priority={false}
+          />
+        </div>
 
         {/* Texto */}
         <div>
@@ -20,12 +28,10 @@ export default function AboutSection() {
             transforming ideas into clear, functional and elegant brands — from
             strategic identities to high-performance websites.
           </p>
-          <a
-            href="/about"
-            className="inline-block bg-accent text-light px-5 py-2 rounded hover:bg-accent/80 transition"
-          >
+
+          <Link href="/about" className="btn btn-gradient">
             Learn more →
-          </a>
+          </Link>
         </div>
       </div>
     </section>

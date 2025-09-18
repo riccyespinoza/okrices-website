@@ -20,10 +20,7 @@ export default function ServiceCards({ services }) {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   };
 
@@ -32,14 +29,11 @@ export default function ServiceCards({ services }) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.1, 0.25, 1.0],
-      },
+      transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1.0] },
     },
   };
 
-  // Find the middle package to mark as popular (or check if any has a popular flag)
+  // Middle package as "popular" (fallback if no popular flag)
   const middleIndex = Math.floor(services.length / 2);
 
   return (
@@ -48,7 +42,7 @@ export default function ServiceCards({ services }) {
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: 0.2 }}
+      viewport={{ once: true, amount: 0.2 }}
     >
       {services.map((service, index) => {
         const isHovered = hoveredIndex === index;
@@ -65,7 +59,7 @@ export default function ServiceCards({ services }) {
             {/* Popular badge */}
             {isPopular && services.length > 1 && (
               <motion.div
-                className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10"
+                className="absolute -top-4 left-1/2 -translate-x-1/2 z-10"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
@@ -77,7 +71,7 @@ export default function ServiceCards({ services }) {
             )}
 
             <motion.div
-              className={`relative h-full glass-card-advanced p-8 rounded-lg border transition-all duration-300 ${
+              className={`relative h-full glass-card-advanced p-8 rounded-lg border ${
                 isPopular ? "border-accent/30" : "border-white/5"
               }`}
               animate={{
@@ -88,9 +82,8 @@ export default function ServiceCards({ services }) {
                     ? "rgba(165, 81, 48, 0.3)"
                     : "rgba(255, 255, 255, 0.05)",
               }}
-              whileHover={{
-                boxShadow: "0 20px 40px rgba(165, 81, 48, 0.15)",
-              }}
+              whileHover={{ boxShadow: "0 20px 40px rgba(165, 81, 48, 0.15)" }}
+              transition={{ duration: 0.3 }}
             >
               {/* Header */}
               <div className="mb-6">
@@ -110,7 +103,7 @@ export default function ServiceCards({ services }) {
               </p>
 
               {/* Features/Bullets */}
-              {service.bullets_en && service.bullets_en.length > 0 && (
+              {service.bullets_en?.length > 0 && (
                 <ul className="space-y-2 mb-6">
                   {service.bullets_en.map((bullet, bIndex) => (
                     <motion.li
@@ -139,10 +132,8 @@ export default function ServiceCards({ services }) {
               {/* CTA Button */}
               <motion.a
                 href="/contact"
-                className={`block text-center px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                  isPopular
-                    ? "btn-gradient text-light"
-                    : "border border-accent text-accent hover:bg-accent/10"
+                className={`w-full block text-center ${
+                  isPopular ? "btn btn-gradient" : "btn btn-secondary"
                 }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

@@ -1,3 +1,4 @@
+// src/components/home/BenefitsSection.jsx
 "use client";
 
 import { motion } from "framer-motion";

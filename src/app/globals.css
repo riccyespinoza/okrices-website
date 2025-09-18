@@ -97,10 +97,10 @@
   .with-noise::after {
     content: "";
     @apply absolute inset-0 pointer-events-none opacity-[0.04];
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUEUgAAAAgAAAAICAYAAADED76LAAAA8klEQVR42gXBoQ6CABQF0Iuj0dh8I1jYnMmGYyTm/AWC2R8gU20UoWm6q5ybgx8g1b1Ts9j7fT9ihx3k5bKqfP7bWn7l2wqz8r0nxgX3m9Q8t8V9Yx8mE5w0FQd5+qf3e3r0WZg4uZsP1TqU3j0q3pR5l1wWQbG2a1mH5yqkV5S2Hk3m8o3rN0qXcXo0e7N1lZ4bB7hI6T1b7Z2Yy3cS7lqQ+H0XrZ4hZpK2b6m8J8c7S5Nw9q2w3t8dQH0O0JrP7Qm2z0X8sQv7mXwJJd0WvHk1iQAAAABJRU5ErkJggg==");
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJklEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
     background-size: 8px 8px;
+    background-repeat: repeat;
   }
-
   /* Texto con gradiente */
   .text-gradient {
     @apply bg-gradient-to-r from-accent to-accent-light;

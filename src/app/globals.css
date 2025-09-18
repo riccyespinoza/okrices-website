@@ -1,5 +1,4 @@
 /* globals.css */
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,8 +12,8 @@
   }
 
   body {
-    font-family: "Outfit", sans-serif;
-    @apply text-light;
+    /* Usar la familia conectada a --font-outfit vía Tailwind */
+    @apply font-sans text-light;
     background-color: #060a12;
   }
 

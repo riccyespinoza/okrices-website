@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { Outfit } from "next/font/google";
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
+  weight: ["400", "600", "700"],
   variable: "--font-outfit", // Esto crea la variable CSS
 });
 

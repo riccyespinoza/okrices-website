@@ -22,7 +22,7 @@ export default async function ProjectsPage() {
   }
 
   return (
-    <main>
+    <main id="main-content">
       {/* HERO */}
       <Section withContainer spacing="pt-40 pb-20">
         <Reveal className="text-center">

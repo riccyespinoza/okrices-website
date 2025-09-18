@@ -11,10 +11,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.6.1",
     "@portabletext/react": "^3.2.1",
     "@sanity/client": "^7.6.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "framer-motion": "^12.20.1",
+    "negotiator": "^1.0.0",
     "next": "^15.4.4",
     "next-sanity": "^9.12.0",
     "react": "^18.3.1",

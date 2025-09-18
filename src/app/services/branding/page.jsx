@@ -15,7 +15,7 @@ export default async function BrandingPage() {
   const services = await getServices("en", "branding"); // siempre llega con datos
 
   return (
-    <main>
+    <main id="main-content">
       {/* 1️⃣ Hero con animaciones propias */}
       <BrandingHero />
 

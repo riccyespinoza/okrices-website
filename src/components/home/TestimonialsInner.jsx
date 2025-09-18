@@ -1,14 +1,10 @@
 // src/components/home/TestimonialsInner.jsx
-
 "use client";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import TestimonialCard from "../shared/TestimonialCard"; // Importamos el nuevo componente
 
 const testimonials = [
-  {
-    name: "Sarah L.",
-    role: "CEO, BloomTech",
-    quote: "Okrices elevated ...",
-  },
+  { name: "Sarah L.", role: "CEO, BloomTech", quote: "Okrices elevated ..." },
   {
     name: "Jason R.",
     role: "Founder, GreenHub",
@@ -24,46 +20,32 @@ const testimonials = [
 // Variantes de animación
 const containerVariants = {
   hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
+  show: { transition: { staggerChildren: 0.2 } },
 };
 
 export default function TestimonialsInner() {
+  const prefersReduced = useReducedMotion();
+
+  const containerAnim = prefersReduced
+    ? {}
+    : {
+        initial: "hidden",
+        whileInView: "show",
+        variants: containerVariants,
+        viewport: { once: true },
+      };
+
   return (
-    <motion.div
-      className="grid gap-8 md:grid-cols-3"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true }}
-      variants={containerVariants}
-    >
+    <motion.div className="grid gap-8 md:grid-cols-3" {...containerAnim}>
+      {/* 👇 CAMBIO: Mapeo mucho más limpio usando el componente TestimonialCard */}
       {testimonials.map((t, i) => (
-        <motion.div
+        <TestimonialCard
           key={i}
-          variants={itemVariants}
-          whileHover={{ scale: 1.05 }}
-          className="bg-deepblue/30 backdrop-blur-sm border border-white/10 rounded-lg p-6 text-light flex flex-col"
-        >
-          <div className="text-accent text-3xl mb-2">"</div>
-          <h4 className="font-semibold mb-1">{t.name}</h4>
-          <p className="text-sm text-gray-400 mb-4">{t.role}</p>
-          <p className="flex-1 text-gray-300 italic">{t.quote}</p>
-        </motion.div>
+          name={t.name}
+          role={t.role}
+          quote={t.quote}
+          authorId={`testimonial-author-${i}`}
+        />
       ))}
     </motion.div>
   );

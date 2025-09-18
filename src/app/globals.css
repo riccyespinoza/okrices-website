@@ -1,10 +1,10 @@
-/* globals.css */
+/* globals.css (Corregido y Refactorizado) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* =========================
-   Estilos base
+   Estilos base y globales
    ========================= */
 @layer base {
   html {
@@ -14,9 +14,8 @@
   }
 
   body {
-    /* Usa la familia ligada a --font-outfit (next/font) */
-    @apply font-sans text-light;
-    background-color: #060a12;
+    /* Usamos los colores de tu config de Tailwind */
+    @apply font-sans text-light bg-primary;
   }
 
   h1,
@@ -44,260 +43,83 @@
     @apply text-base md:text-lg leading-relaxed;
   }
 
-  /* Transiciones razonables para links (no all) */
   a {
+    /* Transiciones específicas y eficientes */
     transition:
       color 0.3s,
       opacity 0.3s,
       box-shadow 0.3s,
       transform 0.3s;
   }
-}
 
-/* =========================
-   Componentes reutilizables
-   ========================= */
-@layer components {
-  /* Botón base: sin transition-all ni transform base */
-  .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-md font-medium text-base;
-    transition:
-      transform 0.3s,
-      box-shadow 0.3s,
-      background-color 0.3s,
-      color 0.3s,
-      border-color 0.3s;
-  }
-
-  /* Primario en gradiente (equivalente a tu .btn-primary/.btn-gradient previo) */
-  .btn-gradient {
-    background: linear-gradient(90deg, #a55130, #b66e41);
-    box-shadow: 0 4px 10px rgba(165, 81, 48, 0.2);
-    @apply text-light focus:outline-none focus:ring-2 focus:ring-accent/50;
-    transition:
-      transform 0.3s,
-      box-shadow 0.3s,
-      background 0.3s;
-  }
-  .btn-gradient:hover {
-    background: linear-gradient(90deg, #b66e41, #a55130);
-    box-shadow: 0 6px 15px rgba(165, 81, 48, 0.3);
-  }
-
-  /* Secundario (borde/acento) */
-  .btn-secondary {
-    @apply bg-transparent border border-accent text-accent focus:outline-none focus:ring-2 focus:ring-accent/50;
-    transition:
-      transform 0.3s,
-      box-shadow 0.3s,
-      background-color 0.3s,
-      color 0.3s,
-      border-color 0.3s;
-  }
-  .btn-secondary:hover {
-    @apply bg-accent/10;
-  }
-
-  /* Tarjetas base: sin transform ni transition-all por defecto */
-  .card,
-  .service-card,
-  .project-card,
-  .testimonial-card {
-    @apply rounded-lg border border-white/5;
-    transition:
-      box-shadow 0.3s,
-      opacity 0.3s,
-      transform 0.3s;
-  }
-  .service-card {
-    @apply bg-deepblue/20 backdrop-blur-sm p-6;
-  }
-  .project-card {
-    @apply relative overflow-hidden;
-  }
-  .testimonial-card {
-    @apply bg-deepblue/20 backdrop-blur-sm p-6;
-  }
-
-  /* Secciones y títulos */
-  .section-spacing {
-    @apply py-24 md:py-32;
-  }
-  .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-12 md:mb-16;
-  }
-  .highlight {
-    @apply text-accent;
+  /* Focus visible accesible usando el color de acento */
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline-none rounded-lg ring-2 ring-accent/75;
   }
 }
 
-/* =========================
-   Utilidades personalizadas
-   ========================= */
+/* =================================
+   Utilidades globales y de fondo
+   ================================= */
 @layer utilities {
-  /* ---- Fondo estático unificado (sin blur costoso) ---- */
+  /* Fondo estático unificado */
   .background-exact {
-    position: fixed;
-    inset: 0;
-    z-index: -10;
-    background-color: #060a12;
-    overflow: hidden;
+    @apply fixed inset-0 -z-10 overflow-hidden;
+    background-color: theme("colors.primary");
   }
   .background-exact::before {
     content: "";
-    position: absolute;
-    inset: 0;
+    @apply absolute inset-0;
+    /* 👇 CORRECCIÓN APLICADA AQUÍ 👇 */
     background:
-      /* Degradado naranja principal en la esquina inferior derecha */
       radial-gradient(
         circle at 95% 95%,
-        rgba(165, 81, 48, 0.8) 0%,
-        rgba(165, 81, 48, 0.4) 20%,
-        rgba(165, 81, 48, 0.1) 45%,
-        rgba(13, 21, 33, 0) 65%
+        theme("colors.accent.DEFAULT/80") 0%,
+        theme("colors.accent.DEFAULT/40") 20%,
+        theme("colors.accent.DEFAULT/10") 45%,
+        transparent 65%
       ),
-      /* Toque azul en la parte media derecha */
-        radial-gradient(
-          ellipse at 80% 50%,
-          rgba(42, 77, 105, 0.3) 0%,
-          rgba(42, 77, 105, 0.1) 40%,
-          rgba(13, 21, 33, 0) 70%
-        ),
-      /* Toque gris muy sutil en la parte superior */
-        radial-gradient(
-          circle at 50% 0%,
-          rgba(50, 50, 70, 0.1) 0%,
-          rgba(13, 21, 33, 0) 60%
-        );
+      radial-gradient(
+        ellipse at 80% 50%,
+        theme("colors.brand.steel/30") 0%,
+        theme("colors.brand.steel/10") 40%,
+        transparent 70%
+      ),
+      radial-gradient(
+        circle at 50% 0%,
+        theme("colors.neutral.700/10") 0%,
+        transparent 60%
+      );
   }
 
-  /* Ruido sutil barato (PNG 8x8 embebido) */
+  /* Ruido sutil embebido */
   .with-noise::after {
     content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.04; /* ajusta 0.02–0.06 a gusto */
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAA8klEQVR42gXBoQ6CABQF0Iuj0dh8I1jYnMmGYyTm/AWC2R8gU20UoWm6q5ybgx8g1b1Ts9j7fT9ihx3k5bKqfP7bWn7l2wqz8r0nxgX3m9Q8t8V9Yx8mE5w0FQd5+qf3e3r0WZg4uZsP1TqU3j0q3pR5l1wWQbG2a1mH5yqkV5S2Hk3m8o3rN0qXcXo0e7N1lZ4bB7hI6T1b7Z2Yy3cS7lqQ+H0XrZ4hZpK2b6m8J8c7S5Nw9q2w3t8dQH0O0JrP7Qm2z0X8sQv7mXwJJd0WvHk1iQAAAABJRU5ErkJggg==");
+    @apply absolute inset-0 pointer-events-none opacity-[0.04];
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUEUgAAAAgAAAAICAYAAADED76LAAAA8klEQVR42gXBoQ6CABQF0Iuj0dh8I1jYnMmGYyTm/AWC2R8gU20UoWm6q5ybgx8g1b1Ts9j7fT9ihx3k5bKqfP7bWn7l2wqz8r0nxgX3m9Q8t8V9Yx8mE5w0FQd5+qf3e3r0WZg4uZsP1TqU3j0q3pR5l1wWQbG2a1mH5yqkV5S2Hk3m8o3rN0qXcXo0e7N1lZ4bB7hI6T1b7Z2Yy3cS7lqQ+H0XrZ4hZpK2b6m8J8c7S5Nw9q2w3t8dQH0O0JrP7Qm2z0X8sQv7mXwJJd0WvHk1iQAAAABJRU5ErkJggg==");
     background-size: 8px 8px;
   }
 
-  /* Glassmorphism avanzado con fallback barato */
-  .glass-card-advanced {
-    background: rgba(13, 21, 33, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  @supports (backdrop-filter: blur(10px)) {
-    .glass-card-advanced {
-      backdrop-filter: blur(10px);
-      background: rgba(13, 21, 33, 0.3);
-    }
-  }
-  .glass-card-advanced {
-    box-shadow:
-      0 4px 15px rgba(0, 0, 0, 0.1),
-      0 1px 2px rgba(255, 255, 255, 0.05),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.03);
-    transition:
-      box-shadow 0.3s,
-      transform 0.3s,
-      background 0.3s,
-      border-color 0.3s;
-  }
-
-  /* Tipografía variable (opcional, suave) */
-  .text-variable {
-    transition: font-variation-settings 0.3s ease;
-  }
-  .text-variable:hover {
-    font-variation-settings: "wght" 650;
-  }
-
-  /* Animación sutil que ya usas */
-  @keyframes float {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  /* Texto con gradiente (sin transition-all) */
+  /* Texto con gradiente */
   .text-gradient {
-    background: linear-gradient(90deg, #a55130, #b66e41);
+    @apply bg-gradient-to-r from-accent to-accent-light;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    transition: background 0.3s ease;
-  }
-  .text-gradient:hover {
-    background: linear-gradient(90deg, #b66e41, #a55130);
-    -webkit-background-clip: text;
-    background-clip: text;
   }
 
-  /* Efecto zoom imagen */
-  .img-hover-zoom {
-    overflow: hidden;
-  }
-  .img-hover-zoom img {
-    transition: transform 0.4s ease;
-  }
-  .img-hover-zoom:hover img {
-    transform: scale(1.05);
+  .highlight {
+    @apply text-accent;
   }
 
-  /* Secciones bajo el fold: pintado vago */
-  .section-lazy {
-    content-visibility: auto;
-    contain-intrinsic-size: 1200px 800px;
-  }
-
-  /* Focus visible accesible */
-  a:focus-visible,
-  button:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(182, 110, 65, 0.45);
-    border-radius: 0.5rem;
-  }
-
-  /* ====== Hovers pesados: solo desktop ====== */
+  /* Hovers pesados solo en dispositivos con ratón */
   @media (hover: hover) and (pointer: fine) {
-    .card:hover,
-    .service-card:hover,
-    .project-card:hover,
-    .testimonial-card:hover {
-      transform: translateY(-8px);
-      box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.25),
-        0 0 20px rgba(165, 81, 48, 0.15);
+    .group-hover-effect {
+      @apply transition-transform duration-300;
     }
-    .btn:hover,
-    .btn-gradient:hover,
-    .btn-secondary:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 6px 15px rgba(165, 81, 48, 0.3);
-    }
-  }
-
-  /* ====== Touch: neutraliza hover ====== */
-  @media (hover: none), (pointer: coarse) {
-    .card:hover,
-    .service-card:hover,
-    .project-card:hover,
-    .testimonial-card:hover,
-    .btn:hover,
-    .btn-gradient:hover,
-    .btn-secondary:hover {
-      transform: none !important;
-      box-shadow: inherit !important;
+    .group-hover-effect:hover {
+      @apply -translate-y-2;
     }
   }
 
@@ -306,10 +128,13 @@
     * {
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
-      transition: none !important;
+      transition-duration: 0.001ms !important;
     }
     html {
       scroll-behavior: auto;
     }
+  }
+  .glass-effect {
+    @apply bg-transparent backdrop-blur-md shadow-lg;
   }
 }

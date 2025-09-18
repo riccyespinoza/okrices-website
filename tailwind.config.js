@@ -1,7 +1,7 @@
 // tailwind.config.js
 
 module.exports = {
-  // ✅ ESTA ES LA LÍNEA CRUCIAL QUE HABILITA EL MODO OSCURO POR CLASE
+  // ✅ Mantenemos el modo oscuro por clase
   darkMode: "class",
 
   content: [
@@ -10,52 +10,41 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // 🎨 SECCIÓN DE COLORES REFACTORIZADA
+      // Hemos consolidado los colores duplicados para crear una paleta más limpia y fácil de mantener.
       colors: {
-        // Colores principales
+        // Colores base de la aplicación
         primary: "#060a12", // Fondo principal oscuro
+        dark: "#0d1419", // Variante oscura (antes en midnight)
+        light: "#ffffff", // Blanco puro
+
+        // Color de acento principal
         accent: {
-          DEFAULT: "#a55130", // Naranja/Terracota
-          light: "#b66e41", // Naranja más claro
-          dark: "#8d4226", // Naranja más oscuro
-        },
-        beige: "#c1a17a", // Beige/Café claro
-        cream: "#d9d2c6", // Crema/Blanco roto
-        navy: "#2a4d69", // Azul marino
-        deepblue: "#0d1b2a", // Azul oscuro/Negro azulado
-
-        // Grises
-        black: {
-          DEFAULT: "#1a1a1a", // Negro con un toque de gris
-          pure: "#0c0c0a", // Negro puro
-        },
-        gray: {
-          dark: "#333333", // Gris oscuro
-          medium: "#515151", // Gris medio
-          light: "#d9d2c6", // Gris claro (similar a cream)
+          DEFAULT: "#a55130", // CONSOLIDADO: Unifica 'accent' y 'terracota'
+          light: "#b66e41",
+          dark: "#8d4226",
         },
 
-        // Colores adicionales de la paleta
-        terracota: {
-          DEFAULT: "#a55130", // R=165 G=81 B=48
-          light: "#b66e41", // R=182 G=110 B=65
-        },
-        sand: "#c1a17a", // R=193 G=161 B=122
-        offwhite: "#d9d2c6", // R=217 G=210 B=198
-        steel: "#2a4d69", // R=42 G=77 B=105
-        midnight: {
-          DEFAULT: "#0d1b2a", // R=13 G=27 B=42
-          darker: "#0c0c0a", // R=12 G=12 B=10
-          blue: "#0d1419", // R=13 G=20 B=25
-        },
-        charcoal: {
-          DEFAULT: "#1a1a1a", // R=26 G=26 B=26
-          light: "#333333", // R=51 G=51 B=51
+        // Paleta de colores de marca secundarios
+        brand: {
+          sand: "#c1a17a", // CONSOLIDADO: Unifica 'beige' y 'sand'
+          cream: "#d9d2c6", // CONSOLIDADO: Unifica 'cream', 'offwhite' y 'gray.light'
+          steel: "#2a4d69", // CONSOLIDADO: Unifica 'navy' y 'steel'
+          "steel-dark": "#0d1b2a", // CONSOLIDADO: Unifica 'deepblue' y 'midnight.DEFAULT'
         },
 
-        // Utilitarios
-        light: "#ffffff",
-        dark: "#0d1419",
+        // Escala de grises semántica para texto y fondos neutros
+        neutral: {
+          900: "#0c0c0a", // CONSOLIDADO: 'black.pure' y 'midnight.darker'
+          800: "#1a1a1a", // CONSOLIDADO: 'black.DEFAULT' y 'charcoal.DEFAULT'
+          700: "#333333", // CONSOLIDADO: 'gray.dark' y 'charcoal.light'
+          600: "#515151", // CONSOLIDADO: 'gray.medium'
+          // El color 'gray.light' ahora es 'brand.cream' por ser el mismo valor.
+        },
       },
+
+      // --- El resto de tu configuración se mantiene igual, ya que está muy bien estructurada. ---
+
       fontFamily: {
         sans: [
           "var(--font-outfit)",
@@ -96,9 +85,9 @@ module.exports = {
       },
       backgroundImage: {
         "page-gradient":
-          "linear-gradient(180deg, theme('colors.primary'), theme('colors.deepblue'))",
+          "linear-gradient(180deg, theme('colors.primary'), theme('colors.brand.steel-dark'))", // Actualizado para usar los nuevos nombres
         "accent-gradient":
-          "linear-gradient(90deg, theme('colors.accent'), theme('colors.accent.light'))",
+          "linear-gradient(90deg, theme('colors.accent.DEFAULT'), theme('colors.accent.light'))", // Actualizado para usar los nuevos nombres
       },
       boxShadow: {
         soft: "0 4px 20px rgba(0, 0, 0, 0.08)",

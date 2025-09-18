@@ -12,7 +12,7 @@ export default function Header() {
   const isSpanish = pathname?.startsWith("/es");
   const prefix = isSpanish ? "/es" : "";
 
-  // Lógica para detectar si estamos en una página de detalle de proyecto (ej: /projects/oka-wise)
+  // Lógica para detectar si estamos en una página de detalle de proyecto
   const isProjectDetailPage =
     /^\/projects\/[^/]+$/.test(pathname) ||
     /^\/es\/projects\/[^/]+$/.test(pathname);
@@ -94,15 +94,12 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 px-6 py-3 transition-all duration-300 ${
-        scrolled || mobileOpen
-          ? "bg-deepblue/80 backdrop-blur-md shadow-lg"
-          : "bg-transparent"
+        scrolled || mobileOpen ? "glass-effect" : "bg-transparent"
       } ${visible ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* --- Logo Dinámico --- */}
         <Link href={isSpanish ? "/es" : "/"} className="flex items-center">
-          {/* Logo para Desktop y Tablet (oculto en móvil) */}
           <div className="hidden md:block">
             <Image
               src={
@@ -116,9 +113,6 @@ export default function Header() {
               priority
             />
           </div>
-
-          {/* Logo para Móvil (visible solo en móvil) */}
-          {/* NOTA: Asegúrate de tener 'logo-octopus_white.svg' en tu carpeta /public */}
           <div className="block md:hidden">
             <Image
               src={
@@ -150,7 +144,8 @@ export default function Header() {
             >
               {texts.services} <FaChevronDown className="ml-1" />
             </Link>
-            <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 top-full left-0 mt-2 w-56 bg-deepblue/90 backdrop-blur-md border border-white/10 rounded-lg shadow-lg overflow-hidden transition-all duration-300">
+            {/* 👇 CÓDIGO ACTUALIZADO AQUÍ 👇 */}
+            <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 top-full left-0 mt-2 w-56 glass-effect border border-white/10 rounded-lg overflow-hidden transition-all duration-300">
               <Link
                 href={`${prefix}/services/branding`}
                 className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
@@ -195,9 +190,10 @@ export default function Header() {
 
       {/* --- Panel Móvil --- */}
       {mobileOpen && (
+        // 👇 CÓDIGO ACTUALIZADO AQUÍ 👇
         <div
           ref={panelRef}
-          className="md:hidden bg-deepblue/90 backdrop-blur-md border-t border-white/10"
+          className="md:hidden glass-effect border-t border-white/10"
         >
           <nav className="flex flex-col px-6 py-4 space-y-4">
             <Link

@@ -1,96 +1,74 @@
 // src/components/home/ServicesSection.jsx
-
 "use client";
-
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Section from "../shared/Section";
 import Container from "../shared/Container";
+import Button from "../shared/Button"; // Importamos Button
+import ServiceCard from "../shared/ServiceCard"; // Importamos el nuevo ServiceCard
 import { FaPaintBrush, FaLaptopCode } from "react-icons/fa";
 
-// Variantes para animaciones
+// Definimos las variantes de animación para el contenedor
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
 };
 
 export default function ServicesSection() {
+  const prefersReduced = useReducedMotion();
+
   const services = [
     {
       id: 1,
-      icon: <FaPaintBrush className="text-accent text-3xl mb-4" />,
+      icon: <FaPaintBrush className="mb-4 text-3xl text-accent" />,
       title: "Branding & Visual Identity",
       description: "Define your brand clearly and attractively.",
     },
     {
       id: 2,
-      icon: <FaLaptopCode className="text-accent text-3xl mb-4" />,
+      icon: <FaLaptopCode className="mb-4 text-3xl text-accent" />,
       title: "Web Design & Development",
       description: "Build elegant, functional websites.",
     },
   ];
 
+  const containerAnimProps = prefersReduced
+    ? {}
+    : {
+        variants: containerVariants,
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, amount: 0.4 },
+      };
+
   return (
     <Section spacing="py-24 md:py-32" aria-labelledby="home-services">
       <Container>
-        <motion.div
-          className="text-center"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
+        <motion.div className="text-center" {...containerAnimProps}>
           <h2
             id="home-services"
-            className="text-3xl md:text-4xl font-bold mb-16"
+            className="mb-16 text-3xl font-bold md:text-4xl"
           >
             Featured <span className="text-accent">Services</span>
           </h2>
 
-          <ul className="grid md:grid-cols-2 gap-10 mb-12">
+          {/* 👇 CAMBIO: El mapeo ahora es mucho más limpio usando el componente ServiceCard */}
+          <ul className="mb-12 grid gap-10 md:grid-cols-2">
             {services.map((service) => (
-              <motion.li
+              <ServiceCard
                 key={service.id}
-                variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
-                className="bg-deepblue/30 backdrop-blur-sm border border-white/10 rounded-lg p-6"
-              >
-                <div className="flex flex-col items-center">
-                  {service.icon}
-                  <h3 className="text-xl font-semibold mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm">{service.description}</p>
-                </div>
-              </motion.li>
+                icon={service.icon}
+                title={service.title}
+                description={service.description}
+              />
             ))}
           </ul>
 
-          <motion.div variants={itemVariants}>
-            <a
-              href="/services"
-              className="btn btn-gradient inline-block px-6 py-3 rounded-md font-medium"
-              aria-label="Discover all services"
-            >
+          {/* 👇 CAMBIO: Reemplazamos el Link con nuestro componente Button */}
+          <div>
+            <Button href="/services" variant="gradient">
               Discover More
-            </a>
-          </motion.div>
+            </Button>
+          </div>
         </motion.div>
       </Container>
     </Section>

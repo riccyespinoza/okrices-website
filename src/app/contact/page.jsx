@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="py-24 md:py-32">
+    <main id="main-content" className="py-24 md:py-32">
       {/* HERO con el mismo estilo/animación que Branding/Web */}
       <ContactHero />
 

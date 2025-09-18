@@ -1,50 +1,46 @@
-// src/components/home/Hero.jsx  (✅ Server Component, sin "use client")
+// src/components/home/Hero.jsx
+
+// 👇 CAMBIO 1: Importamos nuestro nuevo componente Button y eliminamos Link (Button lo maneja)
 import Container from "../shared/Container";
-import Link from "next/link";
+import Button from "../shared/Button";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 pb-20 overflow-hidden">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden pt-16 pb-20">
       <Container>
-        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight text-variable">
+        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center motion-safe:animate-fade-in">
+          <h1 className="text-4xl font-bold leading-tight sm:text-5xl md:text-6xl mb-6 text-variable">
             Transform Your Brand with{" "}
             <span className="text-gradient">Elegance</span> and Precision
           </h1>
 
-          <p className="max-w-3xl mx-auto mb-10 text-base md:text-lg text-gray-light/90">
+          {/* 👇 CAMBIO 2: Actualizamos el color al nuevo sistema de diseño */}
+          <p className="mx-auto mb-10 max-w-3xl text-base text-brand-cream/90 md:text-lg">
             At Okrices, we craft distinctive brands and elegant websites
             designed to elevate your business. Inspired by the intelligence and
             adaptability of the octopus, we deliver tailored, creative solutions
             that resonate.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-            <Link
-              href="/services"
-              className="btn btn-gradient inline-block px-6 py-3 rounded-md font-medium"
-              aria-label="View services"
-            >
+          {/* 👇 CAMBIO 3: Reemplazamos los <Link> con estilo manual por el componente <Button> */}
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row justify-center">
+            <Button href="/services" variant="gradient">
               View Services
-            </Link>
-            <Link
-              href="/contact"
-              className="btn btn-secondary inline-block border border-accent text-accent px-6 py-3 rounded-md font-medium"
-              aria-label="Contact Okrices"
-            >
+            </Button>
+            <Button href="/contact" variant="secondary">
               Contact Us
-            </Link>
+            </Button>
           </div>
         </div>
       </Container>
 
-      {/* Scroll indicator con animación CSS (barata) */}
+      {/* Scroll indicator (decorativo) */}
       <div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-80 animate-fade-in"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-80 motion-safe:animate-fade-in"
         aria-hidden="true"
       >
-        <div className="w-6 h-10 border-2 border-light/30 rounded-full flex justify-center items-start overflow-hidden">
-          <span className="mt-2 block w-1.5 h-1.5 bg-accent rounded-full animate-scroll-dot" />
+        <div className="flex h-10 w-6 items-start justify-center overflow-hidden rounded-full border-2 border-light/30">
+          <span className="mt-2 block h-1.5 w-1.5 animate-scroll-dot rounded-full bg-accent" />
         </div>
       </div>
     </section>

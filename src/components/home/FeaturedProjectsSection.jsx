@@ -1,9 +1,10 @@
-// src/components/FeaturedProjectsSection.jsx
+// src/components/home/FeaturedProjectsSection.jsx
 
-import Link from "next/link";
-import { getFeaturedProjects } from "@/lib/getProjects"; // Asegúrate de que la ruta sea correcta
-import Section from "../shared/Section"; // Asegúrate de que la ruta sea correcta
-import FeaturedProjectsGrid from "../FeaturedProjectsGrid"; // Asegúrate de que la ruta sea correcta
+// 👇 CAMBIO 1: Importamos el componente Button y eliminamos Link (ya que Button lo maneja)
+import { getFeaturedProjects } from "@/lib/getProjects";
+import Section from "../shared/Section";
+import FeaturedProjectsGrid from "../FeaturedProjectsGrid";
+import Button from "../shared/Button"; // Importamos nuestro botón reutilizable
 
 export default async function FeaturedProjectsSection() {
   const projects = await getFeaturedProjects();
@@ -12,42 +13,32 @@ export default async function FeaturedProjectsSection() {
 
   return (
     <Section spacing="py-24 md:py-32" aria-labelledby="home-projects">
-      {/* 
-        MODIFICACIÓN: El título ahora tiene su propio contenedor para mantenerse
-        centrado, mientras que la grilla de proyectos se deja fuera para que 
-        pueda ocupar el ancho completo.
-      */}
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Título centrado con ancho controlado */}
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <h2
           id="home-projects"
-          className="text-3xl md:text-4xl font-bold text-center mb-16"
+          className="mb-16 text-center text-3xl font-bold md:text-4xl"
         >
           Featured <span className="text-accent">Projects</span>
         </h2>
       </div>
 
-      {/* 
-        MODIFICACIÓN: Se pasa una clase de padding ('px-...') directamente a la grilla.
-        Esto permite que la sección ocupe el 100% del ancho, pero las tarjetas
-        mantienen un margen seguro con los bordes de la pantalla.
-      */}
-      <FeaturedProjectsGrid
-        projects={projects}
-        className="px-4 sm:px-6 lg:px-8"
-      />
+      {/* Contenido diferible */}
+      {/* El div 'section-lazy' ya no es necesario aquí, lo hemos movido a una utilidad más general si se necesita.
+          El navegador moderno es muy bueno optimizando el renderizado de elementos fuera de la pantalla. */}
+      <div>
+        {/* Grilla a ancho completo con padding seguro */}
+        <FeaturedProjectsGrid
+          projects={projects}
+          className="px-4 sm:px-6 lg:px-8"
+        />
 
-      {/* 
-        MODIFICACIÓN: El botón "View All" también se envuelve en un contenedor 
-        para que mantenga la misma alineación que el título.
-      */}
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-16">
-        <a
-          href="/projects"
-          className="btn btn-gradient inline-block px-6 py-3 rounded-md font-medium"
-          aria-label="View all case studies"
-        >
-          View All
-        </a>
+        {/* 👇 CAMBIO 2: Reemplazamos el Link manual con nuestro componente Button */}
+        <div className="mx-auto mt-16 max-w-screen-xl px-4 text-center sm:px-6 lg:px-8">
+          <Button href="/projects" variant="gradient">
+            View All
+          </Button>
+        </div>
       </div>
     </Section>
   );

@@ -14,7 +14,7 @@ export default async function WebDesignPage() {
   const services = await getServices("en", "web");
 
   return (
-    <main>
+    <main id="main-content">
       {/* hero con mismo look & feel que Branding */}
       <WebHero />
 

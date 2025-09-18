@@ -1,4 +1,4 @@
-// src/app/page.jsx
+// src/app/[lang]/page.js
 import Hero from "@/components/home/Hero";
 import IntroSection from "@/components/home/IntroSection";
 import ServicesSection from "@/components/home/ServicesSection";
@@ -9,7 +9,7 @@ import CtaSection from "@/components/home/CtaSection";
 export default function Home() {
   return (
     // Eliminamos el bg-page-gradient ya que ahora el fondo se define a nivel global en layout.js
-    <main>
+    <main id="main-content">
       <Hero />
       <section className="section-lazy">
         <FeaturedProjectsSection />

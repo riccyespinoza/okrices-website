@@ -1,41 +1,59 @@
 // src/components/home/CtaSection.jsx
 "use client";
-
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Section from "../shared/Section";
 import Container from "../shared/Container";
+import Button from "../shared/Button"; // Importamos nuestro componente Button
+
+// 👇 CAMBIO 1: Estructuramos las animaciones con 'variants' para un código más limpio
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
 
 export default function CtaSection() {
+  const prefersReduced = useReducedMotion();
+
+  // Desactivamos las animaciones si el usuario lo prefiere
+  const containerAnim = prefersReduced
+    ? {}
+    : {
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, amount: 0.5 },
+        variants: containerVariants,
+      };
+
+  const itemAnim = prefersReduced ? {} : { variants: itemVariants };
+
   return (
     <Section spacing="py-24 md:py-32" aria-labelledby="home-cta">
       <Container>
-        <div className="max-w-3xl mx-auto text-center">
+        {/* 👇 CAMBIO 2: Usamos un motion.div como contenedor para la animación secuencial */}
+        <motion.div
+          className="mx-auto max-w-3xl text-center"
+          {...containerAnim}
+        >
           <motion.h2
             id="home-cta"
-            className="text-3xl md:text-4xl font-bold mb-8 text-light"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            className="mb-8 text-3xl font-bold text-light md:text-4xl"
+            {...itemAnim}
           >
             Ready to enhance your business presence?
           </motion.h2>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <a
-              href="/contact"
-              className="btn btn-gradient"
-              aria-label="Start Your Project"
-            >
+          <motion.div {...itemAnim}>
+            {/* 👇 CAMBIO 3: Reemplazamos el <a> manual con el componente <Button> */}
+            <Button href="/contact" variant="gradient">
               Start Your Project
-            </a>
+            </Button>
           </motion.div>
-        </div>
+        </motion.div>
       </Container>
     </Section>
   );

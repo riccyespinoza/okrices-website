@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function ServicesPage() {
   return (
-    <main>
+    <main id="main-content">
       <ServicesHero />
 
       <ProcessSection />

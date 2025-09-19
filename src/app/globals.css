@@ -73,24 +73,25 @@
     @apply absolute inset-0;
     /* 👇 CORRECCIÓN APLICADA AQUÍ 👇 */
     background:
+    /* 1. LUZ PRINCIPAL (NARANJA) - Ahora es un resplandor de borde.
+         El truco es que el centro del gradiente está FUERA de la pantalla (al 110%),
+         así solo vemos su "corona" o borde más suave. */
       radial-gradient(
-        circle at 95% 95%,
-        theme("colors.accent.DEFAULT/80") 0%,
-        theme("colors.accent.DEFAULT/40") 20%,
-        theme("colors.accent.DEFAULT/10") 45%,
-        transparent 65%
+        ellipse 70% 90% at 110% 80%,
+        /* Centro fuera de la pantalla, a la derecha y abajo */
+          theme("colors.accent.dark/20") 0%,
+        /* Usamos 'accent.dark' con opacidad del 20% */ transparent 50%
+          /* Se desvanece muy rápido para no invadir el centro */
       ),
-      radial-gradient(
-        ellipse at 80% 50%,
-        theme("colors.brand.steel/30") 0%,
-        theme("colors.brand.steel/10") 40%,
-        transparent 70%
-      ),
-      radial-gradient(
-        circle at 50% 0%,
-        theme("colors.neutral.700/10") 0%,
-        transparent 60%
-      );
+      /* 2. LUZ SECUNDARIA (AZUL) - Apenas un matiz para dar profundidad.
+         También lo movemos un poco más hacia la esquina y reducimos aún más su opacidad. */
+        radial-gradient(
+          ellipse at 15% 30%,
+          /* Más arrinconado en la esquina superior izquierda */
+            theme("colors.brand.steel/15") 0%,
+          /* Opacidad bajísima, casi imperceptible */ transparent 70%
+            /* Difuminado muy, muy suave */
+        );
   }
 
   /* Ruido sutil embebido */

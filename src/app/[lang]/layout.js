@@ -1,5 +1,5 @@
 // src/app/[lang]/layout.js
-
+import CustomCursor from "@/components/shared/CustomCursor";
 import SkipToContent from "@/components/shared/SkipToContent";
 import "../globals.css"; // Se ajusta la ruta de importación de CSS
 import MainLayout from "@/components/MainLayout";
@@ -12,7 +12,7 @@ const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
   variable: "--font-outfit",
-  display: "swap",
+  display: "swap", // 'swap' es la mejor opción para rendimiento
 });
 
 export const metadata = {
@@ -37,10 +37,10 @@ export default function RootLayout({ children, params }) {
     // 👇 CAMBIO 2: El idioma ahora es dinámico
     <html
       lang={params.lang}
-      className={outfit.variable}
+      className={`${outfit.variable} ${outfit.className}`}
       suppressHydrationWarning
     >
-      <body className="relative min-h-screen">
+      <body className="relative min-h-screen font-sans">
         <SkipToContent />
         <ThemeProvider>
           {enableAnalytics && (
@@ -50,11 +50,10 @@ export default function RootLayout({ children, params }) {
               src="https://plausible.io/js/script.tagged-events.js"
             />
           )}
-
           <div className="background-exact with-noise" aria-hidden="true" />
-
           <MainLayout>{children}</MainLayout>
           <ScrollToTopButton />
+          <CustomCursor /> {/* <-- AÑADE ESTA LÍNEA AQUÍ */}
         </ThemeProvider>
       </body>
     </html>

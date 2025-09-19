@@ -4,74 +4,82 @@
 import { useState, useEffect } from "react";
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: -100, y: -100 }); // Inicia fuera de la pantalla
   const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false); // Controla la opacidad
 
   useEffect(() => {
-    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    const reduceMotion = window.matchMedia?.(
+    // Evitar en dispositivos táctiles o con movimiento reducido
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const prefersReducedMotion = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)"
     )?.matches;
-    if (isTouch || reduceMotion) return;
+    if (isTouchDevice || prefersReducedMotion) return;
 
-    const update = (e) => {
+    const handleMouseMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      const t = e.target;
-      const interactive =
-        t.tagName.toLowerCase() === "a" ||
-        t.tagName.toLowerCase() === "button" ||
-        t.closest("a") ||
-        t.closest("button") ||
-        t.classList.contains("interactive") ||
-        t.closest(".interactive");
-      setIsHovering(Boolean(interactive));
+
+      const target = e.target;
+      const isInteractive =
+        target.tagName.toLowerCase() === "a" ||
+        target.tagName.toLowerCase() === "button" ||
+        target.closest("a") ||
+        target.closest("button");
+      setIsHovering(Boolean(isInteractive));
     };
 
-    const show = () => setIsVisible(true);
-    const hide = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => setIsVisible(false);
 
-    window.addEventListener("mousemove", update);
-    window.addEventListener("mouseenter", show);
-    window.addEventListener("mouseleave", hide);
-
+    // Añadir listeners y la clase al body
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseenter", handleMouseEnter);
+    window.addEventListener("mouseleave", handleMouseLeave);
     document.body.classList.add("custom-cursor");
+
+    // Limpieza al desmontar el componente
     return () => {
-      window.removeEventListener("mousemove", update);
-      window.removeEventListener("mouseenter", show);
-      window.removeEventListener("mouseleave", hide);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseenter", handleMouseEnter);
+      window.removeEventListener("mouseleave", handleMouseLeave);
       document.body.classList.remove("custom-cursor");
     };
   }, []);
 
-  if (!isVisible) return null;
+  // 👇 CAMBIO 1: El estilo ahora se maneja con clases de Tailwind y nuestro sistema de diseño
+  const outerCursorClasses = `
+    fixed pointer-events-none z-[100] rounded-full mix-blend-difference
+    transition-all duration-300 -translate-x-1/2 -translate-y-1/2
+    ${isHovering ? "w-12 h-12 bg-accent/10 border-light/80" : "w-4 h-4 border-light/30"}
+    ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"}
+  `;
+
+  const innerDotClasses = `
+    fixed pointer-events-none z-[100] rounded-full w-1.5 h-1.5
+    -translate-x-1/2 -translate-y-1/2 bg-accent
+    transition-opacity duration-300
+    ${isVisible ? "opacity-100" : "opacity-0"}
+  `;
 
   return (
     <>
+      {/* Círculo exterior */}
       <div
         aria-hidden="true"
-        className="fixed pointer-events-none z-[100] rounded-full mix-blend-difference
-                   transition-transform transition-opacity duration-300 -translate-x-1/2 -translate-y-1/2"
+        className={outerCursorClasses}
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
-          width: isHovering ? "48px" : "16px",
-          height: isHovering ? "48px" : "16px",
-          border: isHovering
-            ? "1px solid rgba(255,255,255,.8)"
-            : "1px solid rgba(255,255,255,.3)",
-          backgroundColor: isHovering ? "rgba(165,81,48,.1)" : "transparent",
-          opacity: 1,
         }}
       />
+      {/* Punto interior */}
       <div
         aria-hidden="true"
-        className="fixed pointer-events-none z-[100] rounded-full bg-accent/80 w-1.5 h-1.5
-                   transition-transform duration-100"
+        className={innerDotClasses}
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
-          transform: "translate(-50%,-50%)",
         }}
       />
     </>

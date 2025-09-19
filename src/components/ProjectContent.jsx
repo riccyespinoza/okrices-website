@@ -2,7 +2,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   FiUser,
@@ -13,52 +12,27 @@ import {
   FiTrendingUp,
   FiAlertCircle,
 } from "react-icons/fi";
+import DetailCard from "./shared/DetailCard"; // Importamos el nuevo componente
+import KeyDataCard from "./shared/KeyDataCard"; // Importamos el nuevo componente
+import Button from "./shared/Button"; // Importamos nuestro botón
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-/* --- Sub-componentes --- */
-const DetailCard = ({ icon, title, text }) => {
-  if (!text) return null;
-  return (
-    <div className="flex flex-col items-center text-center">
-      <div className="w-16 h-16 rounded-full bg-black/20 flex items-center justify-center mb-4 border border-white/10">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-gray-300 text-sm leading-relaxed">{text}</p>
-    </div>
-  );
-};
-
-const KeyDataCard = ({ icon, title, value }) => {
-  if (!value) return null;
-  return (
-    <div className="bg-white/5 p-5 rounded-lg border border-white/10 w-full text-center md:text-left">
-      <div className="flex items-center justify-center md:justify-start text-accent mb-2">
-        {icon}
-        <h3 className="font-normal text-sm text-gray-400 ml-2">{title}</h3>
-      </div>
-      <p className="text-lg font-semibold text-light">{value}</p>
-    </div>
-  );
-};
-
-/* --- Componente principal --- */
 export default function ProjectContent({ project }) {
   const getImageUrl = (source) => source?.asset?.url || null;
   const mainImageUrl = getImageUrl(project.mainImage);
 
   return (
     <main className="min-h-screen text-light">
-      {/* 1) HERO con imagen prioritaria */}
+      {/* HERO */}
       <motion.header
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative min-h-screen flex flex-col justify-end items-start p-8 md:p-12 text-left"
+        className="relative flex min-h-screen flex-col items-start justify-end p-8 text-left md:p-12"
       >
         {mainImageUrl && (
           <div className="absolute inset-0 z-0">
@@ -74,36 +48,41 @@ export default function ProjectContent({ project }) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
           </div>
         )}
-
-        <div className="relative z-10 w-full max-w-5xl mx-auto">
+        <div className="relative z-10 mx-auto w-full max-w-5xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl md:text-7xl font-bold"
+            className="text-5xl font-bold md:text-7xl"
           >
             {project.title}
           </motion.h1>
+          {/* 👇 CAMBIO: Consistencia de color */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="text-lg text-gray-300 mt-4"
+            className="mt-4 text-lg text-brand-cream/80"
           >
             {project.projectType}
           </motion.p>
         </div>
       </motion.header>
 
-      {/* 2) Datos clave */}
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="mx-auto max-w-5xl px-6">
+        {/* Datos Clave */}
         <motion.section
           variants={itemVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 py-24 md:py-32"
+          className="grid grid-cols-2 gap-4 py-24 md:grid-cols-4 md:gap-6 md:py-32"
+          aria-labelledby="key-data-title"
         >
+          {/* 👇 CAMBIO (ACCESIBILIDAD): Añadimos <h2> */}
+          <h2 id="key-data-title" className="sr-only">
+            Key Project Data
+          </h2>
           <KeyDataCard
             icon={<FiUser />}
             title="Client"
@@ -126,7 +105,7 @@ export default function ProjectContent({ project }) {
           />
         </motion.section>
 
-        {/* 3) Overview + Detalles */}
+        {/* Overview + Detalles */}
         <div className="space-y-24 md:space-y-32">
           <motion.section
             variants={itemVariants}
@@ -135,10 +114,11 @@ export default function ProjectContent({ project }) {
             viewport={{ once: true }}
             className="text-left"
           >
-            <h2 className="text-3xl font-bold mb-6">
+            <h2 className="mb-6 text-3xl font-bold">
               Project <span className="text-accent">Overview</span>
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed max-w-3xl">
+            {/* 👇 CAMBIO: Consistencia de color */}
+            <p className="max-w-3xl text-lg leading-relaxed text-brand-cream/80">
               {project.overview}
             </p>
           </motion.section>
@@ -148,20 +128,20 @@ export default function ProjectContent({ project }) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-12 md:gap-16"
+            className="grid gap-12 md:grid-cols-3 md:gap-16"
           >
             <DetailCard
-              icon={<FiAlertCircle className="text-accent text-3xl" />}
+              icon={<FiAlertCircle className="text-3xl text-accent" />}
               title="The Challenge"
               text={project.challenge}
             />
             <DetailCard
-              icon={<FiZap className="text-accent text-3xl" />}
+              icon={<FiZap className="text-3xl text-accent" />}
               title="The Solution"
               text={project.solution}
             />
             <DetailCard
-              icon={<FiTrendingUp className="text-accent text-3xl" />}
+              icon={<FiTrendingUp className="text-3xl text-accent" />}
               title="The Impact"
               text={project.impact}
             />
@@ -169,17 +149,23 @@ export default function ProjectContent({ project }) {
         </div>
       </div>
 
-      {/* 4) Visual Gallery (ancho completo) */}
+      {/* Galería de Imágenes */}
       {project.gallery?.length > 0 && (
         <motion.section
           variants={itemVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="w-full mt-24 md:mt-32"
+          className="mt-24 w-full md:mt-32"
+          aria-labelledby="gallery-title"
         >
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="mx-auto max-w-7xl px-6">
+            {/* 👇 CAMBIO (ACCESIBILIDAD): Añadimos <h2> */}
+            <h2 id="gallery-title" className="sr-only">
+              Image Gallery
+            </h2>
             <div className="grid grid-cols-1 gap-8">
+              {/* ...el resto del código de la galería se mantiene igual... */}
               {project.gallery.map((img, index) => {
                 if (index % 2 !== 0) return null;
                 const nextImg = project.gallery[index + 1];
@@ -188,14 +174,15 @@ export default function ProjectContent({ project }) {
                 return (
                   <div
                     key={img.asset?._id || index}
-                    className="grid md:grid-cols-5 gap-8 items-stretch"
+                    className="grid items-stretch gap-8 md:grid-cols-5"
                   >
                     <motion.div
                       className={isReversed ? "md:col-span-2" : "md:col-span-3"}
                       whileHover={{ scale: 1.03 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-800 aspect-[4/3] md:aspect-auto">
+                      {/* 👇 CAMBIO: Consistencia de estilo */}
+                      <div className="relative h-full w-full overflow-hidden rounded-lg bg-neutral-800 aspect-[4/3] md:aspect-auto">
                         <Image
                           src={getImageUrl(img)}
                           alt={img.alt || `Gallery image ${index + 1}`}
@@ -205,7 +192,6 @@ export default function ProjectContent({ project }) {
                         />
                       </div>
                     </motion.div>
-
                     {nextImg && (
                       <motion.div
                         className={
@@ -214,7 +200,8 @@ export default function ProjectContent({ project }) {
                         whileHover={{ scale: 1.03 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
-                        <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-800 aspect-[4/3] md:aspect-auto">
+                        {/* 👇 CAMBIO: Consistencia de estilo */}
+                        <div className="relative h-full w-full overflow-hidden rounded-lg bg-neutral-800 aspect-[4/3] md:aspect-auto">
                           <Image
                             src={getImageUrl(nextImg)}
                             alt={nextImg.alt || `Gallery image ${index + 2}`}
@@ -233,18 +220,19 @@ export default function ProjectContent({ project }) {
         </motion.section>
       )}
 
-      {/* 5) CTA final */}
-      <div className="max-w-5xl mx-auto px-6">
+      {/* CTA Final */}
+      <div className="mx-auto max-w-5xl px-6">
         <motion.div
           variants={itemVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="text-center mt-24 md:mt-32 pb-16"
+          className="mt-24 pb-16 text-center md:mt-32"
         >
-          <Link href="/projects" className="btn btn-secondary text-lg">
+          {/* 👇 CAMBIO: Usamos nuestro componente Button */}
+          <Button href="/projects" variant="secondary">
             View More Projects
-          </Link>
+          </Button>
         </motion.div>
       </div>
     </main>

@@ -3,6 +3,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { fadeUp, staggerContainer } from "@/components/animations/inView";
 import {
   FaCheckCircle,
   FaPalette,
@@ -18,31 +19,15 @@ const icons = [FaCheckCircle, FaPalette, FaFeather, FaBullseye, FaPuzzlePiece];
 export default function ValuesAbout({ values, title = "Our Values" }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1.0] },
-    },
-  };
-
   return (
     <Section spacing="py-24 md:py-32">
       <Container>
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-light">
@@ -56,19 +41,19 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
         {/* Values Grid */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto"
-          variants={containerVariants}
+          variants={staggerContainer(0.1)}
           initial="hidden"
-          whileInView="visible"
+          whileInView="show"
           viewport={{ once: true }}
         >
           {values.map((value, index) => {
-            const Icon = icons[index];
+            const Icon = icons[index] ?? FaCheckCircle;
             const isHovered = hoveredIndex === index;
 
             return (
               <motion.div
                 key={index}
-                variants={itemVariants}
+                variants={fadeUp}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className="relative group"
@@ -85,7 +70,7 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
                     boxShadow: "0 10px 30px rgba(165, 81, 48, 0.15)",
                   }}
                 >
-                  {/* Icon container */}
+                  {/* Icon */}
                   <motion.div
                     className="mb-4 relative"
                     animate={{ scale: isHovered ? 1.1 : 1 }}
@@ -95,7 +80,7 @@ export default function ValuesAbout({ values, title = "Our Values" }) {
                       <Icon className="w-7 h-7 text-accent" />
                     </div>
 
-                    {/* Glow effect on hover */}
+                    {/* Glow */}
                     <motion.div
                       className="absolute inset-0 w-14 h-14 mx-auto rounded-full bg-accent/20 blur-xl"
                       animate={{

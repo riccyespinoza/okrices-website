@@ -2,12 +2,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { fadeUp } from "@/components/animations/inView";
 import Section from "@/components/ui/Section";
 import Container from "@/components/ui/Container";
 
 export default function TimelineAbout({ founder, history }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  // Iniciales seguras a partir de un string (p.ej., "Riccy Espinoza" -> "RE")
+  const initials = useMemo(() => {
+    if (!founder || typeof founder !== "string") return "R";
+    return founder
+      .split(" ")
+      .filter(Boolean)
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+  }, [founder]);
 
   const timelineData = [
     {
@@ -32,10 +45,10 @@ export default function TimelineAbout({ founder, history }) {
       <Container>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-light">
@@ -113,18 +126,19 @@ export default function TimelineAbout({ founder, history }) {
                 aria-hidden="true"
               >
                 <span className="text-3xl font-bold text-light">
-                  {founder[0][0]}
+                  {initials}
                 </span>
               </motion.div>
 
               <div className="text-center md:text-left">
                 <h3 className="text-2xl font-bold mb-1 text-light">
-                  {founder[0]}
+                  {founder}
                 </h3>
                 <p className="text-accent mb-3">Founder & Creative Director</p>
                 <p className="text-gray-300 leading-relaxed">
-                  {founder[1] ||
-                    "Passionate about creating digital experiences that inspire and transform businesses through the perfect blend of creativity and strategy."}
+                  Passionate about creating digital experiences that inspire and
+                  transform businesses through the perfect blend of creativity
+                  and strategy.
                 </p>
               </div>
             </div>

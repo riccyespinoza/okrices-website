@@ -1,13 +1,18 @@
-// src/app/projects/page.jsx
+import { buildMetadata } from "@/lib/seo/metadata";
+import { getDic } from "@/lib/i18n/config";
 import { getProjects } from "@/lib/getProjects";
 import Section from "@/components/ui/Section";
-import ProjectCard from "@/components/ProjectCard"; // Importamos nuestro componente unificado
+import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/shared/Reveal";
 
-export const metadata = {
-  title: "Projects | Okrices",
-  description: "A selection of branding and web projects crafted by Okrices.",
-};
+export async function generateMetadata({ params }) {
+  const t = getDic(params.locale);
+  return buildMetadata({
+    title: t.pages.projects.title,
+    path: `/${params.locale}/projects`,
+    // images: ["/images/og-projects.jpg"],
+  });
+}
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
@@ -22,7 +27,6 @@ export default async function ProjectsPage() {
 
   return (
     <main id="main-content">
-      {/* HERO */}
       <Section withContainer spacing="pt-40 pb-20">
         <Reveal className="text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-variable">
@@ -34,7 +38,6 @@ export default async function ProjectsPage() {
         </Reveal>
       </Section>
 
-      {/* GRID */}
       <Section
         withContainer={false}
         spacing="pb-24 md:pb-32"
@@ -44,10 +47,8 @@ export default async function ProjectsPage() {
           <h2 id="project-grid-title" className="sr-only">
             All Projects
           </h2>
-          {/* Usamos <ul> para la lista de proyectos por semántica */}
           <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((p, i) => (
-              // Y aquí usamos el mismo ProjectCard que en la página de inicio
               <ProjectCard key={p._id} project={p} index={i} />
             ))}
           </ul>

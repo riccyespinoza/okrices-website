@@ -1,7 +1,7 @@
 // src/app/[lang]/layout.js - LAYOUT PRINCIPAL (ROOT)
 import CustomCursor from "@/components/shared/CustomCursor";
 import SkipToContent from "@/components/shared/SkipToContent";
-import "../globals.css";
+import "../../globals.css";
 import MainLayout from "@/components/MainLayout";
 import Script from "next/script";
 import ScrollToTopButton from "@/components/shared/ScrollToTopButton";

@@ -1,24 +1,17 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Section, Container, Button } from "@/components/ui";
+import Section from "@/components/ui/Section";
+import Container from "@/components/ui/Container";
+import Button from "@/components/ui/Button";
+import { fadeUp, staggerContainer } from "@/components/animations/inView";
 
-const containerVariants = (stagger = 0.2) => ({
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: stagger } },
-});
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-export default function CTA({
+function SiteCTA({
   id = "site-cta",
   title,
   description,
-  primary, // { label: string, href: string, variant?: string }
-  secondary, // { label: string, href: string, variant?: string }
+  primary,
+  secondary,
   spacing = "py-24 md:py-32",
   headingClassName = "text-3xl md:text-4xl font-bold mb-6 text-light",
   bodyClassName = "text-lg md:text-xl text-gray-300 mb-10",
@@ -29,12 +22,12 @@ export default function CTA({
     ? {}
     : {
         initial: "hidden",
-        whileInView: "visible",
+        whileInView: "show",
         viewport: { once: true, amount: 0.5 },
-        variants: containerVariants(0.2),
+        variants: staggerContainer(0.2),
       };
 
-  const itemAnim = prefersReduced ? {} : { variants: itemVariants };
+  const itemAnim = prefersReduced ? {} : { variants: fadeUp };
 
   return (
     <Section spacing={spacing} aria-labelledby={id}>
@@ -76,3 +69,5 @@ export default function CTA({
     </Section>
   );
 }
+
+export default SiteCTA;

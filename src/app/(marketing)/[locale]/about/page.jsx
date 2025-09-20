@@ -1,22 +1,29 @@
+import { buildMetadata } from "@/lib/seo/metadata";
+import { getDic } from "@/lib/i18n/config";
 import HeroAbout from "@/components/about/HeroAbout";
 import TimelineAbout from "@/components/about/TimelineAbout";
 import ValuesAbout from "@/components/about/ValuesAbout";
-import CTAAbout from "@/components/about/CTAAbout";
+import CTA from "@/components/sections/common/CTA.jsx";
 
-export const metadata = {
-  title: "About Us | Okrices",
-  description:
-    "Branding expert Florida, web design professional, premium creative agency.",
-};
+export async function generateMetadata({ params }) {
+  const t = getDic(params.locale);
+  return buildMetadata({
+    title: t.pages.about.title,
+    path: `/${params.locale}/about`,
+    // images: ["/images/og-about.jpg"],
+  });
+}
 
-export default function AboutPage() {
+export default function AboutPage({ params }) {
+  const t = getDic(params.locale);
+
   return (
     <main id="main-content">
       <HeroAbout
         title="Who We Are"
         subtitle="Premium Visual Identity & Web Studio"
         description="At Okrices, we believe exceptional design empowers businesses to connect deeply with their audiences. Based in Florida, we specialize in creating premium visual identities and sophisticated, minimalist websites tailored to each client’s unique vision and goals."
-        image="/about/hero.jpg" // Cambia por tu imagen
+        image="/about/hero.jpg"
       />
 
       <TimelineAbout
@@ -49,12 +56,23 @@ export default function AboutPage() {
         ]}
       />
 
-      <CTAAbout
-        title="Let's Create Together"
-        text="Ready to elevate your brand? Tell us about your project—we're here to help you succeed."
-        buttonLabel="Work With Us"
-        buttonHref="/contact"
-      />
+      <section className="section-lazy">
+        <CTA
+          id="about-cta"
+          title="Let’s Create Together"
+          description="We craft clear, elegant brands and fast, accessible websites."
+          primary={{
+            label: t.cta.primary,
+            href: `/${params.locale}/contact`,
+            variant: "gradient",
+          }}
+          secondary={{
+            label: t.cta.secondary,
+            href: `/${params.locale}/projects`,
+            variant: "ghost",
+          }}
+        />
+      </section>
     </main>
   );
 }

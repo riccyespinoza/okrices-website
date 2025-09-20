@@ -1,9 +1,9 @@
 // src/components/home/ServicesSection.jsx
 "use client";
 import { motion, useReducedMotion } from "framer-motion";
-import Section from "../shared/Section";
-import Container from "../shared/Container";
-import Button from "../shared/Button"; // Importamos Button
+import Section from "@/components/ui/Section";
+import Container from "@/components/ui/Container";
+import Button from "@/components/ui/Button"; // Importamos Button
 import ServiceCard from "../shared/ServiceCard"; // Importamos el nuevo ServiceCard
 import { FaPaintBrush, FaLaptopCode } from "react-icons/fa";
 

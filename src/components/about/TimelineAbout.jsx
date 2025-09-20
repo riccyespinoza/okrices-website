@@ -3,8 +3,8 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import Section from "../shared/Section";
-import Container from "../shared/Container";
+import Section from "@/components/ui/Section";
+import Container from "@/components/ui/Container";
 
 export default function TimelineAbout({ founder, history }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);

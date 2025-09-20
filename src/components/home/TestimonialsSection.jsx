@@ -1,7 +1,7 @@
 // src/components/home/TestimonialsSection.jsx
 
-import Section from "../shared/Section";
-import Container from "../shared/Container";
+import Section from "@/components/ui/Section";
+import Container from "@/components/ui/Container";
 import TestimonialsInner from "./TestimonialsInner"; // Asumimos que este es el componente interactivo
 
 export default function TestimonialsSection() {

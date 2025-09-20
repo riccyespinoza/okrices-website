@@ -1,4 +1,4 @@
-// src/app/components/MainLayout.jsx
+// src/components/MainLayout.jsx - SIN main anidado
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -7,7 +7,8 @@ export default function MainLayout({ children }) {
   return (
     <>
       <Header />
-      <main className="min-h-screen">{children}</main>
+      {/* NO usar <main> aquí para evitar anidamiento */}
+      <div className="min-h-screen">{children}</div>
       <Footer />
     </>
   );

@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Container from "../shared/Container";
+import Container from "../ui/Container";
 
 export default function HeroAbout({ title, subtitle, description, image }) {
   // Variantes de animación similares a las de Home

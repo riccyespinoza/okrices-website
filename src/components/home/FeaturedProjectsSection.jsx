@@ -2,9 +2,9 @@
 
 // 👇 CAMBIO 1: Importamos el componente Button y eliminamos Link (ya que Button lo maneja)
 import { getFeaturedProjects } from "@/lib/getProjects";
-import Section from "../shared/Section";
+import Section from "@/components/ui/Section";
 import FeaturedProjectsGrid from "../FeaturedProjectsGrid";
-import Button from "../shared/Button"; // Importamos nuestro botón reutilizable
+import Button from "@/components/ui/Button"; // Importamos nuestro botón reutilizable
 
 export default async function FeaturedProjectsSection() {
   const projects = await getFeaturedProjects();

@@ -1,4 +1,4 @@
-// src/components/shared/Button.js
+// src/components/ui/Button.js
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 

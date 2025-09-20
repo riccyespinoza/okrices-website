@@ -1,8 +1,8 @@
 // src/components/home/IntroSection.jsx
 "use client";
 import { motion, useReducedMotion } from "framer-motion";
-import Section from "../shared/Section";
-import Container from "../shared/Container";
+import Section from "@/components/ui/Section";
+import Container from "@/components/ui/Container";
 
 export default function IntroSection() {
   const prefersReduced = useReducedMotion();

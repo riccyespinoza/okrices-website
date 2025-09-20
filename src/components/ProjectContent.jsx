@@ -14,7 +14,7 @@ import {
 } from "react-icons/fi";
 import DetailCard from "./shared/DetailCard"; // Importamos el nuevo componente
 import KeyDataCard from "./shared/KeyDataCard"; // Importamos el nuevo componente
-import Button from "./shared/Button"; // Importamos nuestro botón
+import Button from "./ui/Button"; // Importamos nuestro botón
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },

@@ -1,10 +1,10 @@
-/* globals.css (Corregido y Refactorizado) */
+/* globals.css - VERSIÓN FINAL */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* =========================
-   Estilos base y globales
+   Estilos base y tipografía
    ========================= */
 @layer base {
   html {
@@ -14,8 +14,25 @@
   }
 
   body {
-    /* Usamos los colores de tu config de Tailwind */
     @apply font-sans text-light bg-primary;
+  }
+
+  /* 🔧 Forzar fuente en todos los elementos de texto */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  div,
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    font-family: inherit !important;
   }
 
   h1,
@@ -24,8 +41,9 @@
   h4,
   h5,
   h6 {
-    @apply font-sans font-bold tracking-tight;
+    @apply font-bold tracking-tight;
   }
+
   h1 {
     @apply text-3xl md:text-4xl lg:text-5xl;
   }
@@ -44,7 +62,6 @@
   }
 
   a {
-    /* Transiciones específicas y eficientes */
     transition:
       color 0.3s,
       opacity 0.3s,
@@ -52,7 +69,6 @@
       transform 0.3s;
   }
 
-  /* Focus visible accesible usando el color de acento */
   a:focus-visible,
   button:focus-visible {
     @apply outline-none rounded-lg ring-2 ring-accent/75;
@@ -60,10 +76,9 @@
 }
 
 /* =================================
-   Utilidades globales y de fondo
+   Utilidades y efectos globales
    ================================= */
 @layer utilities {
-  /* Fondo estático unificado */
   .background-exact {
     @apply fixed inset-0 -z-10 overflow-hidden;
     background-color: theme("colors.primary");
@@ -71,30 +86,19 @@
   .background-exact::before {
     content: "";
     @apply absolute inset-0;
-    /* 👇 CORRECCIÓN APLICADA AQUÍ 👇 */
     background:
-    /* 1. LUZ PRINCIPAL (NARANJA) - Ahora es un resplandor de borde.
-         El truco es que el centro del gradiente está FUERA de la pantalla (al 110%),
-         así solo vemos su "corona" o borde más suave. */
       radial-gradient(
         ellipse 70% 90% at 110% 80%,
-        /* Centro fuera de la pantalla, a la derecha y abajo */
-          theme("colors.accent.dark/20") 0%,
-        /* Usamos 'accent.dark' con opacidad del 20% */ transparent 50%
-          /* Se desvanece muy rápido para no invadir el centro */
+        theme("colors.accent.dark/20") 0%,
+        transparent 50%
       ),
-      /* 2. LUZ SECUNDARIA (AZUL) - Apenas un matiz para dar profundidad.
-         También lo movemos un poco más hacia la esquina y reducimos aún más su opacidad. */
-        radial-gradient(
-          ellipse at 15% 30%,
-          /* Más arrinconado en la esquina superior izquierda */
-            theme("colors.brand.steel/15") 0%,
-          /* Opacidad bajísima, casi imperceptible */ transparent 70%
-            /* Difuminado muy, muy suave */
-        );
+      radial-gradient(
+        ellipse at 15% 30%,
+        theme("colors.brand.steel/15") 0%,
+        transparent 70%
+      );
   }
 
-  /* Ruido sutil embebido */
   .with-noise::after {
     content: "";
     @apply absolute inset-0 pointer-events-none opacity-[0.04];
@@ -102,7 +106,7 @@
     background-size: 8px 8px;
     background-repeat: repeat;
   }
-  /* Texto con gradiente */
+
   .text-gradient {
     @apply bg-gradient-to-r from-accent to-accent-light;
     -webkit-background-clip: text;
@@ -114,7 +118,6 @@
     @apply text-accent;
   }
 
-  /* Hovers pesados solo en dispositivos con ratón */
   @media (hover: hover) and (pointer: fine) {
     .group-hover-effect {
       @apply transition-transform duration-300;
@@ -124,7 +127,6 @@
     }
   }
 
-  /* Respeto a reduced motion */
   @media (prefers-reduced-motion: reduce) {
     * {
       animation-duration: 0.001ms !important;
@@ -135,6 +137,7 @@
       scroll-behavior: auto;
     }
   }
+
   .glass-effect {
     @apply bg-transparent backdrop-blur-md shadow-lg;
   }

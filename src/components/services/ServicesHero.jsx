@@ -2,7 +2,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Container from "../shared/Container";
+import Container from "../ui/Container";
 
 export default function ServicesHero() {
   const containerVariants = {

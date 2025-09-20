@@ -1,6 +1,6 @@
 // src/app/projects/page.jsx
 import { getProjects } from "@/lib/getProjects";
-import Section from "@/components/shared/Section";
+import Section from "@/components/ui/Section";
 import ProjectCard from "@/components/ProjectCard"; // Importamos nuestro componente unificado
 import Reveal from "@/components/shared/Reveal";
 

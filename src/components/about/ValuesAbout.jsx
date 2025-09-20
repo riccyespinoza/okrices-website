@@ -10,8 +10,8 @@ import {
   FaBullseye,
   FaPuzzlePiece,
 } from "react-icons/fa";
-import Section from "../shared/Section";
-import Container from "../shared/Container";
+import Section from "@/components/ui/Section";
+import Container from "@/components/ui/Container";
 
 const icons = [FaCheckCircle, FaPalette, FaFeather, FaBullseye, FaPuzzlePiece];
 

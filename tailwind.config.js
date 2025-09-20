@@ -1,53 +1,55 @@
 // tailwind.config.js
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  // ✅ Mantenemos el modo oscuro por clase
+  // Modo oscuro por clase (coincide con tu ThemeProvider si lo usas)
   darkMode: "class",
 
+  // Rutas que Tailwind debe escanear
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/context/**/*.{js,ts,jsx,tsx}", // por si usas Providers/Hooks
   ],
+
   theme: {
     extend: {
-      // 🎨 SECCIÓN DE COLORES REFACTORIZADA
-      // Hemos consolidado los colores duplicados para crear una paleta más limpia y fácil de mantener.
+      // 🎨 Paleta alineada con tu proyecto
       colors: {
-        // Colores base de la aplicación
-        primary: "#060a12", // Fondo principal oscuro
-        dark: "#0d1419", // Variante oscura (antes en midnight)
+        // Base
+        primary: "#060a12", // Fondo principal oscuro (usado en globals.css)
+        dark: "#0d1419", // Variante oscura
         light: "#ffffff", // Blanco puro
 
-        // Color de acento principal
+        // Acento
         accent: {
-          DEFAULT: "#a55130", // CONSOLIDADO: Unifica 'accent' y 'terracota'
+          DEFAULT: "#a55130",
           light: "#b66e41",
           dark: "#8d4226",
         },
 
-        // Paleta de colores de marca secundarios
+        // Marca secundaria
         brand: {
-          sand: "#c1a17a", // CONSOLIDADO: Unifica 'beige' y 'sand'
-          cream: "#d9d2c6", // CONSOLIDADO: Unifica 'cream', 'offwhite' y 'gray.light'
-          steel: "#2a4d69", // CONSOLIDADO: Unifica 'navy' y 'steel'
-          "steel-dark": "#0d1b2a", // CONSOLIDADO: Unifica 'deepblue' y 'midnight.DEFAULT'
+          sand: "#c1a17a",
+          cream: "#d9d2c6",
+          steel: "#2a4d69",
+          "steel-dark": "#0d1b2a",
         },
 
-        // Escala de grises semántica para texto y fondos neutros
+        // Neutros semánticos
         neutral: {
-          900: "#0c0c0a", // CONSOLIDADO: 'black.pure' y 'midnight.darker'
-          800: "#1a1a1a", // CONSOLIDADO: 'black.DEFAULT' y 'charcoal.DEFAULT'
-          700: "#333333", // CONSOLIDADO: 'gray.dark' y 'charcoal.light'
-          600: "#515151", // CONSOLIDADO: 'gray.medium'
-          // El color 'gray.light' ahora es 'brand.cream' por ser el mismo valor.
+          900: "#0c0c0a",
+          800: "#1a1a1a",
+          700: "#333333",
+          600: "#515151",
+          // El gris claro lo representas con brand.cream
         },
       },
 
-      // --- El resto de tu configuración se mantiene igual, ya que está muy bien estructurada. ---
-
+      // 🔤 Fuente global: usa la variable inyectada por next/font en el layout
       fontFamily: {
         sans: [
-          "var(--font-outfit)",
+          "var(--font-outfit)", // Outfit desde tu layout
           "Outfit",
           "ui-sans-serif",
           "system-ui",
@@ -61,6 +63,7 @@ module.exports = {
         ],
       },
 
+      // 📏 Tipografías base
       fontSize: {
         "2xs": ["0.625rem", { lineHeight: "0.75rem" }], // 10px
         xs: ["0.75rem", { lineHeight: "1rem" }], // 12px
@@ -74,6 +77,8 @@ module.exports = {
         "5xl": ["3rem", { lineHeight: "1.2" }], // 48px
         "6xl": ["3.75rem", { lineHeight: "1.2" }], // 60px
       },
+
+      // 🧱 Espaciados y radios (como tenías)
       spacing: {
         18: "4.5rem", // 72px
         88: "22rem", // 352px
@@ -83,17 +88,23 @@ module.exports = {
         xl: "1rem", // 16px
         "2xl": "1.5rem", // 24px
       },
+
+      // 🌈 Gradientes utilitarios
       backgroundImage: {
         "page-gradient":
-          "linear-gradient(180deg, theme('colors.primary'), theme('colors.brand.steel-dark'))", // Actualizado para usar los nuevos nombres
+          "linear-gradient(180deg, theme('colors.primary'), theme('colors.brand.steel-dark'))",
         "accent-gradient":
-          "linear-gradient(90deg, theme('colors.accent.DEFAULT'), theme('colors.accent.light'))", // Actualizado para usar los nuevos nombres
+          "linear-gradient(90deg, theme('colors.accent.DEFAULT'), theme('colors.accent.light'))",
       },
+
+      // 🕶 Sombras
       boxShadow: {
         soft: "0 4px 20px rgba(0, 0, 0, 0.08)",
         medium: "0 8px 30px rgba(0, 0, 0, 0.12)",
         accent: "0 8px 30px rgba(165, 81, 48, 0.2)",
       },
+
+      // 🎞 Animaciones utilitarias
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",
         "slide-up": "slideUp 0.5s ease-out",
@@ -117,5 +128,7 @@ module.exports = {
       },
     },
   },
+
+  // 🔌 Plugins que ya usas
   plugins: [require("@tailwindcss/line-clamp")],
 };

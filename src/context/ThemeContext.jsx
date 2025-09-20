@@ -4,10 +4,11 @@ import { createContext, useEffect, useState } from "react";
 export const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  // El estado inicial "light" es solo temporal hasta que el useEffect se ejecute
-  const [theme, setTheme] = useState("light");
+  // 🔧 SOLUCIÓN: Iniciar con null para evitar hydration mismatch
+  const [theme, setTheme] = useState(null);
+  const [mounted, setMounted] = useState(false);
 
-  // Este efecto se ejecuta una sola vez al cargar el componente en el navegador
+  // Primer efecto: determinar el tema inicial
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
@@ -15,30 +16,51 @@ export function ThemeProvider({ children }) {
     ).matches;
     const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
 
-    // Llamamos a setTheme para que el resto de la app sepa el tema correcto
     setTheme(initialTheme);
-  }, []); // El array vacío [] asegura que esto solo se ejecute una vez.
+    setMounted(true);
+  }, []);
 
-  // ✅ MEJORA: Un segundo useEffect dedicado a manejar los efectos secundarios
-  // Este hook se ejecutará al inicio (después del primer useEffect) y cada vez que 'theme' cambie.
+  // Segundo efecto: aplicar el tema al DOM
   useEffect(() => {
+    if (!theme || !mounted) return;
+
     const root = document.documentElement;
 
-    // 1. Limpiamos ambas clases por seguridad.
+    // Limpiar clases anteriores
     root.classList.remove("light", "dark");
 
-    // 2. Añadimos la clase correcta basada en el estado actual.
+    // Aplicar nueva clase
     root.classList.add(theme);
 
-    // 3. Guardamos la preferencia en el localStorage.
+    // Guardar en localStorage
     localStorage.setItem("theme", theme);
-  }, [theme]); // La dependencia [theme] es la clave.
 
-  // La función de cambio ahora solo necesita cambiar el estado.
-  // El useEffect se encargará del resto.
+    // 🔧 NUEVO: Forzar re-aplicación de fuentes después del cambio de tema
+    setTimeout(() => {
+      document.body.style.fontFamily =
+        "var(--font-outfit), ui-sans-serif, system-ui, sans-serif";
+    }, 50);
+  }, [theme, mounted]);
+
   const toggleTheme = () => {
+    if (!mounted) return;
     setTheme(theme === "dark" ? "light" : "dark");
   };
+
+  // 🔧 CRÍTICO: No renderizar hasta que esté montado para evitar hydration mismatch
+  if (!mounted) {
+    return (
+      <div
+        style={{
+          fontFamily:
+            "var(--font-outfit), ui-sans-serif, system-ui, sans-serif",
+          visibility: "hidden",
+        }}
+      >
+        {children}
+      </div>
+    );
+  }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

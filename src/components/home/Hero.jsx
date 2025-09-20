@@ -1,20 +1,19 @@
-// src/components/home/Hero.jsx
+// src/components/home/Hero.jsx - CORREGIDO
 
-// 👇 CAMBIO 1: Importamos nuestro nuevo componente Button y eliminamos Link (Button lo maneja)
-import Container from "../shared/Container";
-import Button from "../shared/Button";
+import Container from "../ui/Container";
+import Button from "../ui/Button";
 
 export default function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden pt-16 pb-20">
       <Container>
         <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center motion-safe:animate-fade-in">
-          <h1 className="text-4xl font-bold leading-tight sm:text-5xl md:text-6xl mb-6 text-variable">
+          {/* 🔧 SOLUCIÓN: Cambiar text-variable por text-light */}
+          <h1 className="text-4xl font-bold leading-tight sm:text-5xl md:text-6xl mb-6 text-light">
             Transform Your Brand with{" "}
             <span className="text-gradient">Elegance</span> and Precision
           </h1>
 
-          {/* 👇 CAMBIO 2: Actualizamos el color al nuevo sistema de diseño */}
           <p className="mx-auto mb-10 max-w-3xl text-base text-brand-cream/90 md:text-lg">
             At Okrices, we craft distinctive brands and elegant websites
             designed to elevate your business. Inspired by the intelligence and
@@ -22,7 +21,6 @@ export default function Hero() {
             that resonate.
           </p>
 
-          {/* 👇 CAMBIO 3: Reemplazamos los <Link> con estilo manual por el componente <Button> */}
           <div className="mt-8 flex flex-col gap-4 sm:flex-row justify-center">
             <Button href="/services" variant="gradient">
               View Services

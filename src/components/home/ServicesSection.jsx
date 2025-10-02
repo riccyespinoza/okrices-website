@@ -20,14 +20,16 @@ export default function ServicesSection() {
     {
       id: 1,
       icon: <FaPaintBrush className="mb-4 text-3xl text-accent" />,
-      title: "Branding & Visual Identity",
-      description: "Define your brand clearly and attractively.",
+      title: "Strategic Branding ",
+      description:
+        "We create clear and consistent visual identities that inspire trust and purpose from the very first interaction.",
     },
     {
       id: 2,
       icon: <FaLaptopCode className="mb-4 text-3xl text-accent" />,
-      title: "Web Design & Development",
-      description: "Build elegant, functional websites.",
+      title: "Web Development",
+      description:
+        "We design elegant and functional websites, built to attract your audience and turn visits into real clients.",
     },
   ];
 
@@ -48,7 +50,7 @@ export default function ServicesSection() {
             id="home-services"
             className="mb-16 text-3xl font-bold md:text-4xl"
           >
-            Featured <span className="text-accent">Services</span>
+            Our <span className="text-accent">Services</span>
           </h2>
 
           {/* 👇 CAMBIO: El mapeo ahora es mucho más limpio usando el componente ServiceCard */}
@@ -66,7 +68,7 @@ export default function ServicesSection() {
           {/* 👇 CAMBIO: Reemplazamos el Link con nuestro componente Button */}
           <div>
             <Button href="/services" variant="gradient">
-              Discover More
+              View services
             </Button>
           </div>
         </motion.div>

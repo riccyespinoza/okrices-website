@@ -1,9 +1,9 @@
 // src/lib/i18n/dics/en.js
 export default {
   cta: {
-    title: "Ready to enhance your business presence?",
+    title: "Let’s talk about your brand",
     description:
-      "Let’s build a premium brand and website experience that converts.",
+      "A brand shouldn’t just look good: it must work, evolve, and deliver real results.",
     primary: "Start Your Project",
     secondary: "See Projects",
   },

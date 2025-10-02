@@ -1,11 +1,13 @@
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getDic } from "@/lib/i18n/config";
 import Hero from "@/components/home/Hero";
-import IntroSection from "@/components/home/IntroSection";
+
 import ServicesSection from "@/components/home/ServicesSection";
 import FeaturedProjectsSection from "@/components/home/FeaturedProjectsSection";
+import WhyOkricesSection from "@/components/home/WhyOkricesSection"; // <- 1. IMPORTACIÓN
+import AboutSection from "@/components/home/AboutSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
-import CTA from "@/components/sections/common/CTA.jsx"; // <- extensión para fijar resolución
+import CTA from "@/components/sections/common/CTA.jsx";
 
 // (opcional) Pre-render de /en y /es
 export function generateStaticParams() {
@@ -30,14 +32,20 @@ export default function Home({ params }) {
       <section className="section-lazy">
         <FeaturedProjectsSection />
       </section>
+
+      {/* 👇 2. SECCIÓN INCORPORADA AQUÍ 👇 */}
       <section className="section-lazy">
-        <IntroSection />
+        <WhyOkricesSection />
       </section>
+
       <section className="section-lazy">
         <ServicesSection />
       </section>
       <section className="section-lazy">
         <TestimonialsSection />
+      </section>
+      <section className="section-lazy">
+        <AboutSection />
       </section>
       <section className="section-lazy">
         <CTA

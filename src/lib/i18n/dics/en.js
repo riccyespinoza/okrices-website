@@ -8,26 +8,21 @@ export default {
   },
   pages: {
     home: { title: "Home" },
-    services: { title: "Services" },
     projects: { title: "Projects" },
     contact: { title: "Contact" },
 
-    // === ABOUT (complete) ===
     about: {
-      title: "About", // keep your existing key
-
+      title: "About",
       hero: {
         title: "About Okrices",
         subtitle: "Premium Visual Identity & Web Studio",
         description:
           "Okrices is a branding and web development studio based in South Florida with international reach. We create clear brands and functional digital platforms that inspire trust and support business growth.",
       },
-
       philosophy: {
         title: "Our Philosophy",
         text: "For us, design is a means, not the end. Every project is built with strategy, ensuring the brand works in practice, connects with the right people, and remains relevant over time.",
       },
-
       approach: {
         title: "Our Approach",
         items: [
@@ -37,7 +32,6 @@ export default {
           "We support you throughout your business growth journey.",
         ],
       },
-
       values: {
         title: "What Defines Us",
         items: [
@@ -56,11 +50,71 @@ export default {
           },
         ],
       },
-
       cta: {
         title: "Let’s talk about your brand",
         description:
           "We are here to help you take your brand to the next level.",
+      },
+    },
+
+    // === SERVICES (todo dentro de pages.services) ===
+    services: {
+      title: "Services",
+      hero: {
+        description:
+          "We design brands and websites with purpose: visual and digital solutions that inspire trust and support your business growth.",
+        ctaLabel: "View portfolio",
+      },
+      branding: {
+        title: "Strategic Branding",
+        intro:
+          "We create visual identities that reflect coherence and trust. Our process doesn’t end with a logo: we deliver an adaptable system that allows you to communicate clearly and stay consistent across every touchpoint.",
+        options: [
+          {
+            title: "Essential Identity",
+            description:
+              "Logo, color palette, typography, and initial applications (cards, signatures, social media).",
+          },
+          {
+            title: "Brand System",
+            description:
+              "Full visual identity with a simple brand guide, templates, and consistency across all formats.",
+          },
+          {
+            title: "Advanced Branding",
+            description:
+              "Brand strategy, visual storytelling, and resources tailored for competitive markets.",
+          },
+        ],
+        ctaLabel: "Request proposal",
+      },
+      web: {
+        title: "Web Development",
+        intro:
+          "We design elegant and functional websites tailored to each business’s needs. From fast, easy-to-manage solutions to high-performance custom platforms.",
+        options: [
+          {
+            title: "Practical Website",
+            description:
+              "WordPress, Wix, or Squarespace. Informational websites ready quickly, easy for clients to manage.",
+          },
+          {
+            title: "E-commerce",
+            description:
+              "Shopify or WooCommerce. Online stores with catalog, cart, payments, and shipping integrations.",
+          },
+          {
+            title: "Custom Website",
+            description:
+              "Next.js or other custom development. Unique design, advanced SEO, and tailored functionalities.",
+          },
+        ],
+        ctaLabel: "View web portfolio",
+      },
+      closing: {
+        title: "Let’s talk about your brand",
+        description:
+          "Not every brand needs the same. We help you find the solution that’s right for your business.",
       },
     },
   },

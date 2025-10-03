@@ -145,7 +145,7 @@ export default function Header() {
               {texts.services} <FaChevronDown className="ml-1" />
             </Link>
             {/* 👇 CÓDIGO ACTUALIZADO AQUÍ 👇 */}
-            <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 top-full left-0 mt-2 w-56 glass-effect border border-white/10 rounded-lg overflow-hidden transition-all duration-300">
+            {/* <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 top-full left-0 mt-2 w-56 glass-effect border border-white/10 rounded-lg overflow-hidden transition-all duration-300">
               <Link
                 href={`${prefix}/services/branding`}
                 className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
@@ -158,7 +158,7 @@ export default function Header() {
               >
                 {texts.web}
               </Link>
-            </div>
+            </div>*/}
           </div>
 
           <Link
@@ -222,7 +222,7 @@ export default function Header() {
                   />
                 </button>
               </div>
-              {servicesOpen && (
+              {/* {servicesOpen && (
                 <div className="mt-2 pl-4 flex flex-col space-y-2">
                   <Link
                     href={`${prefix}/services/branding`}
@@ -239,7 +239,7 @@ export default function Header() {
                     {texts.web}
                   </Link>
                 </div>
-              )}
+              )} */}
             </div>
 
             <Link

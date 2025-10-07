@@ -9,7 +9,39 @@ export default {
   pages: {
     home: { title: "Home" },
     projects: { title: "Projects" },
-    contact: { title: "Contact" },
+
+    contact: {
+      title: "Contact",
+      hero: {
+        title: "Let’s talk about your brand",
+        text: "Your next stage starts here. A space to transform how your brand communicates, grows, and presents itself to the world.",
+        ctaLabel: "Send message",
+      },
+      form: {
+        title: "Send us a message",
+        fields: {
+          name: { label: "Full name *", placeholder: "Your name" },
+          email: { label: "Email *", placeholder: "you@example.com" },
+          company: { label: "Company (optional)", placeholder: "Your company" },
+          service: { label: "Service of interest" },
+          message: {
+            label: "Message *",
+            placeholder: "Tell us briefly about your project",
+          },
+        },
+        serviceOptions: ["Branding", "Web Development", "Both", "Not sure yet"],
+        submitLabel: "Send message",
+      },
+      info: {
+        title: "Or if you prefer, contact us directly:",
+        email: "contact@okrices.com",
+        location: "Fort Lauderdale, Florida",
+      },
+      closing: {
+        title: "Every project starts with a conversation.",
+        ctaLabel: "Let’s talk about your brand",
+      },
+    },
 
     about: {
       title: "About",
@@ -57,7 +89,6 @@ export default {
       },
     },
 
-    // === SERVICES (todo dentro de pages.services) ===
     services: {
       title: "Services",
       hero: {

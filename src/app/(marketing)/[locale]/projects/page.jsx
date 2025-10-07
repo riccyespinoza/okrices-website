@@ -1,3 +1,4 @@
+// src/app/(marketing)/[locale]/projects/page.jsx
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getDic } from "@/lib/i18n/config";
 import { getProjects } from "@/lib/getProjects";
@@ -10,14 +11,17 @@ export async function generateMetadata({ params }) {
   return buildMetadata({
     title: t.pages.projects.title,
     path: `/${params.locale}/projects`,
-    // images: ["/images/og-projects.jpg"],
   });
 }
 
-export default async function ProjectsPage() {
-  const projects = await getProjects();
+export default async function ProjectsPage({ params }) {
+  // ✅ define el locale desde la ruta
+  const locale = params?.locale ?? "en";
 
-  if (!projects || projects.length === 0) {
+  // ✅ pásalo al fetch (aunque tu getProjects ya tolera docs sin lang)
+  const projects = await getProjects(locale);
+
+  if (!projects?.length) {
     return (
       <main className="flex min-h-screen items-center justify-center">
         <p className="text-brand-cream/70">No projects available.</p>
@@ -29,7 +33,7 @@ export default async function ProjectsPage() {
     <main id="main-content">
       <Section withContainer spacing="pt-40 pb-20">
         <Reveal className="text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-variable">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-light">
             Our <span className="text-accent">Projects</span>
           </h1>
           <p className="mx-auto max-w-3xl text-brand-cream/90">
@@ -49,7 +53,8 @@ export default async function ProjectsPage() {
           </h2>
           <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((p, i) => (
-              <ProjectCard key={p._id} project={p} index={i} />
+              // ✅ ahora sí existe `locale`
+              <ProjectCard key={p._id} project={p} index={i} locale={locale} />
             ))}
           </ul>
         </div>

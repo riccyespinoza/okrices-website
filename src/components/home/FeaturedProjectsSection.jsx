@@ -6,8 +6,8 @@ import Section from "@/components/ui/Section";
 import FeaturedProjectsGrid from "../FeaturedProjectsGrid";
 import Button from "@/components/ui/Button"; // Importamos nuestro botón reutilizable
 
-export default async function FeaturedProjectsSection() {
-  const projects = await getFeaturedProjects();
+export default async function FeaturedProjectsSection({ lang = "en" }) {
+  const projects = await getFeaturedProjects(lang);
 
   if (!projects?.length) return null;
 

@@ -2,239 +2,359 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import Section from "@/components/ui/Section";
+import Container from "@/components/ui/Container";
+import Button from "@/components/ui/Button";
+import ServiceCard from "@/components/shared/ServiceCard";
 import {
   FiUser,
   FiSettings,
   FiCalendar,
   FiMapPin,
-  FiZap,
   FiTrendingUp,
   FiAlertCircle,
+  FiZap,
 } from "react-icons/fi";
-import DetailCard from "./shared/DetailCard"; // Importamos el nuevo componente
-import KeyDataCard from "./shared/KeyDataCard"; // Importamos el nuevo componente
-import Button from "./ui/Button"; // Importamos nuestro botón
+import { FaCheckCircle, FaLayerGroup, FaTabletAlt } from "react-icons/fa";
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+// Variantes de animación para las secciones con tarjetas
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
 };
 
 export default function ProjectContent({ project }) {
-  const getImageUrl = (source) => source?.asset?.url || null;
-  const mainImageUrl = getImageUrl(project.mainImage);
+  const prefersReduced = useReducedMotion();
+
+  // --- Lógica de preparación de datos (sin cambios) ---
+  const getImageUrl = (img) => img?.asset?.url || null;
+  const mainImageUrl = getImageUrl(project?.mainImage);
+
+  const gallery = Array.isArray(project?.gallery)
+    ? project.gallery.filter((img) => getImageUrl(img))
+    : [];
+
+  const contextLine =
+    project?.contextLine ??
+    (project?.overview ? String(project.overview).slice(0, 140) : "");
+
+  const deliverables =
+    Array.isArray(project?.deliverables) && project.deliverables.length > 0
+      ? project.deliverables
+      : project?.services
+        ? String(project.services)
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
+  // --- Fin de la lógica de datos ---
 
   return (
     <main className="min-h-screen text-light">
-      {/* HERO */}
-      <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="relative flex min-h-screen flex-col items-start justify-end p-8 text-left md:p-12"
+      {/* =======================================================
+          1) Hero visual
+          ======================================================= */}
+      <Section
+        spacing="pt-24 pb-32"
+        className="relative flex min-h-screen items-end justify-start overflow-hidden"
+        withContainer={false}
+        aria-labelledby="project-hero-title"
       >
         {mainImageUrl && (
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 -z-10">
             <Image
               src={mainImageUrl}
-              alt={`${project.title} — case study cover`}
+              alt={project?.mainImage?.alt || `${project?.title} hero`}
               fill
               priority
               fetchPriority="high"
-              sizes="(max-width:768px) 100vw, 1200px"
+              sizes="100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/70 to-transparent" />
           </div>
         )}
-        <div className="relative z-10 mx-auto w-full max-w-5xl">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-5xl font-bold md:text-7xl"
+        <Container>
+          <h1
+            id="project-hero-title"
+            className="text-gradient text-5xl font-bold md:text-7xl"
           >
-            {project.title}
-          </motion.h1>
-          {/* 👇 CAMBIO: Consistencia de color */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-4 text-lg text-brand-cream/80"
-          >
-            {project.projectType}
-          </motion.p>
-        </div>
-      </motion.header>
+            {project?.title}
+          </h1>
+          {project?.projectType && (
+            <p className="mt-3 text-lg text-brand-sand">
+              {project.projectType}
+            </p>
+          )}
+          {contextLine && (
+            <p className="mt-4 max-w-3xl text-brand-cream opacity-90 md:text-xl">
+              {contextLine}
+            </p>
+          )}
+        </Container>
+      </Section>
 
-      <div className="mx-auto max-w-5xl px-6">
-        {/* Datos Clave */}
-        <motion.section
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-2 gap-4 py-24 md:grid-cols-4 md:gap-6 md:py-32"
-          aria-labelledby="key-data-title"
-        >
-          {/* 👇 CAMBIO (ACCESIBILIDAD): Añadimos <h2> */}
-          <h2 id="key-data-title" className="sr-only">
-            Key Project Data
-          </h2>
-          <KeyDataCard
-            icon={<FiUser />}
-            title="Client"
-            value={project.client}
-          />
-          <KeyDataCard
-            icon={<FiSettings />}
-            title="Services"
-            value={project.services}
-          />
-          <KeyDataCard
-            icon={<FiCalendar />}
-            title="Year"
-            value={project.year}
-          />
-          <KeyDataCard
-            icon={<FiMapPin />}
-            title="Location"
-            value={project.location}
-          />
-        </motion.section>
-
-        {/* Overview + Detalles */}
-        <div className="space-y-24 md:space-y-32">
-          <motion.section
-            variants={itemVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="text-left"
-          >
-            <h2 className="mb-6 text-3xl font-bold">
-              Project <span className="text-accent">Overview</span>
+      {/* =======================================================
+          2) Descripción breve
+          ======================================================= */}
+      {project?.overview && (
+        <Section spacing="py-24 md:py-32" aria-labelledby="brief-title">
+          <Container>
+            <h2
+              id="brief-title"
+              className="mb-6 text-3xl font-bold md:text-4xl"
+            >
+              El <span className="highlight">Resumen</span>
             </h2>
-            {/* 👇 CAMBIO: Consistencia de color */}
-            <p className="max-w-3xl text-lg leading-relaxed text-brand-cream/80">
+            <p className="max-w-4xl text-lg text-brand-cream opacity-90 text-justify md:text-xl leading-relaxed">
               {project.overview}
             </p>
-          </motion.section>
+          </Container>
+        </Section>
+      )}
 
-          <motion.section
-            variants={itemVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid gap-12 md:grid-cols-3 md:gap-16"
-          >
-            <DetailCard
-              icon={<FiAlertCircle className="text-3xl text-accent" />}
-              title="The Challenge"
-              text={project.challenge}
-            />
-            <DetailCard
-              icon={<FiZap className="text-3xl text-accent" />}
-              title="The Solution"
-              text={project.solution}
-            />
-            <DetailCard
-              icon={<FiTrendingUp className="text-3xl text-accent" />}
-              title="The Impact"
-              text={project.impact}
-            />
-          </motion.section>
-        </div>
-      </div>
+      {/* =======================================================
+          3) Datos clave
+          ======================================================= */}
+      {(project?.client ||
+        project?.services ||
+        project?.year ||
+        project?.location) && (
+        <Section spacing="py-24 md:py-32" aria-labelledby="key-data-title">
+          <Container>
+            <motion.div
+              className="text-center"
+              variants={prefersReduced ? {} : containerVariants}
+              initial={prefersReduced ? undefined : "hidden"}
+              whileInView={prefersReduced ? undefined : "visible"}
+              viewport={
+                prefersReduced ? undefined : { once: true, amount: 0.3 }
+              }
+            >
+              <h2
+                id="key-data-title"
+                className="mb-12 text-3xl font-bold md:text-4xl"
+              >
+                Datos <span className="highlight">Clave</span>
+              </h2>
+              <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                {project?.client && (
+                  <ServiceCard
+                    icon={<FiUser className="mb-4 text-3xl text-accent" />}
+                    title="Cliente"
+                    description={project.client}
+                  />
+                )}
+                {project?.services && (
+                  <ServiceCard
+                    icon={<FiSettings className="mb-4 text-3xl text-accent" />}
+                    title="Servicios"
+                    description={project.services}
+                  />
+                )}
+                {project?.year && (
+                  <ServiceCard
+                    icon={<FiCalendar className="mb-4 text-3xl text-accent" />}
+                    title="Año"
+                    description={project.year}
+                  />
+                )}
+                {project?.location && (
+                  <ServiceCard
+                    icon={<FiMapPin className="mb-4 text-3xl text-accent" />}
+                    title="Ubicación"
+                    description={project.location}
+                  />
+                )}
+              </ul>
+            </motion.div>
+          </Container>
+        </Section>
+      )}
 
-      {/* Galería de Imágenes */}
-      {project.gallery?.length > 0 && (
-        <motion.section
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-24 w-full md:mt-32"
-          aria-labelledby="gallery-title"
-        >
-          <div className="mx-auto max-w-7xl px-6">
-            {/* 👇 CAMBIO (ACCESIBILIDAD): Añadimos <h2> */}
-            <h2 id="gallery-title" className="sr-only">
-              Image Gallery
-            </h2>
+      {/* =======================================================
+          4) Entregables del Proyecto
+          ======================================================= */}
+      {deliverables.length > 0 && (
+        <Section spacing="py-24 md:py-32" aria-labelledby="deliverables-title">
+          <Container>
+            <motion.div
+              className="text-center"
+              variants={prefersReduced ? {} : containerVariants}
+              initial={prefersReduced ? undefined : "hidden"}
+              whileInView={prefersReduced ? undefined : "visible"}
+              viewport={
+                prefersReduced ? undefined : { once: true, amount: 0.3 }
+              }
+            >
+              <h2
+                id="deliverables-title"
+                className="mb-12 text-3xl font-bold md:text-4xl"
+              >
+                Entregables del <span className="highlight">Proyecto</span>
+              </h2>
+              <ul className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+                {deliverables.map((item, i) => {
+                  const icons = [FaCheckCircle, FaLayerGroup, FaTabletAlt];
+                  const Icon = icons[i % icons.length];
+                  return (
+                    <ServiceCard
+                      key={`${item}-${i}`}
+                      icon={<Icon className="mb-4 text-3xl text-accent" />}
+                      title={item}
+                      description=""
+                    />
+                  );
+                })}
+              </ul>
+            </motion.div>
+          </Container>
+        </Section>
+      )}
+
+      {/* =======================================================
+          5) Resultados del Proyecto (✨ SECCIÓN RESTAURADA)
+          ======================================================= */}
+      {(project?.challenge || project?.solution || project?.impact) && (
+        <Section spacing="py-24 md:py-32" aria-labelledby="results-title">
+          <Container>
+            <motion.div
+              className="text-center"
+              variants={prefersReduced ? {} : containerVariants}
+              initial={prefersReduced ? undefined : "hidden"}
+              whileInView={prefersReduced ? undefined : "visible"}
+              viewport={
+                prefersReduced ? undefined : { once: true, amount: 0.3 }
+              }
+            >
+              <h2
+                id="results-title"
+                className="mb-12 text-3xl font-bold md:text-4xl"
+              >
+                Resultados del <span className="highlight">Proyecto</span>
+              </h2>
+              <ul className="grid grid-cols-1 gap-10 md:grid-cols-3">
+                {project?.challenge && (
+                  <ServiceCard
+                    icon={
+                      <FiAlertCircle className="mb-4 text-3xl text-accent" />
+                    }
+                    title="El Reto"
+                    description={project.challenge}
+                  />
+                )}
+                {project?.solution && (
+                  <ServiceCard
+                    icon={<FiZap className="mb-4 text-3xl text-accent" />}
+                    title="La Solución"
+                    description={project.solution}
+                  />
+                )}
+                {project?.impact && (
+                  <ServiceCard
+                    icon={
+                      <FiTrendingUp className="mb-4 text-3xl text-accent" />
+                    }
+                    title="El Impacto"
+                    description={project.impact}
+                  />
+                )}
+              </ul>
+            </motion.div>
+          </Container>
+        </Section>
+      )}
+
+      {/* =======================================================
+          6) Galería visual
+          ======================================================= */}
+      {gallery.length > 0 && (
+        <Section spacing="py-24 md:py-32" aria-labelledby="gallery-title">
+          <Container fluid>
+            <div className="text-center mb-12">
+              <h2 id="gallery-title" className="text-3xl md:text-4xl font-bold">
+                Galería <span className="text-gradient">Visual</span>
+              </h2>
+              <p className="mt-4 text-lg text-brand-cream opacity-90 max-w-2xl mx-auto">
+                Un vistazo detallado a los entregables y la identidad visual
+                desarrollada para el proyecto.
+              </p>
+            </div>
             <div className="grid grid-cols-1 gap-8">
-              {/* ...el resto del código de la galería se mantiene igual... */}
-              {project.gallery.map((img, index) => {
+              {gallery.map((img, index) => {
                 if (index % 2 !== 0) return null;
-                const nextImg = project.gallery[index + 1];
+                const nextImg = gallery[index + 1];
                 const isReversed = (index / 2) % 2 !== 0;
 
                 return (
                   <div
                     key={img.asset?._id || index}
-                    className="grid items-stretch gap-8 md:grid-cols-5"
+                    className="grid min-h-[450px] items-stretch gap-8 md:grid-cols-5"
                   >
-                    <motion.div
+                    <div
                       className={isReversed ? "md:col-span-2" : "md:col-span-3"}
-                      whileHover={{ scale: 1.03 }}
-                      transition={{ type: "spring", stiffness: 300 }}
                     >
-                      {/* 👇 CAMBIO: Consistencia de estilo */}
-                      <div className="relative h-full w-full overflow-hidden rounded-lg bg-neutral-800 aspect-[4/3] md:aspect-auto">
+                      <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-neutral-800">
                         <Image
-                          src={getImageUrl(img)}
-                          alt={img.alt || `Gallery image ${index + 1}`}
+                          src={img.asset.url}
+                          alt={img.alt || `Imagen de galería ${index + 1}`}
                           fill
-                          sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 800px"
-                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 800px"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
-                    </motion.div>
+                    </div>
                     {nextImg && (
-                      <motion.div
+                      <div
                         className={
                           isReversed ? "md:col-span-3" : "md:col-span-2"
                         }
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ type: "spring", stiffness: 300 }}
                       >
-                        {/* 👇 CAMBIO: Consistencia de estilo */}
-                        <div className="relative h-full w-full overflow-hidden rounded-lg bg-neutral-800 aspect-[4/3] md:aspect-auto">
+                        <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-neutral-800">
                           <Image
-                            src={getImageUrl(nextImg)}
-                            alt={nextImg.alt || `Gallery image ${index + 2}`}
+                            src={nextImg.asset.url}
+                            alt={
+                              nextImg.alt || `Imagen de galería ${index + 2}`
+                            }
                             fill
-                            sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 700px"
-                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 700px"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
-                      </motion.div>
+                      </div>
                     )}
                   </div>
                 );
               })}
             </div>
-          </div>
-        </motion.section>
+          </Container>
+        </Section>
       )}
 
-      {/* CTA Final */}
-      <div className="mx-auto max-w-5xl px-6">
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-24 pb-16 text-center md:mt-32"
-        >
-          {/* 👇 CAMBIO: Usamos nuestro componente Button */}
-          <Button href="/projects" variant="secondary">
-            View More Projects
-          </Button>
-        </motion.div>
-      </div>
+      {/* =======================================================
+          7) CTA final
+          ======================================================= */}
+      <Section spacing="py-24 md:py-32" aria-labelledby="project-cta-title">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <h2
+              id="project-cta-title"
+              className="text-3xl font-bold md:text-4xl"
+            >
+              ¿Listo para que tu proyecto luzca así de{" "}
+              <span className="text-gradient">profesional</span>?
+            </h2>
+            <p className="mt-4 mb-8 text-lg text-brand-cream opacity-90">
+              Hablemos sobre tu marca y cómo podemos llevarla al siguiente
+              nivel.
+            </p>
+            <Button href="/contact" variant="gradient">
+              Iniciar una Conversación
+            </Button>
+          </div>
+        </Container>
+      </Section>
     </main>
   );
 }

@@ -9,7 +9,44 @@ export default {
   pages: {
     home: { title: "Inicio" },
     projects: { title: "Proyectos" },
-    contact: { title: "Contacto" },
+
+    contact: {
+      title: "Contacto",
+      hero: {
+        title: "Hablemos de tu marca",
+        text: "Tu próxima etapa comienza aquí. Un espacio para transformar la forma en que tu marca se comunica, crece y se presenta al mundo.",
+        ctaLabel: "Enviar mensaje",
+      },
+      form: {
+        title: "Envíanos un mensaje",
+        fields: {
+          name: { label: "Nombre completo *", placeholder: "Tu nombre" },
+          email: { label: "Correo electrónico *", placeholder: "tu@email.com" },
+          company: { label: "Empresa (opcional)", placeholder: "Tu empresa" },
+          service: { label: "Servicio de interés" },
+          message: {
+            label: "Mensaje *",
+            placeholder: "Cuéntanos brevemente sobre tu proyecto",
+          },
+        },
+        serviceOptions: [
+          "Branding",
+          "Desarrollo web",
+          "Ambos",
+          "Aún no lo tengo claro",
+        ],
+        submitLabel: "Enviar mensaje",
+      },
+      info: {
+        title: "O si lo prefieres, escríbenos directamente:",
+        email: "contacto@okrices.com",
+        location: "Fort Lauderdale, Florida",
+      },
+      closing: {
+        title: "Cada proyecto comienza con una conversación.",
+        ctaLabel: "Hablemos de tu marca",
+      },
+    },
 
     about: {
       title: "Sobre nosotros",
@@ -60,7 +97,6 @@ export default {
       },
     },
 
-    // === SERVICIOS (todo dentro de pages.services) ===
     services: {
       title: "Servicios",
       hero: {

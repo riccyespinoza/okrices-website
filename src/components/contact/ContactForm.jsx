@@ -2,70 +2,108 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Button from "@/components/ui/Button";
+import { getDic } from "@/lib/i18n/config";
 
-export default function ContactForm() {
+export default function ContactForm({ locale }) {
+  const t = getDic(locale);
+
   return (
-    <motion.div
+    <motion.section
+      id="contact-form"
+      aria-labelledby="contact-form-title"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="glass-card-advanced p-6 md:p-8 rounded-xl hover:shadow-lg hover:-translate-y-1 transition"
+      className="glass-effect rounded-xl border border-white/5 p-8 transition hover:-translate-y-1 hover:shadow-lg"
     >
-      <h2 className="text-xl md:text-2xl font-bold mb-6">Quick Contact Form</h2>
-
-      <form
-        action="https://formspree.io/f/YOUR_FORMSPREE_ID"
-        method="POST"
-        className="space-y-4"
+      <h2
+        id="contact-form-title"
+        className="mb-6 text-2xl font-bold text-light"
       >
+        {t.pages.contact.form.title}
+      </h2>
+
+      <form className="space-y-6">
+        {/* Nombre */}
         <div>
-          <label className="block text-sm mb-1 text-gray-300">Name *</label>
+          <label htmlFor="name" className="mb-1 block text-sm text-gray-300">
+            {t.pages.contact.form.fields.name.label}
+          </label>
           <input
+            id="name"
             name="name"
+            type="text"
             required
-            placeholder="Your name"
-            className="w-full rounded-md bg-[#0D1521]/40 border border-white/10 px-4 py-3 text-light placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40"
+            autoComplete="name"
+            className="input-field w-full"
+            placeholder={t.pages.contact.form.fields.name.placeholder}
           />
         </div>
 
+        {/* Correo */}
         <div>
-          <label className="block text-sm mb-1 text-gray-300">Email *</label>
+          <label htmlFor="email" className="mb-1 block text-sm text-gray-300">
+            {t.pages.contact.form.fields.email.label}
+          </label>
           <input
-            type="email"
+            id="email"
             name="email"
+            type="email"
             required
-            placeholder="you@example.com"
-            className="w-full rounded-md bg-[#0D1521]/40 border border-white/10 px-4 py-3 text-light placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40"
+            autoComplete="email"
+            className="input-field w-full"
+            placeholder={t.pages.contact.form.fields.email.placeholder}
           />
         </div>
 
+        {/* Empresa */}
         <div>
-          <label className="block text-sm mb-1 text-gray-300">Phone</label>
+          <label htmlFor="company" className="mb-1 block text-sm text-gray-300">
+            {t.pages.contact.form.fields.company.label}
+          </label>
           <input
-            name="phone"
-            placeholder="(optional)"
-            className="w-full rounded-md bg-[#0D1521]/40 border border-white/10 px-4 py-3 text-light placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40"
+            id="company"
+            name="company"
+            type="text"
+            autoComplete="organization"
+            className="input-field w-full"
+            placeholder={t.pages.contact.form.fields.company.placeholder}
           />
         </div>
 
+        {/* Servicio de interés */}
         <div>
-          <label className="block text-sm mb-1 text-gray-300">
-            Tell us briefly about your project *
+          <label htmlFor="service" className="mb-1 block text-sm text-gray-300">
+            {t.pages.contact.form.fields.service.label}
+          </label>
+          <select id="service" name="service" className="input-field w-full">
+            {t.pages.contact.form.serviceOptions.map((opt, i) => (
+              <option key={i}>{opt}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Mensaje */}
+        <div>
+          <label htmlFor="message" className="mb-1 block text-sm text-gray-300">
+            {t.pages.contact.form.fields.message.label}
           </label>
           <textarea
+            id="message"
             name="message"
-            rows={5}
+            rows="5"
             required
-            placeholder="Goals, timeline, references…"
-            className="w-full rounded-md bg-[#0D1521]/40 border border-white/10 px-4 py-3 text-light placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40"
+            className="input-field w-full resize-none"
+            placeholder={t.pages.contact.form.fields.message.placeholder}
           />
         </div>
 
-        <button type="submit" className="btn btn-primary btn-gradient">
-          Send Message
-        </button>
+        <Button type="submit" variant="secondary" className="w-full">
+          {t.pages.contact.form.submitLabel}
+        </Button>
       </form>
-    </motion.div>
+    </motion.section>
   );
 }

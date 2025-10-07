@@ -1,30 +1,63 @@
 // src/app/(marketing)/[locale]/projects/page.jsx
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getDic } from "@/lib/i18n/config";
-import { getProjects } from "@/lib/getProjects";
+import { getProjects, getAllCategories } from "@/lib/getProjects";
 import Section from "@/components/ui/Section";
-import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/shared/Reveal";
+import ProjectsHero from "@/components/projects/ProjectsHero";
+import ProjectsGallery from "@/components/projects/ProjectsGallery";
 
 export async function generateMetadata({ params }) {
   const t = getDic(params.locale);
   return buildMetadata({
-    title: t.pages.projects.title,
+    title: t?.pages?.projects?.title ?? "Projects",
     path: `/${params.locale}/projects`,
   });
 }
 
 export default async function ProjectsPage({ params }) {
-  // ✅ define el locale desde la ruta
   const locale = params?.locale ?? "en";
 
-  // ✅ pásalo al fetch (aunque tu getProjects ya tolera docs sin lang)
-  const projects = await getProjects(locale);
+  const [projects, cats] = await Promise.all([
+    getProjects(locale),
+    getAllCategories(locale),
+  ]);
+
+  // Fallback de textos
+  const copy = {
+    en: {
+      title: "Projects",
+      subtitle:
+        "Each brand we work with reflects our way of creating: clarity, purpose, and results that inspire trust.",
+      cta: "Let’s talk about your brand",
+      empty: "No projects available.",
+      all: "All",
+    },
+    es: {
+      title: "Proyectos",
+      subtitle:
+        "Cada marca con la que trabajamos refleja nuestra manera de crear: claridad, propósito y resultados que generan confianza.",
+      cta: "Hablemos de tu marca",
+      empty: "No hay proyectos disponibles.",
+      all: "Todos",
+    },
+  }[locale];
+
+  // Construimos los filtros a partir de categorías existentes
+  // Estructura: [{label, slug}] -> slug: null = "All"
+  const filters = [
+    { label: copy.all, slug: null },
+    ...(Array.isArray(cats)
+      ? cats
+          .filter((c) => c?.slug && c?.title)
+          .map((c) => ({ label: c.title, slug: c.slug }))
+      : []),
+  ];
 
   if (!projects?.length) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <p className="text-brand-cream/70">No projects available.</p>
+        <p className="text-brand-cream/70">{copy.empty}</p>
       </main>
     );
   }
@@ -33,31 +66,23 @@ export default async function ProjectsPage({ params }) {
     <main id="main-content">
       <Section withContainer spacing="pt-40 pb-20">
         <Reveal className="text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-light">
-            Our <span className="text-accent">Projects</span>
-          </h1>
-          <p className="mx-auto max-w-3xl text-brand-cream/90">
-            A selection of brands and websites crafted for ambitious clients.
-          </p>
+          <ProjectsHero
+            title={copy.title}
+            subtitle={copy.subtitle}
+            locale={locale}
+            ctaLabel={copy.cta}
+          />
         </Reveal>
       </Section>
 
-      <Section
-        withContainer={false}
-        spacing="pb-24 md:pb-32"
-        aria-labelledby="project-grid-title"
-      >
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <h2 id="project-grid-title" className="sr-only">
-            All Projects
-          </h2>
-          <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((p, i) => (
-              // ✅ ahora sí existe `locale`
-              <ProjectCard key={p._id} project={p} index={i} locale={locale} />
-            ))}
-          </ul>
-        </div>
+      <Section withContainer spacing="pb-24 md:pb-32">
+        <ProjectsGallery
+          projects={projects}
+          locale={locale}
+          // 👇 ahora recibe objetos {label, slug}
+          filterItems={filters}
+          emptyLabel={copy.empty}
+        />
       </Section>
     </main>
   );

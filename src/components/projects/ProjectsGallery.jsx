@@ -4,52 +4,54 @@
 import { useMemo, useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 
+/**
+ * props:
+ * - projects: [{ title, slug, cardImage, categories:[{slug,title}] }]
+ * - locale: 'en' | 'es'
+ * - filterItems: [{label, slug}]  // slug=null => "All"
+ * - emptyLabel: string
+ */
 export default function ProjectsGallery({
-  projects,
+  projects = [],
   locale = "en",
-  filterLabels = ["All", "Branding", "Web", "Branding + Web"],
+  filterItems = [{ label: "All", slug: null }],
   emptyLabel = "No projects available.",
 }) {
-  const [active, setActive] = useState(filterLabels[0]); // "All" / "Todos"
+  const [activeSlug, setActiveSlug] = useState(filterItems?.[0]?.slug ?? null);
 
-  // Normaliza los tipos comparando por palabras clave
   const filtered = useMemo(() => {
     if (!Array.isArray(projects)) return [];
-    if (active === filterLabels[0]) return projects; // All/Todos
+    // "All"
+    if (!activeSlug) return projects;
 
-    const key = active.toLowerCase();
     return projects.filter((p) => {
-      const t = (p?.projectType || "").toLowerCase();
-      if (key.includes("branding") && key.includes("web")) {
-        // "Branding + Web"
-        return t.includes("branding") && t.includes("web");
-      }
-      if (key.includes("branding")) return t.includes("branding");
-      if (key.includes("web")) return t.includes("web");
-      return true;
+      const slugs =
+        p?.categories?.map((c) =>
+          typeof c?.slug === "string" ? c.slug : null
+        ) || [];
+      return slugs.includes(activeSlug);
     });
-  }, [projects, active, filterLabels]);
+  }, [projects, activeSlug]);
 
   return (
     <div>
       {/* Filtros */}
       <div className="mb-10 flex flex-wrap items-center justify-center gap-3">
-        {filterLabels.map((label) => {
-          const isActive = active === label;
+        {filterItems.map((item) => {
+          const isActive = activeSlug === item.slug;
           return (
             <button
-              key={label}
-              onClick={() => setActive(label)}
+              key={item.slug ?? "__all__"}
+              onClick={() => setActiveSlug(item.slug ?? null)}
               className={[
-                "px-4 py-2 rounded-lg text-sm transition-colors",
-                "border",
+                "px-4 py-2 rounded-lg text-sm transition-colors border",
                 isActive
                   ? "bg-accent text-light border-accent"
                   : "bg-transparent text-brand-cream/90 border-white/10 hover:border-accent/40",
               ].join(" ")}
               type="button"
             >
-              {label}
+              {item.label}
             </button>
           );
         })}

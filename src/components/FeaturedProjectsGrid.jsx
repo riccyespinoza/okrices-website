@@ -2,6 +2,7 @@
 "use client";
 
 import { twMerge } from "tailwind-merge";
+import { usePathname } from "next/navigation";
 import ProjectCard from "@/components/ProjectCard";
 
 export default function FeaturedProjectsGrid({
@@ -9,6 +10,9 @@ export default function FeaturedProjectsGrid({
   className = "",
 }) {
   if (!projects.length) return null;
+
+  const pathname = usePathname();
+  const locale = pathname?.split("/")?.[1] || "en";
 
   return (
     <ul
@@ -18,8 +22,7 @@ export default function FeaturedProjectsGrid({
       )}
     >
       {projects.map((p, i) => (
-        // Ahora simplemente renderizamos el componente ProjectCard
-        <ProjectCard key={p?._id ?? i} project={p} index={i} />
+        <ProjectCard key={p?._id ?? i} project={p} index={i} locale={locale} />
       ))}
     </ul>
   );

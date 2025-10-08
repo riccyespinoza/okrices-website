@@ -1,14 +1,12 @@
-// src/components/home/AboutMiniSection.jsx
+// src/components/home/AboutSection.jsx
 "use client";
 import { motion, useReducedMotion } from "framer-motion";
 import Section from "@/components/ui/Section";
-import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button"; // 👈 ¡CORREGIDO! Importamos el componente Button
+import Button from "@/components/ui/Button";
 
-export default function AboutMiniSection() {
+export default function AboutSection({ title, text, cta }) {
   const prefersReduced = useReducedMotion();
 
-  // Mismas variantes de animación para consistencia
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -38,7 +36,6 @@ export default function AboutMiniSection() {
   const itemAnimProps = prefersReduced ? {} : { variants: itemVariants };
 
   return (
-    // 👈 Usamos tu componente Section estándar, que ya incluye el Container
     <Section spacing="py-16 md:py-24" aria-labelledby="home-about-mini">
       <motion.div
         className="mx-auto max-w-3xl text-center"
@@ -49,24 +46,23 @@ export default function AboutMiniSection() {
           className="mb-4 text-2xl font-bold md:text-3xl lg:text-4xl"
           {...itemAnimProps}
         >
-          About Okrices
+          {title}
         </motion.h2>
 
         <motion.p
           className="mb-8 text-base text-brand-cream/90 md:text-lg"
           {...itemAnimProps}
         >
-          Okrices is a branding and web development studio based in South
-          Florida. We create clear identities and functional websites that
-          inspire trust and support each business’s growth.
+          {text}
         </motion.p>
 
-        {/* 👇 ¡CORREGIDO! Ahora usamos tu componente Button estándar */}
-        <motion.div {...itemAnimProps}>
-          <Button href="/about" variant="secondary">
-            About Us
-          </Button>
-        </motion.div>
+        {cta?.href && (
+          <motion.div {...itemAnimProps}>
+            <Button href={cta.href} variant="secondary">
+              {cta.label}
+            </Button>
+          </motion.div>
+        )}
       </motion.div>
     </Section>
   );

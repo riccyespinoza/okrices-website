@@ -7,7 +7,76 @@ export default {
     secondary: "Ver proyectos",
   },
   pages: {
-    home: { title: "Inicio" },
+    home: {
+      title: "Inicio",
+      hero: {
+        title: "Más allá de la marca.",
+        subclaim:
+          "Creamos identidades visuales y experiencias digitales que convierten ideas en marcas claras, funcionales y listas para crecer.",
+        primary: { label: "Iniciar tu proyecto", href: "/contact" },
+        secondary: { label: "Ver portafolio", href: "/projects" },
+      },
+      projects: {
+        title: "Proyectos Destacados",
+        intro:
+          "Cada proyecto refleja nuestra forma de trabajar: diseño claro, propósito definido y resultados que aportan valor real.",
+        examples: [
+          "De un logo a un sistema visual completo que fortaleció su posicionamiento.",
+          "Un sitio web estratégico que aumentó su alcance y captación de clientes.",
+        ],
+        cta: { label: "Ver todo", href: "/projects" },
+      },
+      why: {
+        title: "¿Por qué Okrices?",
+        intro:
+          "No diseñamos por estética. Diseñamos con propósito: cada detalle responde a un objetivo de negocio.",
+        bullets: [
+          "Identidades visuales que comunican con claridad.",
+          "Sitios web que convierten visitantes en clientes.",
+          "Estrategia pensada para el crecimiento real de tu negocio.",
+          "Acompañamiento en cada paso, desde la idea hasta el resultado.",
+        ],
+        cta: { label: "Conoce nuestro proceso", href: "/services" },
+      },
+      services: {
+        title: "Nuestros servicios",
+        intro:
+          "En Okrices diseñamos soluciones visuales y digitales pensadas para crecer junto a tu negocio.",
+        items: [
+          {
+            title: "Branding estratégico",
+            description:
+              "Creamos identidades claras y coherentes que transmiten confianza y propósito desde el primer contacto.",
+          },
+          {
+            title: "Desarrollo web",
+            description:
+              "Diseñamos sitios elegantes y funcionales, preparados para atraer a tu audiencia y convertirla en clientes reales.",
+          },
+        ],
+        cta: { label: "Ver servicios", href: "/services" },
+      },
+      testimonials: {
+        title: "Lo que dicen nuestros clientes",
+        quotes: [
+          "Okrices transformó nuestra identidad en una herramienta real de crecimiento.",
+          "El nuevo sitio web no solo luce mejor: ahora atrae clientes cada semana.",
+          "Un proceso claro y profesional que hizo todo más sencillo.",
+        ],
+      },
+      aboutMini: {
+        title: "Sobre Okrices",
+        text: "Okrices es un estudio de branding y desarrollo web con sede en el sur de Florida. Creamos identidades claras y sitios web funcionales que transmiten confianza y acompañan el crecimiento de cada negocio.",
+        cta: { label: "Nuestro enfoque", href: "/about" },
+      },
+      ctaFinal: {
+        title: "Hablemos de tu marca",
+        text: "Una marca no solo debe verse bien: debe funcionar, evolucionar y generar resultados reales.",
+        primary: { label: "Agendar asesoría", href: "/contact" },
+        secondary: { label: "Ver servicios", href: "/services" },
+      },
+    },
+
     projects: { title: "Proyectos" },
 
     contact: {

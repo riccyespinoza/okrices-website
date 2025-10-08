@@ -1,51 +1,43 @@
-// src/components/home/TestimonialsInner.jsx
 "use client";
 import { motion, useReducedMotion } from "framer-motion";
-import TestimonialCard from "../shared/TestimonialCard"; // Importamos el nuevo componente
+import TestimonialCard from "../shared/TestimonialCard";
 
-const testimonials = [
-  { name: "Sarah L.", role: "CEO, BloomTech", quote: "Okrices elevated ..." },
-  {
-    name: "Jason R.",
-    role: "Founder, GreenHub",
-    quote: "The website is fast ...",
-  },
-  {
-    name: "María E.",
-    role: "Marketing Lead, Viva Health",
-    quote: "Working bilingually ...",
-  },
-];
-
-// Variantes de animación
 const containerVariants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.2 } },
+  show: { transition: { staggerChildren: 0.15 } },
 };
 
-export default function TestimonialsInner() {
-  const prefersReduced = useReducedMotion();
-
-  const containerAnim = prefersReduced
+export default function TestimonialsInner({ quotes = [] }) {
+  const prefersReducedMotion = useReducedMotion();
+  const containerAnim = prefersReducedMotion
     ? {}
     : {
         initial: "hidden",
         whileInView: "show",
         variants: containerVariants,
-        viewport: { once: true },
+        viewport: { once: true, amount: 0.3 },
       };
 
   return (
-    <motion.div className="grid gap-8 md:grid-cols-3" {...containerAnim}>
-      {/* 👇 CAMBIO: Mapeo mucho más limpio usando el componente TestimonialCard */}
-      {testimonials.map((t, i) => (
-        <TestimonialCard
-          key={i}
-          name={t.name}
-          role={t.role}
-          quote={t.quote}
-          authorId={`testimonial-author-${i}`}
-        />
+    <motion.div
+      className="
+        grid gap-8
+        grid-cols-1 sm:grid-cols-2 md:grid-cols-3
+        items-stretch            /* estira las celdas */
+        auto-rows-fr             /* todas las filas con la misma altura */
+      "
+      {...containerAnim}
+    >
+      {quotes.map((q, i) => (
+        <div key={i} className="h-full">
+          <TestimonialCard
+            className="h-full" /* <- la tarjeta ocupa toda la celda */
+            name=""
+            role=""
+            quote={q}
+            authorId={`testimonial-${i}`}
+          />
+        </div>
       ))}
     </motion.div>
   );

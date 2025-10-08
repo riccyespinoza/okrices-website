@@ -7,7 +7,76 @@ export default {
     secondary: "See Projects",
   },
   pages: {
-    home: { title: "Home" },
+    home: {
+      title: "Home",
+      hero: {
+        title: "Beyond the brand.",
+        subclaim:
+          "We create visual identities and digital experiences that turn ideas into clear, functional brands ready to grow.",
+        primary: { label: "Start your project", href: "/contact" },
+        secondary: { label: "View portfolio", href: "/projects" },
+      },
+      projects: {
+        title: "Featured Projects",
+        intro:
+          "Each project reflects our way of working: clear design, defined purpose, and results that create real value.",
+        examples: [
+          "From a logo to a complete visual system that strengthened their positioning.",
+          "A strategic website that expanded their reach and increased client acquisition.",
+        ],
+        cta: { label: "View all", href: "/projects" },
+      },
+      why: {
+        title: "Why Okrices?",
+        intro:
+          "We don’t design for aesthetics. We design with purpose: every detail responds to a business objective.",
+        bullets: [
+          "Visual identities that communicate with clarity.",
+          "Websites that turn visitors into clients.",
+          "Strategy designed for real business growth.",
+          "Guidance at every step, from idea to results.",
+        ],
+        cta: { label: "Discover our process", href: "/services" },
+      },
+      services: {
+        title: "Our Services",
+        intro:
+          "At Okrices, we design visual and digital solutions built to grow alongside your business.",
+        items: [
+          {
+            title: "Strategic Branding",
+            description:
+              "We create clear and consistent visual identities that inspire trust and purpose from the first interaction.",
+          },
+          {
+            title: "Web Development",
+            description:
+              "We design elegant and functional websites that attract your audience and turn visits into real clients.",
+          },
+        ],
+        cta: { label: "View services", href: "/services" },
+      },
+      testimonials: {
+        title: "What our clients say",
+        quotes: [
+          "Okrices transformed our identity into a real growth tool.",
+          "Our new website doesn’t just look better: it now attracts new clients every week.",
+          "A clear, professional process that made everything simpler.",
+        ],
+      },
+      aboutMini: {
+        title: "About Okrices",
+        text: "Okrices is a branding and web development studio based in South Florida. We create clear identities and functional websites that inspire trust and support each business’s growth.",
+        cta: { label: "Our approach", href: "/about" },
+      },
+      ctaFinal: {
+        title: "Let’s talk about your brand",
+        text: "A brand shouldn’t just look good: it must work, evolve, and deliver real results.",
+        primary: { label: "Schedule consultation", href: "/contact" },
+        secondary: { label: "View services", href: "/services" },
+      },
+    },
+
     projects: { title: "Projects" },
 
     contact: {

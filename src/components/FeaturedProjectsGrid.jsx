@@ -3,7 +3,7 @@
 
 import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectCard from "@/components/projects/ProjectCard";
 
 export default function FeaturedProjectsGrid({
   projects = [],

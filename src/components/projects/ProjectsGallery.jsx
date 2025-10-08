@@ -2,7 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectCard from "@/components/projects/ProjectCard";
 
 /**
  * props:

@@ -11,7 +11,9 @@ export async function getProjects(lang = "en", { fallbackToBase = true } = {}) {
   ] | order(_createdAt desc){
     _id,
     title,
-    "slug": coalesce(slug.current, slug),   // normaliza slug
+    // 👇 CORRECCIÓN AQUÍ: Pide siempre slug.current.
+    // Si no existe, devolverá null, lo cual es predecible.
+    "slug": slug.current,
     projectType,
     overview,
     cardImage{ asset->{_id, url}, alt },

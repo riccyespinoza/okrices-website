@@ -5,18 +5,15 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function ProjectCard({ project, index = 0, locale = "en" }) {
-  // Normaliza datos
   const title = project?.title ?? "Untitled";
   const overview = project?.overview ?? project?.description ?? "";
   const img = project?.cardImage || project?.image;
 
-  // slug puede ser string o { current }
-  const slugValue =
-    typeof project?.slug === "string"
-      ? project.slug
-      : project?.slug?.current || "";
+  // 👇 LÓGICA SIMPLIFICADA AQUÍ
+  // La consulta ahora garantiza que project.slug es un string o null.
+  const slugValue = project?.slug || "";
 
-  // Si no hay slug, renderizamos sin link (evita tarjeta muerta)
+  // El resto de la lógica 'if (!slugValue)' ahora funciona perfectamente.
   if (!slugValue) {
     return (
       <motion.div
@@ -26,6 +23,7 @@ export default function ProjectCard({ project, index = 0, locale = "en" }) {
         transition={{ delay: index * 0.12, duration: 0.45 }}
         className="border border-white/5 rounded-xl overflow-hidden"
       >
+        {/* ... contenido de la tarjeta no clickeable ... */}
         {img?.asset?.url && (
           <img
             src={img.asset.url}
@@ -54,8 +52,10 @@ export default function ProjectCard({ project, index = 0, locale = "en" }) {
     >
       <Link
         href={href}
-        className="group block border border-white/5 hover:border-accent rounded-xl overflow-hidden transition"
+        aria-label={`Open project: ${title}`}
+        className="group block border border-white/5 hover:border-accent rounded-xl overflow-hidden transition pointer-events-auto"
       >
+        {/* ... contenido de la tarjeta clickeable ... */}
         {img?.asset?.url && (
           <img
             src={img.asset.url}

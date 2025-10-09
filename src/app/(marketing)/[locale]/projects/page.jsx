@@ -18,18 +18,19 @@ export async function generateMetadata({ params }) {
 export default async function ProjectsPage({ params }) {
   const locale = params?.locale ?? "en";
 
-  const [projects, cats] = await Promise.all([
+  // Obtener proyectos y categorías
+  const [projects, categories] = await Promise.all([
     getProjects(locale),
     getAllCategories(locale),
   ]);
 
-  // Fallback de textos
+  // Textos traducidos
   const copy = {
     en: {
       title: "Projects",
       subtitle:
         "Each brand we work with reflects our way of creating: clarity, purpose, and results that inspire trust.",
-      cta: "Let’s talk about your brand",
+      cta: "Let's talk about your brand",
       empty: "No projects available.",
       all: "All",
     },
@@ -43,15 +44,14 @@ export default async function ProjectsPage({ params }) {
     },
   }[locale];
 
-  // Construimos los filtros a partir de categorías existentes
-  // Estructura: [{label, slug}] -> slug: null = "All"
+  // Construir filtros para el gallery
+  // Ahora categories viene directamente del archivo de configuración
   const filters = [
     { label: copy.all, slug: null },
-    ...(Array.isArray(cats)
-      ? cats
-          .filter((c) => c?.slug && c?.title)
-          .map((c) => ({ label: c.title, slug: c.slug }))
-      : []),
+    ...categories.map((cat) => ({
+      label: cat.title,
+      slug: cat.slug,
+    })),
   ];
 
   if (!projects?.length) {
@@ -79,7 +79,6 @@ export default async function ProjectsPage({ params }) {
         <ProjectsGallery
           projects={projects}
           locale={locale}
-          // 👇 ahora recibe objetos {label, slug}
           filterItems={filters}
           emptyLabel={copy.empty}
         />

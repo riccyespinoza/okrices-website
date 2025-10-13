@@ -2,7 +2,7 @@ export default {
   cta: {
     title: "Let’s talk about your brand",
     description:
-      "A brand shouldn’t just look good: it must work, evolve, and deliver real results.",
+      "A brand shouldn’t just look good — it should work, evolve, and deliver real results.",
     primary: "Start Your Project",
     secondary: "See Projects",
   },
@@ -12,14 +12,14 @@ export default {
       hero: {
         title: "Beyond the brand.",
         subclaim:
-          "We create visual identities and digital experiences that turn ideas into clear, functional brands ready to grow.",
+          "We create visual identities and digital experiences that transform ideas into clear, functional brands built to grow.",
         primary: { label: "Start your project", href: "/contact" },
         secondary: { label: "View portfolio", href: "/projects" },
       },
       projects: {
         title: "Featured Projects",
         intro:
-          "Each project reflects our way of working: clear design, defined purpose, and results that create real value.",
+          "Each project reflects our approach: clear design, defined purpose, and results that deliver real value.",
         examples: [
           "From a logo to a complete visual system that strengthened their positioning.",
           "A strategic website that expanded their reach and increased client acquisition.",
@@ -29,29 +29,43 @@ export default {
       why: {
         title: "Why Okrices?",
         intro:
-          "We don’t design for aesthetics. We design with purpose: every detail responds to a business objective.",
+          "We don’t design just for aesthetics. We design with purpose — every detail serves a business goal.",
         bullets: [
-          "Visual identities that communicate with clarity.",
-          "Websites that turn visitors into clients.",
-          "Strategy designed for real business growth.",
-          "Guidance at every step, from idea to results.",
+          {
+            title: "Visual Identities",
+            description: "Visual identities that bring clarity.",
+          },
+          {
+            title: "Websites",
+            description: "Websites that turn visitors into clients.",
+          },
+          {
+            title: "Strategy",
+            description: "Strategies designed to drive your business growth.",
+          },
+          {
+            title: "Guidance",
+            description:
+              "Guidance every step of the way — from concept to launch.",
+          },
         ],
+
         cta: { label: "Discover our process", href: "/services" },
       },
       services: {
         title: "Our Services",
         intro:
-          "At Okrices, we design visual and digital solutions built to grow alongside your business.",
+          "At Okrices, we design visual and digital solutions that grow with your business.",
         items: [
           {
             title: "Strategic Branding",
             description:
-              "We create clear and consistent visual identities that inspire trust and purpose from the first interaction.",
+              "We create clear and consistent visual identities that inspire trust and purpose from the very first interaction.",
           },
           {
             title: "Web Development",
             description:
-              "We design elegant and functional websites that attract your audience and turn visits into real clients.",
+              "We design elegant, functional websites that attract your audience and convert them into clients.",
           },
         ],
         cta: { label: "View services", href: "/services" },
@@ -59,8 +73,8 @@ export default {
       testimonials: {
         title: "What our clients say",
         quotes: [
-          "Okrices transformed our identity into a real growth tool.",
-          "Our new website doesn’t just look better: it now attracts new clients every week.",
+          "Okrices transformed our identity into a true growth tool.",
+          "Our new website doesn’t just look better — it attracts new clients every week.",
           "A clear, professional process that made everything simpler.",
         ],
       },
@@ -71,13 +85,20 @@ export default {
       },
       ctaFinal: {
         title: "Let’s talk about your brand",
-        text: "A brand shouldn’t just look good: it must work, evolve, and deliver real results.",
+        text: "A brand shouldn’t just look good — it should work, evolve, and deliver real results.",
         primary: { label: "Schedule consultation", href: "/contact" },
         secondary: { label: "View services", href: "/services" },
       },
     },
 
-    projects: { title: "Projects" },
+    projects: {
+      title: "Projects",
+      hero: {
+        subtitle:
+          "Each brand we work with reflects our approach to creation — clarity, purpose, and results that inspire trust.",
+        cta: { label: "Let’s talk about your brand", href: "/contact" },
+      },
+    },
 
     contact: {
       title: "Contact",
@@ -118,19 +139,19 @@ export default {
         title: "About Okrices",
         subtitle: "Premium Visual Identity & Web Studio",
         description:
-          "Okrices is a branding and web development studio based in South Florida with international reach. We create clear brands and functional digital platforms that inspire trust and support business growth.",
+          "Okrices is a branding and web development studio based in South Florida with an international presence. We create clear brands and functional digital platforms that inspire trust and drive business growth.",
       },
       philosophy: {
         title: "Our Philosophy",
-        text: "For us, design is a means, not the end. Every project is built with strategy, ensuring the brand works in practice, connects with the right people, and remains relevant over time.",
+        text: "For us, design is a means, not an end. Every project begins with strategy — ensuring the brand works in practice, connects with the right audience, and stays relevant over time.",
       },
       approach: {
         title: "Our Approach",
         items: [
-          "We listen to your business to understand what you truly need.",
-          "We design clear and consistent identities.",
-          "We build websites that are easy to use and purposeful.",
-          "We support you throughout your business growth journey.",
+          "We listen to understand what your business truly needs.",
+          "We design clear, consistent visual identities.",
+          "We build functional, user-friendly websites aligned with your goals.",
+          "We support you through every stage of your business growth.",
         ],
       },
       values: {
@@ -140,21 +161,24 @@ export default {
             label: "Clarity",
             desc: "We design to communicate clearly and effectively.",
           },
-          { label: "Trust", desc: "We create solid and consistent solutions." },
+          {
+            label: "Trust",
+            desc: "We create solid, consistent, and transparent solutions.",
+          },
           {
             label: "Growth",
-            desc: "Every action is aimed at driving your business forward.",
+            desc: "Every decision is made to drive your business forward.",
           },
           {
             label: "Innovation",
-            desc: "We combine creativity and strategy in every project.",
+            desc: "We combine creativity, technology, and strategy in every project.",
           },
         ],
       },
       cta: {
         title: "Let’s talk about your brand",
         description:
-          "We are here to help you take your brand to the next level.",
+          "We’re here to help you take your brand to the next level.",
       },
     },
 
@@ -162,23 +186,23 @@ export default {
       title: "Services",
       hero: {
         description:
-          "We design brands and websites with purpose: visual and digital solutions that inspire trust and support your business growth.",
+          "We design brands and websites with purpose — visual and digital solutions that inspire trust and drive your business growth.",
         ctaLabel: "View portfolio",
       },
       branding: {
         title: "Strategic Branding",
         intro:
-          "We create visual identities that reflect coherence and trust. Our process doesn’t end with a logo: we deliver an adaptable system that allows you to communicate clearly and stay consistent across every touchpoint.",
+          "We create visual identities that communicate coherence, trust, and purpose. Our process goes beyond a logo — we develop adaptable visual systems that help you stay clear and consistent across every touchpoint.",
         options: [
           {
             title: "Essential Identity",
             description:
-              "Logo, color palette, typography, and initial applications (cards, signatures, social media).",
+              "Logo, color palette, typography, and initial applications (business cards, email signatures, and social media).",
           },
           {
             title: "Brand System",
             description:
-              "Full visual identity with a simple brand guide, templates, and consistency across all formats.",
+              "Comprehensive visual identity with a simplified brand guide, templates, and consistent design across all formats.",
           },
           {
             title: "Advanced Branding",
@@ -191,22 +215,22 @@ export default {
       web: {
         title: "Web Development",
         intro:
-          "We design elegant and functional websites tailored to each business’s needs. From fast, easy-to-manage solutions to high-performance custom platforms.",
+          "We design elegant, functional websites tailored to each business’s needs — from fast, self-manageable solutions to high-performance custom platforms.",
         options: [
           {
             title: "Practical Website",
             description:
-              "WordPress, Wix, or Squarespace. Informational websites ready quickly, easy for clients to manage.",
+              "WordPress, Wix, or Squarespace. Informational websites delivered quickly and easy for clients to manage.",
           },
           {
             title: "E-commerce",
             description:
-              "Shopify or WooCommerce. Online stores with catalog, cart, payments, and shipping integrations.",
+              "Shopify or WooCommerce. Online stores with product catalogs, shopping carts, payments, and shipping integrations.",
           },
           {
             title: "Custom Website",
             description:
-              "Next.js or other custom development. Unique design, advanced SEO, and tailored functionalities.",
+              "Custom development, unique design, optimized SEO, and tailored functionalities.",
           },
         ],
         ctaLabel: "View web portfolio",
@@ -214,7 +238,7 @@ export default {
       closing: {
         title: "Let’s talk about your brand",
         description:
-          "Not every brand needs the same. We help you find the solution that’s right for your business.",
+          "Not every brand needs the same. We help you define and build the solution that’s right for your business.",
       },
     },
   },

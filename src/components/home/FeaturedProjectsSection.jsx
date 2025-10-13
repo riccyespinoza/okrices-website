@@ -28,15 +28,6 @@ export default async function FeaturedProjectsSection({
             {intro}
           </p>
         )}
-        {examples?.length ? (
-          <ul className="mx-auto mb-8 max-w-3xl list-disc list-inside text-center text-sm text-brand-cream/80">
-            {examples.map((e, i) => (
-              <li key={i} className="mb-1">
-                {e}
-              </li>
-            ))}
-          </ul>
-        ) : null}
       </div>
 
       <FeaturedProjectsGrid

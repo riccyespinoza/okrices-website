@@ -1,8 +1,8 @@
 export default {
   cta: {
-    title: "¿Lista para elevar tu presencia digital?",
+    title: "Hablemos de tu marca",
     description:
-      "Construyamos una marca y un sitio premium que realmente conviertan.",
+      "Una marca no solo debe verse bien: debe funcionar, evolucionar y generar resultados reales.",
     primary: "Inicia tu proyecto",
     secondary: "Ver proyectos",
   },
@@ -12,7 +12,7 @@ export default {
       hero: {
         title: "Más allá de la marca.",
         subclaim:
-          "Creamos identidades visuales y experiencias digitales que convierten ideas en marcas claras, funcionales y listas para crecer.",
+          "Creamos identidades visuales y experiencias digitales que transforman ideas en marcas claras, funcionales y preparadas para crecer.",
         primary: { label: "Iniciar tu proyecto", href: "/contact" },
         secondary: { label: "Ver portafolio", href: "/projects" },
       },
@@ -29,13 +29,28 @@ export default {
       why: {
         title: "¿Por qué Okrices?",
         intro:
-          "No diseñamos por estética. Diseñamos con propósito: cada detalle responde a un objetivo de negocio.",
+          "No diseñamos solo por estética. Diseñamos con propósito: cada detalle responde a un objetivo de negocio.",
         bullets: [
-          "Identidades visuales que comunican con claridad.",
-          "Sitios web que convierten visitantes en clientes.",
-          "Estrategia pensada para el crecimiento real de tu negocio.",
-          "Acompañamiento en cada paso, desde la idea hasta el resultado.",
+          {
+            title: "Identidades Visuales",
+            description: "Identidades visuales que comunican con claridad.",
+          },
+          {
+            title: "Sitios Web",
+            description: "Sitios web que convierten visitantes en clientes.",
+          },
+          {
+            title: "Estrategia",
+            description:
+              "Estrategias diseñadas para impulsar el crecimiento de tu negocio.",
+          },
+          {
+            title: "Acompañamiento",
+            description:
+              "Acompañamiento en cada paso, desde la idea hasta el resultado.",
+          },
         ],
+
         cta: { label: "Conoce nuestro proceso", href: "/services" },
       },
       services: {
@@ -77,13 +92,20 @@ export default {
       },
     },
 
-    projects: { title: "Proyectos" },
+    projects: {
+      title: "Proyectos",
+      hero: {
+        subtitle:
+          "Cada marca con la que trabajamos refleja nuestra manera de crear: claridad, propósito y resultados que generan confianza.",
+        cta: { label: "Hablemos de tu marca", href: "/contact" },
+      },
+    },
 
     contact: {
       title: "Contacto",
       hero: {
         title: "Hablemos de tu marca",
-        text: "Tu próxima etapa comienza aquí. Un espacio para transformar la forma en que tu marca se comunica, crece y se presenta al mundo.",
+        text: "Tu próxima etapa comienza aquí. Un espacio para transformar la manera en que tu marca comunica, crece y se presenta al mundo.",
         ctaLabel: "Enviar mensaje",
       },
       form: {
@@ -214,7 +236,7 @@ export default {
           {
             title: "Web personalizada",
             description:
-              "Next.js u otro desarrollo a medida. Diseño único, SEO avanzado y funcionalidades específicas.",
+              "Desarrollo a medida, diseño único, SEO optimizado y funcionalidades específicas.",
           },
         ],
         ctaLabel: "Ver portafolio web",

@@ -42,15 +42,14 @@ export default function WhyOkricesSection({ title, intro, bullets = [], cta }) {
           )}
 
           <ul className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
-            {bullets.map((text, i) => {
+            {bullets.map((item, i) => {
               const Icon = icons[i % icons.length];
-              const heading = text.split(".")[0];
               return (
                 <ServiceCard
                   key={i}
                   icon={<Icon className="mb-4 text-3xl text-accent" />}
-                  title={heading}
-                  description={text}
+                  title={item.title}
+                  description={item.description}
                 />
               );
             })}

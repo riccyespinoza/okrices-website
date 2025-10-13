@@ -5,7 +5,19 @@ import { motion, useReducedMotion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import Container from "@/components/ui/Container";
 import ServiceCard from "../shared/ServiceCard";
-import { FaRegEye, FaUsers, FaChartLine, FaCheckCircle } from "react-icons/fa";
+import {
+  FaRegEye,
+  FaUsers,
+  FaChartLine,
+  FaCheckCircle,
+  FaEye,
+  FaPalette,
+  FaHandshakeSlash,
+  FaStar,
+  FaHandshake,
+  FaChartBar,
+  FaLightbulb,
+} from "react-icons/fa";
 
 // Animaciones consistentes con otras secciones
 const containerVariants = {
@@ -15,13 +27,14 @@ const containerVariants = {
 
 export default function ValuesAbout({
   id = "about-values",
-  title = "Our Values",
+  title,
   values = [],
+  icons = [],
 }) {
   const prefersReduced = useReducedMotion();
 
   // Íconos por defecto (si no los mandas desde props)
-  const defaultIcons = [FaRegEye, FaUsers, FaChartLine, FaCheckCircle];
+  const defaultIcons = [FaStar, FaHandshake, FaChartBar, FaLightbulb];
 
   // Normalizamos los valores para pasarlos a ServiceCard
   const normalized = values.map((val, idx) => {

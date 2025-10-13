@@ -16,7 +16,7 @@ export default function ContactForm({ locale }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="glass-effect rounded-xl border border-white/5 p-8 transition hover:-translate-y-1 hover:shadow-lg"
+      className="glass-effect rounded-2xl border border-white/5 p-6 md:p-8 transition hover:-translate-y-1 hover:shadow-lg"
     >
       <h2
         id="contact-form-title"
@@ -27,8 +27,8 @@ export default function ContactForm({ locale }) {
 
       <form className="space-y-6">
         {/* Nombre */}
-        <div>
-          <label htmlFor="name" className="mb-1 block text-sm text-gray-300">
+        <div className="form-group">
+          <label htmlFor="name" className="form-label">
             {t.pages.contact.form.fields.name.label}
           </label>
           <input
@@ -37,14 +37,14 @@ export default function ContactForm({ locale }) {
             type="text"
             required
             autoComplete="name"
-            className="input-field w-full"
+            className="form-field"
             placeholder={t.pages.contact.form.fields.name.placeholder}
           />
         </div>
 
         {/* Correo */}
-        <div>
-          <label htmlFor="email" className="mb-1 block text-sm text-gray-300">
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">
             {t.pages.contact.form.fields.email.label}
           </label>
           <input
@@ -53,14 +53,14 @@ export default function ContactForm({ locale }) {
             type="email"
             required
             autoComplete="email"
-            className="input-field w-full"
+            className="form-field"
             placeholder={t.pages.contact.form.fields.email.placeholder}
           />
         </div>
 
         {/* Empresa */}
-        <div>
-          <label htmlFor="company" className="mb-1 block text-sm text-gray-300">
+        <div className="form-group">
+          <label htmlFor="company" className="form-label">
             {t.pages.contact.form.fields.company.label}
           </label>
           <input
@@ -68,39 +68,50 @@ export default function ContactForm({ locale }) {
             name="company"
             type="text"
             autoComplete="organization"
-            className="input-field w-full"
+            className="form-field"
             placeholder={t.pages.contact.form.fields.company.placeholder}
           />
         </div>
 
         {/* Servicio de interés */}
-        <div>
-          <label htmlFor="service" className="mb-1 block text-sm text-gray-300">
+        <div className="form-group">
+          <label htmlFor="service" className="form-label">
             {t.pages.contact.form.fields.service.label}
           </label>
-          <select id="service" name="service" className="input-field w-full">
+          <select
+            id="service"
+            name="service"
+            className="form-select"
+            defaultValue=""
+          >
+            <option value="" disabled hidden>
+              {t.pages.contact.form.fields.service.placeholder ??
+                "Select an option"}
+            </option>
             {t.pages.contact.form.serviceOptions.map((opt, i) => (
-              <option key={i}>{opt}</option>
+              <option key={i} className="text-neutral-900">
+                {opt}
+              </option>
             ))}
           </select>
         </div>
 
         {/* Mensaje */}
-        <div>
-          <label htmlFor="message" className="mb-1 block text-sm text-gray-300">
+        <div className="form-group">
+          <label htmlFor="message" className="form-label">
             {t.pages.contact.form.fields.message.label}
           </label>
           <textarea
             id="message"
             name="message"
-            rows="5"
+            rows={5}
             required
-            className="input-field w-full resize-none"
+            className="form-textarea"
             placeholder={t.pages.contact.form.fields.message.placeholder}
           />
         </div>
 
-        <Button type="submit" variant="secondary" className="w-full">
+        <Button type="submit" variant="secondary" className="w-full rounded-lg">
           {t.pages.contact.form.submitLabel}
         </Button>
       </form>

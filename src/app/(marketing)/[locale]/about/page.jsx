@@ -48,8 +48,8 @@ export default function AboutPage({ params }) {
 
       {/* 4) Valores y visión */}
       <ValuesAbout
-        title={t.pages.about.values.title}
-        values={t.pages.about.values.items}
+        title={t.pages.about.values.title} // ⬅️ aquí
+        values={t.pages.about.values.items} // ⬅️ y aquí
       />
 
       {/* 5) Cierre con CTA */}

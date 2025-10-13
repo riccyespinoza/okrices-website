@@ -4,29 +4,27 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa"; // ⬅️ sin FaChevronDown
 
 export default function Header() {
-  // --- Estados y Lógica del Idioma ---
+  // --- Idioma ---
   const pathname = usePathname();
   const isSpanish = pathname?.startsWith("/es");
   const prefix = isSpanish ? "/es" : "";
 
-  // Lógica para detectar si estamos en una página de detalle de proyecto
+  // ¿Detalle de proyecto?
   const isProjectDetailPage =
     /^\/projects\/[^/]+$/.test(pathname) ||
     /^\/es\/projects\/[^/]+$/.test(pathname);
 
-  // --- Estados para la Interfaz y el Scroll ---
+  // --- UI / Scroll ---
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const panelRef = useRef(null);
-  const servicesRef = useRef(null);
 
-  // --- Textos para Internacionalización ---
+  // --- i18n ---
   const texts = isSpanish
     ? {
         about: "Sobre Nosotros",
@@ -45,9 +43,7 @@ export default function Header() {
         contact: "Contact",
       };
 
-  // --- Efectos (Hooks) ---
-
-  // Efecto para controlar la visibilidad del header al hacer scroll
+  // --- Efectos ---
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -72,25 +68,18 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY, mobileOpen]);
 
-  // Efecto para cerrar el menú móvil al hacer clic fuera
+  // Cerrar panel móvil al hacer clic fuera
   useEffect(() => {
     function onClickOutside(e) {
-      if (
-        panelRef.current &&
-        !panelRef.current.contains(e.target) &&
-        servicesRef.current &&
-        !servicesRef.current.contains(e.target)
-      ) {
+      if (panelRef.current && !panelRef.current.contains(e.target)) {
         setMobileOpen(false);
-        setServicesOpen(false);
       }
     }
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  // --- Renderizado del Componente ---
-
+  // --- Render ---
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 px-6 py-3 transition-all duration-300 ${
@@ -98,7 +87,7 @@ export default function Header() {
       } ${visible ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* --- Logo Dinámico --- */}
+        {/* Logo */}
         <Link href={isSpanish ? "/es" : "/"} className="flex items-center">
           <div className="hidden md:block">
             <Image
@@ -128,7 +117,7 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* --- Navegación Desktop --- */}
+        {/* Navegación Desktop */}
         <nav className="hidden md:flex items-center space-x-6 text-base">
           <Link
             href={`${prefix}/about`}
@@ -137,29 +126,13 @@ export default function Header() {
             {texts.about}
           </Link>
 
-          <div ref={servicesRef} className="relative group">
-            <Link
-              href={`${prefix}/services`}
-              className="flex items-center hover:text-accent transition-colors duration-300"
-            >
-              {texts.services} <FaChevronDown className="ml-1" />
-            </Link>
-            {/* 👇 CÓDIGO ACTUALIZADO AQUÍ 👇 */}
-            {/* <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 top-full left-0 mt-2 w-56 glass-effect border border-white/10 rounded-lg overflow-hidden transition-all duration-300">
-              <Link
-                href={`${prefix}/services/branding`}
-                className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
-              >
-                {texts.branding}
-              </Link>
-              <Link
-                href={`${prefix}/services/web-design`}
-                className="block px-4 py-2 hover:bg-accent/10 transition-colors duration-300"
-              >
-                {texts.web}
-              </Link>
-            </div>*/}
-          </div>
+          {/* Services sin ícono */}
+          <Link
+            href={`${prefix}/services`}
+            className="hover:text-accent transition-colors duration-300"
+          >
+            {texts.services}
+          </Link>
 
           <Link
             href={`${prefix}/projects`}
@@ -175,25 +148,21 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* --- Botón Hamburger móvil --- */}
+        {/* Botón Hamburger móvil */}
         <button
           className="md:hidden text-2xl"
-          onClick={() => {
-            setMobileOpen(!mobileOpen);
-            setServicesOpen(false);
-          }}
+          onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
           {mobileOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
-      {/* --- Panel Móvil --- */}
+      {/* Panel Móvil */}
       {mobileOpen && (
-        // 👇 CÓDIGO ACTUALIZADO AQUÍ 👇
         <div
           ref={panelRef}
-          className="md:hidden glass-effect border-t border-white/10"
+          className="md:hidden bg-transparent border-t border-white/10" // sin glass-effect en móvil
         >
           <nav className="flex flex-col px-6 py-4 space-y-4">
             <Link
@@ -204,43 +173,14 @@ export default function Header() {
               {texts.about}
             </Link>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <Link
-                  href={`${prefix}/services`}
-                  onClick={() => setMobileOpen(false)}
-                  className="hover:text-accent transition-colors duration-300"
-                >
-                  {texts.services}
-                </Link>
-                <button
-                  className="p-1"
-                  onClick={() => setServicesOpen(!servicesOpen)}
-                >
-                  <FaChevronDown
-                    className={`transition ${servicesOpen ? "rotate-180" : ""}`}
-                  />
-                </button>
-              </div>
-              {/* {servicesOpen && (
-                <div className="mt-2 pl-4 flex flex-col space-y-2">
-                  <Link
-                    href={`${prefix}/services/branding`}
-                    onClick={() => setMobileOpen(false)}
-                    className="hover:text-accent transition-colors duration-300"
-                  >
-                    {texts.branding}
-                  </Link>
-                  <Link
-                    href={`${prefix}/services/web-design`}
-                    onClick={() => setMobileOpen(false)}
-                    className="hover:text-accent transition-colors duration-300"
-                  >
-                    {texts.web}
-                  </Link>
-                </div>
-              )} */}
-            </div>
+            {/* Services como link simple (sin flecha) */}
+            <Link
+              href={`${prefix}/services`}
+              onClick={() => setMobileOpen(false)}
+              className="hover:text-accent transition-colors duration-300"
+            >
+              {texts.services}
+            </Link>
 
             <Link
               href={`${prefix}/projects`}

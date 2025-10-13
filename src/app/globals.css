@@ -142,3 +142,38 @@
     @apply bg-transparent backdrop-blur-md shadow-lg;
   }
 }
+
+@layer components {
+  /* Contenedor de cada campo */
+  .form-group {
+    @apply space-y-2;
+  }
+
+  /* Etiquetas */
+  .form-label {
+    @apply block text-sm text-gray-300;
+  }
+
+  /* Campo base: input / select */
+  .form-field {
+    @apply w-full rounded-lg px-4 py-3 md:px-5 md:py-3
+           bg-white/95 text-neutral-900 placeholder-neutral-600
+           border border-white/10 shadow-soft
+           focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/60
+           transition;
+  }
+
+  /* Textarea (mismas reglas + sin resize) */
+  .form-textarea {
+    @apply form-field resize-none;
+  }
+
+  /* Select con chevron SVG (sin theme(), compatible con editores) */
+  .form-select {
+    @apply form-field appearance-none pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23a55130' stroke-width='2'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 12px;
+  }
+}

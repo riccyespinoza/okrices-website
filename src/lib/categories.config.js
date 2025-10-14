@@ -7,24 +7,44 @@
 export const CATEGORIES = {
   en: [
     { id: "branding", slug: "branding", title: "Branding" },
-    { id: "web-design", slug: "web-design", title: "Web Design" },
-    { id: "ui-ux", slug: "ui-ux", title: "UI/UX Design" },
-    { id: "branding-web", slug: "branding-web", title: "Branding + Web" },
     {
-      id: "digital-marketing",
-      slug: "digital-marketing",
-      title: "Digital Marketing",
+      id: "web-development",
+      slug: "web-development",
+      title: "Web Development",
+    },
+    {
+      id: "digital-strategy",
+      slug: "digital-strategy",
+      title: "Digital Strategy",
+    },
+    {
+      id: "consulting-growth",
+      slug: "consulting-growth",
+      title: "Consulting & Growth",
+    },
+    {
+      id: "full-brand-system",
+      slug: "full-brand-system",
+      title: "Full Brand System",
     },
   ],
   es: [
     { id: "branding", slug: "branding", title: "Diseño de Marca" },
-    { id: "web-design", slug: "web-design", title: "Diseño Web" },
-    { id: "ui-ux", slug: "ui-ux", title: "Diseño UI/UX" },
-    { id: "branding-web", slug: "branding-web", title: "Marca + Web" },
+    { id: "web-development", slug: "web-development", title: "Desarrollo Web" },
     {
-      id: "digital-marketing",
-      slug: "digital-marketing",
-      title: "Marketing Digital",
+      id: "digital-strategy",
+      slug: "digital-strategy",
+      title: "Estrategia Digital",
+    },
+    {
+      id: "consulting-growth",
+      slug: "consulting-growth",
+      title: "Consultoría y Crecimiento",
+    },
+    {
+      id: "full-brand-system",
+      slug: "full-brand-system",
+      title: "Sistema de Marca Completo",
     },
   ],
 };

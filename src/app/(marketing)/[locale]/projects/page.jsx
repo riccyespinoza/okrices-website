@@ -17,70 +17,63 @@ export async function generateMetadata({ params }) {
 
 export default async function ProjectsPage({ params }) {
   const locale = params?.locale ?? "en";
+  const t = getDic(locale);
 
-  // Obtener proyectos y categorías
+  // 🔹 HERO — se obtiene directo del diccionario
+  const hero = t?.pages?.projects?.hero ?? {};
+
+  // 🔹 Datos dinámicos
   const [projects, categories] = await Promise.all([
     getProjects(locale),
     getAllCategories(locale),
   ]);
 
-  // Textos traducidos
-  const copy = {
-    en: {
-      title: "Projects",
-      subtitle:
-        "Each brand we work with reflects our way of creating: clarity, purpose, and results that inspire trust.",
-      cta: "Let's talk about your brand",
-      empty: "No projects available.",
-      all: "All",
-    },
-    es: {
-      title: "Proyectos",
-      subtitle:
-        "Cada marca con la que trabajamos refleja nuestra manera de crear: claridad, propósito y resultados que generan confianza.",
-      cta: "Hablemos de tu marca",
-      empty: "No hay proyectos disponibles.",
-      all: "Todos",
-    },
-  }[locale];
+  // 🔹 Etiquetas auxiliares (estas puedes mover a t.common más adelante)
+  const emptyLabel =
+    locale === "es"
+      ? "No hay proyectos disponibles."
+      : "No projects available.";
+  const allLabel = locale === "es" ? "Todos" : "All";
 
-  // Construir filtros para el gallery
-  // Ahora categories viene directamente del archivo de configuración
+  // 🔹 Filtros
   const filters = [
-    { label: copy.all, slug: null },
+    { label: allLabel, slug: null },
     ...categories.map((cat) => ({
       label: cat.title,
       slug: cat.slug,
     })),
   ];
 
+  // 🔹 Vista vacía si no hay proyectos
   if (!projects?.length) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <p className="text-brand-cream/70">{copy.empty}</p>
+        <p className="text-brand-cream/70">{emptyLabel}</p>
       </main>
     );
   }
 
   return (
     <main id="main-content">
+      {/* HERO */}
       <Section withContainer spacing="pt-40 pb-20">
         <Reveal className="text-center">
           <ProjectsHero
-            title={copy.title}
-            subtitle={copy.subtitle}
-            locale={locale}
-            ctaLabel={copy.cta}
+            title={t?.pages?.projects?.title}
+            subtitle={hero.subtitle}
+            ctaLabel={hero.cta?.label}
+            ctaHref={`/${locale}${hero.cta?.href}`}
           />
         </Reveal>
       </Section>
 
+      {/* GALERÍA */}
       <Section withContainer spacing="pb-24 md:pb-32">
         <ProjectsGallery
           projects={projects}
           locale={locale}
           filterItems={filters}
-          emptyLabel={copy.empty}
+          emptyLabel={emptyLabel}
         />
       </Section>
     </main>

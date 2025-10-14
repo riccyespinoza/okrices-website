@@ -96,7 +96,7 @@ export default {
       title: "Proyectos",
       hero: {
         subtitle:
-          "Cada marca con la que trabajamos refleja nuestra manera de crear: claridad, propósito y resultados que generan confianza.",
+          "Cada marca con la que trabajamos refleja nuestra manera de crear — claridad, propósito y resultados que generan confianza.",
         cta: { label: "Hablemos de tu marca", href: "/contact" },
       },
     },

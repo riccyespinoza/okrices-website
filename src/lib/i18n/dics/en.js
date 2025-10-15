@@ -52,6 +52,41 @@ export default {
 
         cta: { label: "Discover our process", href: "/services" },
       },
+      // ✅ dentro de export default { pages: { ... } }
+      projectDetail: {
+        brief: { title: "Overview" },
+        keyData: {
+          title: "Key Facts",
+          client: "Client",
+          services: "Services",
+          year: "Year",
+          location: "Location",
+        },
+        deliverables: { title: "Project Deliverables" },
+        results: {
+          title: "Project Outcomes",
+          challenge: "The Challenge",
+          solution: "The Solution",
+          impact: "The Impact",
+        },
+        gallery: {
+          titleBefore: "Visual",
+          titleAfter: "Gallery",
+          intro:
+            "A closer look at the deliverables and visual identity created for this project.",
+        },
+        cta: {
+          title: {
+            before: "Ready for your project to look this",
+            highlight: "professional",
+            after: "?",
+          },
+          description:
+            "Let’s talk about your brand and how we can take it to the next level.",
+          primary: "Start a Conversation",
+        },
+      },
+
       services: {
         title: "Our Services",
         intro:

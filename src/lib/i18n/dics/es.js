@@ -101,6 +101,41 @@ export default {
       },
     },
 
+    // ✅ dentro de export default { pages: { ... } }
+    projectDetail: {
+      brief: { title: "El Resumen" },
+      keyData: {
+        title: "Datos Clave",
+        client: "Cliente",
+        services: "Servicios",
+        year: "Año",
+        location: "Ubicación",
+      },
+      deliverables: { title: "Entregables del Proyecto" },
+      results: {
+        title: "Resultados del Proyecto",
+        challenge: "El Reto",
+        solution: "La Solución",
+        impact: "El Impacto",
+      },
+      gallery: {
+        titleBefore: "Galería",
+        titleAfter: "Visual",
+        intro:
+          "Un vistazo detallado a los entregables y la identidad visual desarrollada para el proyecto.",
+      },
+      cta: {
+        title: {
+          before: "¿Listo para que tu proyecto luzca así de",
+          highlight: "profesional",
+          after: "?",
+        },
+        description:
+          "Hablemos sobre tu marca y cómo podemos llevarla al siguiente nivel.",
+        primary: "Iniciar una Conversación",
+      },
+    },
+
     contact: {
       title: "Contacto",
       hero: {

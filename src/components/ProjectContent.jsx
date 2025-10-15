@@ -18,27 +18,24 @@ import {
 } from "react-icons/fi";
 import { FaCheckCircle, FaLayerGroup, FaTabletAlt } from "react-icons/fa";
 
-// Variantes de animación para las secciones con tarjetas
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
 };
 
-export default function ProjectContent({ project }) {
+// 1. Añadimos un valor por defecto `{}` a `t` para evitar errores si no se pasa.
+export default function ProjectContent({ project, t = {} }) {
   const prefersReduced = useReducedMotion();
 
   // --- Lógica de preparación de datos (sin cambios) ---
   const getImageUrl = (img) => img?.asset?.url || null;
   const mainImageUrl = getImageUrl(project?.mainImage);
-
   const gallery = Array.isArray(project?.gallery)
     ? project.gallery.filter((img) => getImageUrl(img))
     : [];
-
   const contextLine =
     project?.contextLine ??
     (project?.overview ? String(project.overview).slice(0, 140) : "");
-
   const deliverables =
     Array.isArray(project?.deliverables) && project.deliverables.length > 0
       ? project.deliverables
@@ -50,10 +47,22 @@ export default function ProjectContent({ project }) {
         : [];
   // --- Fin de la lógica de datos ---
 
+  // Helper para renderizar títulos con la última palabra resaltada de forma segura
+  const TitleWithHighlight = ({ text }) => {
+    if (!text) return null; // No renderizar nada si no hay texto
+    const parts = text.split(" ");
+    const lastWord = parts.pop();
+    return (
+      <>
+        {parts.join(" ")} <span className="highlight">{lastWord}</span>
+      </>
+    );
+  };
+
   return (
     <main className="min-h-screen text-light">
       {/* =======================================================
-          1) Hero visual
+          1) Hero visual (Sin cambios)
           ======================================================= */}
       <Section
         spacing="pt-24 pb-32"
@@ -105,7 +114,8 @@ export default function ProjectContent({ project }) {
               id="brief-title"
               className="mb-6 text-3xl font-bold md:text-4xl"
             >
-              El <span className="highlight">Resumen</span>
+              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+              <TitleWithHighlight text={t?.brief?.title ?? "Overview"} />
             </h2>
             <p className="max-w-4xl text-lg text-brand-cream opacity-90 text-justify md:text-xl leading-relaxed">
               {project.overview}
@@ -126,44 +136,43 @@ export default function ProjectContent({ project }) {
             <motion.div
               className="text-center"
               variants={prefersReduced ? {} : containerVariants}
-              initial={prefersReduced ? undefined : "hidden"}
-              whileInView={prefersReduced ? undefined : "visible"}
-              viewport={
-                prefersReduced ? undefined : { once: true, amount: 0.3 }
-              }
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h2
                 id="key-data-title"
                 className="mb-12 text-3xl font-bold md:text-4xl"
               >
-                Datos <span className="highlight">Clave</span>
+                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+                <TitleWithHighlight text={t?.keyData?.title ?? "Key Facts"} />
               </h2>
               <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
                 {project?.client && (
                   <ServiceCard
                     icon={<FiUser className="mb-4 text-3xl text-accent" />}
-                    title="Cliente"
+                    title={t?.keyData?.client ?? "Client"}
                     description={project.client}
                   />
                 )}
                 {project?.services && (
                   <ServiceCard
                     icon={<FiSettings className="mb-4 text-3xl text-accent" />}
-                    title="Servicios"
+                    title={t?.keyData?.services ?? "Services"}
                     description={project.services}
                   />
                 )}
                 {project?.year && (
                   <ServiceCard
                     icon={<FiCalendar className="mb-4 text-3xl text-accent" />}
-                    title="Año"
+                    title={t?.keyData?.year ?? "Year"}
                     description={project.year}
                   />
                 )}
                 {project?.location && (
                   <ServiceCard
                     icon={<FiMapPin className="mb-4 text-3xl text-accent" />}
-                    title="Ubicación"
+                    title={t?.keyData?.location ?? "Location"}
                     description={project.location}
                   />
                 )}
@@ -182,17 +191,18 @@ export default function ProjectContent({ project }) {
             <motion.div
               className="text-center"
               variants={prefersReduced ? {} : containerVariants}
-              initial={prefersReduced ? undefined : "hidden"}
-              whileInView={prefersReduced ? undefined : "visible"}
-              viewport={
-                prefersReduced ? undefined : { once: true, amount: 0.3 }
-              }
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h2
                 id="deliverables-title"
                 className="mb-12 text-3xl font-bold md:text-4xl"
               >
-                Entregables del <span className="highlight">Proyecto</span>
+                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+                <TitleWithHighlight
+                  text={t?.deliverables?.title ?? "Project Deliverables"}
+                />
               </h2>
               <ul className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
                 {deliverables.map((item, i) => {
@@ -214,7 +224,7 @@ export default function ProjectContent({ project }) {
       )}
 
       {/* =======================================================
-          5) Resultados del Proyecto (✨ SECCIÓN RESTAURADA)
+          5) Resultados del Proyecto
           ======================================================= */}
       {(project?.challenge || project?.solution || project?.impact) && (
         <Section spacing="py-24 md:py-32" aria-labelledby="results-title">
@@ -222,17 +232,18 @@ export default function ProjectContent({ project }) {
             <motion.div
               className="text-center"
               variants={prefersReduced ? {} : containerVariants}
-              initial={prefersReduced ? undefined : "hidden"}
-              whileInView={prefersReduced ? undefined : "visible"}
-              viewport={
-                prefersReduced ? undefined : { once: true, amount: 0.3 }
-              }
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h2
                 id="results-title"
                 className="mb-12 text-3xl font-bold md:text-4xl"
               >
-                Resultados del <span className="highlight">Proyecto</span>
+                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+                <TitleWithHighlight
+                  text={t?.results?.title ?? "Project Outcomes"}
+                />
               </h2>
               <ul className="grid grid-cols-1 gap-10 md:grid-cols-3">
                 {project?.challenge && (
@@ -240,14 +251,14 @@ export default function ProjectContent({ project }) {
                     icon={
                       <FiAlertCircle className="mb-4 text-3xl text-accent" />
                     }
-                    title="El Reto"
+                    title={t?.results?.challenge ?? "The Challenge"}
                     description={project.challenge}
                   />
                 )}
                 {project?.solution && (
                   <ServiceCard
                     icon={<FiZap className="mb-4 text-3xl text-accent" />}
-                    title="La Solución"
+                    title={t?.results?.solution ?? "The Solution"}
                     description={project.solution}
                   />
                 )}
@@ -256,7 +267,7 @@ export default function ProjectContent({ project }) {
                     icon={
                       <FiTrendingUp className="mb-4 text-3xl text-accent" />
                     }
-                    title="El Impacto"
+                    title={t?.results?.impact ?? "The Impact"}
                     description={project.impact}
                   />
                 )}
@@ -267,18 +278,23 @@ export default function ProjectContent({ project }) {
       )}
 
       {/* =======================================================
-          6) Galería visual
+          6) Galería visual (Sin cambios de lógica, solo textos)
           ======================================================= */}
       {gallery.length > 0 && (
         <Section spacing="py-24 md:py-32" aria-labelledby="gallery-title">
           <Container fluid>
             <div className="text-center mb-12">
               <h2 id="gallery-title" className="text-3xl md:text-4xl font-bold">
-                Galería <span className="text-gradient">Visual</span>
+                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+                {t?.gallery?.titleBefore ?? "Visual"}{" "}
+                <span className="text-gradient">
+                  {t?.gallery?.titleAfter ?? "Gallery"}
+                </span>
               </h2>
               <p className="mt-4 text-lg text-brand-cream opacity-90 max-w-2xl mx-auto">
-                Un vistazo detallado a los entregables y la identidad visual
-                desarrollada para el proyecto.
+                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+                {t?.gallery?.intro ??
+                  "A closer look at the deliverables and visual identity created for this project."}
               </p>
             </div>
             <div className="grid grid-cols-1 gap-8">
@@ -342,15 +358,22 @@ export default function ProjectContent({ project }) {
               id="project-cta-title"
               className="text-3xl font-bold md:text-4xl"
             >
-              ¿Listo para que tu proyecto luzca así de{" "}
-              <span className="text-gradient">profesional</span>?
+              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+              {t?.cta?.title?.before ??
+                "Ready for your project to look this"}{" "}
+              <span className="text-gradient">
+                {t?.cta?.title?.highlight ?? "professional"}
+              </span>
+              {t?.cta?.title?.after ?? "?"}
             </h2>
             <p className="mt-4 mb-8 text-lg text-brand-cream opacity-90">
-              Hablemos sobre tu marca y cómo podemos llevarla al siguiente
-              nivel.
+              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+              {t?.cta?.description ??
+                "Let’s talk about your brand and how we can take it to the next level."}
             </p>
             <Button href="/contact" variant="gradient">
-              Iniciar una Conversación
+              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
+              {t?.cta?.primary ?? "Start a Conversation"}
             </Button>
           </div>
         </Container>

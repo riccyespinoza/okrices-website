@@ -2,54 +2,20 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
-import ServiceCard from "@/components/shared/ServiceCard";
-import {
-  FiUser,
-  FiSettings,
-  FiCalendar,
-  FiMapPin,
-  FiTrendingUp,
-  FiAlertCircle,
-  FiZap,
-} from "react-icons/fi";
-import { FaCheckCircle, FaLayerGroup, FaTabletAlt } from "react-icons/fa";
+import EdgeContainer from "@/components/ui/EdgeContainer";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
-};
-
-// 1. Añadimos un valor por defecto `{}` a `t` para evitar errores si no se pasa.
 export default function ProjectContent({ project, t = {} }) {
-  const prefersReduced = useReducedMotion();
-
-  // --- Lógica de preparación de datos (sin cambios) ---
   const getImageUrl = (img) => img?.asset?.url || null;
   const mainImageUrl = getImageUrl(project?.mainImage);
   const gallery = Array.isArray(project?.gallery)
     ? project.gallery.filter((img) => getImageUrl(img))
     : [];
-  const contextLine =
-    project?.contextLine ??
-    (project?.overview ? String(project.overview).slice(0, 140) : "");
-  const deliverables =
-    Array.isArray(project?.deliverables) && project.deliverables.length > 0
-      ? project.deliverables
-      : project?.services
-        ? String(project.services)
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : [];
-  // --- Fin de la lógica de datos ---
 
-  // Helper para renderizar títulos con la última palabra resaltada de forma segura
   const TitleWithHighlight = ({ text }) => {
-    if (!text) return null; // No renderizar nada si no hay texto
+    if (!text) return null;
     const parts = text.split(" ");
     const lastWord = parts.pop();
     return (
@@ -62,16 +28,16 @@ export default function ProjectContent({ project, t = {} }) {
   return (
     <main className="min-h-screen text-light">
       {/* =======================================================
-          1) Hero visual (Sin cambios)
-          ======================================================= */}
+    Hero visual con bordes redondeados y márgenes laterales
+    ======================================================= */}
       <Section
-        spacing="pt-24 pb-32"
-        className="relative flex min-h-screen items-end justify-start overflow-hidden"
+        spacing="pt-24 pb-8"
+        className="relative overflow-hidden"
         withContainer={false}
-        aria-labelledby="project-hero-title"
+        aria-label="project-hero"
       >
         {mainImageUrl && (
-          <div className="absolute inset-0 -z-10">
+          <EdgeContainer className="relative h-[75vh] md:h-[85vh]" shadow>
             <Image
               src={mainImageUrl}
               alt={project?.mainImage?.alt || `${project?.title} hero`}
@@ -81,275 +47,96 @@ export default function ProjectContent({ project, t = {} }) {
               sizes="100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/70 to-transparent" />
-          </div>
+          </EdgeContainer>
         )}
+      </Section>
+
+      {/* =======================================================
+    2) Título + tipo de proyecto + overview (centrado verticalmente)
+    ======================================================= */}
+      <Section spacing="py-24 md:py-32" aria-labelledby="project-title">
         <Container>
-          <h1
-            id="project-hero-title"
-            className="text-gradient text-5xl font-bold md:text-7xl"
-          >
-            {project?.title}
-          </h1>
-          {project?.projectType && (
-            <p className="mt-3 text-lg text-brand-sand">
-              {project.projectType}
-            </p>
-          )}
-          {contextLine && (
-            <p className="mt-4 max-w-3xl text-brand-cream opacity-90 md:text-xl">
-              {contextLine}
-            </p>
-          )}
+          <div className="flex flex-col gap-6 md:gap-8 justify-center">
+            <div>
+              <h1
+                id="project-title"
+                className="text-4xl sm:text-5xl md:text-6xl font-bold text-light mb-3 md:mb-4"
+              >
+                {project?.title}
+              </h1>
+              {project?.projectType && (
+                <p className="text-brand-cream/90 md:text-lg mb-4">
+                  {project.projectType}
+                </p>
+              )}
+            </div>
+
+            {project?.overview && (
+              <p className="max-w-4xl text-lg text-brand-cream opacity-90 text-justify md:text-xl leading-relaxed">
+                {project.overview}
+              </p>
+            )}
+          </div>
         </Container>
       </Section>
 
       {/* =======================================================
-          2) Descripción breve
-          ======================================================= */}
-      {project?.overview && (
-        <Section spacing="py-24 md:py-32" aria-labelledby="brief-title">
-          <Container>
-            <h2
-              id="brief-title"
-              className="mb-6 text-3xl font-bold md:text-4xl"
-            >
-              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
-              <TitleWithHighlight text={t?.brief?.title ?? "Overview"} />
-            </h2>
-            <p className="max-w-4xl text-lg text-brand-cream opacity-90 text-justify md:text-xl leading-relaxed">
-              {project.overview}
-            </p>
-          </Container>
-        </Section>
-      )}
-
-      {/* =======================================================
-          3) Datos clave
-          ======================================================= */}
-      {(project?.client ||
-        project?.services ||
-        project?.year ||
-        project?.location) && (
-        <Section spacing="py-24 md:py-32" aria-labelledby="key-data-title">
-          <Container>
-            <motion.div
-              className="text-center"
-              variants={prefersReduced ? {} : containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <h2
-                id="key-data-title"
-                className="mb-12 text-3xl font-bold md:text-4xl"
-              >
-                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
-                <TitleWithHighlight text={t?.keyData?.title ?? "Key Facts"} />
-              </h2>
-              <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
-                {project?.client && (
-                  <ServiceCard
-                    icon={<FiUser className="mb-4 text-3xl text-accent" />}
-                    title={t?.keyData?.client ?? "Client"}
-                    description={project.client}
-                  />
-                )}
-                {project?.services && (
-                  <ServiceCard
-                    icon={<FiSettings className="mb-4 text-3xl text-accent" />}
-                    title={t?.keyData?.services ?? "Services"}
-                    description={project.services}
-                  />
-                )}
-                {project?.year && (
-                  <ServiceCard
-                    icon={<FiCalendar className="mb-4 text-3xl text-accent" />}
-                    title={t?.keyData?.year ?? "Year"}
-                    description={project.year}
-                  />
-                )}
-                {project?.location && (
-                  <ServiceCard
-                    icon={<FiMapPin className="mb-4 text-3xl text-accent" />}
-                    title={t?.keyData?.location ?? "Location"}
-                    description={project.location}
-                  />
-                )}
-              </ul>
-            </motion.div>
-          </Container>
-        </Section>
-      )}
-
-      {/* =======================================================
-          4) Entregables del Proyecto
-          ======================================================= */}
-      {deliverables.length > 0 && (
-        <Section spacing="py-24 md:py-32" aria-labelledby="deliverables-title">
-          <Container>
-            <motion.div
-              className="text-center"
-              variants={prefersReduced ? {} : containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <h2
-                id="deliverables-title"
-                className="mb-12 text-3xl font-bold md:text-4xl"
-              >
-                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
-                <TitleWithHighlight
-                  text={t?.deliverables?.title ?? "Project Deliverables"}
-                />
-              </h2>
-              <ul className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-                {deliverables.map((item, i) => {
-                  const icons = [FaCheckCircle, FaLayerGroup, FaTabletAlt];
-                  const Icon = icons[i % icons.length];
-                  return (
-                    <ServiceCard
-                      key={`${item}-${i}`}
-                      icon={<Icon className="mb-4 text-3xl text-accent" />}
-                      title={item}
-                      description=""
-                    />
-                  );
-                })}
-              </ul>
-            </motion.div>
-          </Container>
-        </Section>
-      )}
-
-      {/* =======================================================
-          5) Resultados del Proyecto
-          ======================================================= */}
-      {(project?.challenge || project?.solution || project?.impact) && (
-        <Section spacing="py-24 md:py-32" aria-labelledby="results-title">
-          <Container>
-            <motion.div
-              className="text-center"
-              variants={prefersReduced ? {} : containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <h2
-                id="results-title"
-                className="mb-12 text-3xl font-bold md:text-4xl"
-              >
-                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
-                <TitleWithHighlight
-                  text={t?.results?.title ?? "Project Outcomes"}
-                />
-              </h2>
-              <ul className="grid grid-cols-1 gap-10 md:grid-cols-3">
-                {project?.challenge && (
-                  <ServiceCard
-                    icon={
-                      <FiAlertCircle className="mb-4 text-3xl text-accent" />
-                    }
-                    title={t?.results?.challenge ?? "The Challenge"}
-                    description={project.challenge}
-                  />
-                )}
-                {project?.solution && (
-                  <ServiceCard
-                    icon={<FiZap className="mb-4 text-3xl text-accent" />}
-                    title={t?.results?.solution ?? "The Solution"}
-                    description={project.solution}
-                  />
-                )}
-                {project?.impact && (
-                  <ServiceCard
-                    icon={
-                      <FiTrendingUp className="mb-4 text-3xl text-accent" />
-                    }
-                    title={t?.results?.impact ?? "The Impact"}
-                    description={project.impact}
-                  />
-                )}
-              </ul>
-            </motion.div>
-          </Container>
-        </Section>
-      )}
-
-      {/* =======================================================
-          6) Galería visual (Sin cambios de lógica, solo textos)
+          4) Galería visual
           ======================================================= */}
       {gallery.length > 0 && (
-        <Section spacing="py-24 md:py-32" aria-labelledby="gallery-title">
-          <Container fluid>
-            <div className="text-center mb-12">
-              <h2 id="gallery-title" className="text-3xl md:text-4xl font-bold">
-                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
-                {t?.gallery?.titleBefore ?? "Visual"}{" "}
-                <span className="text-gradient">
-                  {t?.gallery?.titleAfter ?? "Gallery"}
-                </span>
-              </h2>
-              <p className="mt-4 text-lg text-brand-cream opacity-90 max-w-2xl mx-auto">
-                {/* ✅ CORREGIDO: Usamos `t` con fallback */}
-                {t?.gallery?.intro ??
-                  "A closer look at the deliverables and visual identity created for this project."}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-8">
-              {gallery.map((img, index) => {
-                if (index % 2 !== 0) return null;
-                const nextImg = gallery[index + 1];
-                const isReversed = (index / 2) % 2 !== 0;
+        <Section
+          spacing="py-24 md:py-32"
+          aria-labelledby="gallery-title"
+          withContainer={false}
+        >
+          <EdgeContainer className="grid grid-cols-1 gap-8">
+            {gallery.map((img, index) => {
+              if (index % 2 !== 0) return null;
+              const nextImg = gallery[index + 1];
+              const isReversed = (index / 2) % 2 !== 0;
 
-                return (
+              return (
+                <div
+                  key={img.asset?._id || index}
+                  className="grid min-h-[450px] items-stretch gap-8 md:grid-cols-5"
+                >
                   <div
-                    key={img.asset?._id || index}
-                    className="grid min-h-[450px] items-stretch gap-8 md:grid-cols-5"
+                    className={isReversed ? "md:col-span-2" : "md:col-span-3"}
                   >
+                    <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-neutral-800">
+                      <Image
+                        src={img.asset.url}
+                        alt={img.alt || `Gallery image ${index + 1}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 800px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  </div>
+                  {nextImg && (
                     <div
-                      className={isReversed ? "md:col-span-2" : "md:col-span-3"}
+                      className={isReversed ? "md:col-span-3" : "md:col-span-2"}
                     >
                       <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-neutral-800">
                         <Image
-                          src={img.asset.url}
-                          alt={img.alt || `Imagen de galería ${index + 1}`}
+                          src={nextImg.asset.url}
+                          alt={nextImg.alt || `Gallery image ${index + 2}`}
                           fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 800px"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 700px"
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
                     </div>
-                    {nextImg && (
-                      <div
-                        className={
-                          isReversed ? "md:col-span-3" : "md:col-span-2"
-                        }
-                      >
-                        <div className="group relative h-full w-full overflow-hidden rounded-2xl bg-neutral-800">
-                          <Image
-                            src={nextImg.asset.url}
-                            alt={
-                              nextImg.alt || `Imagen de galería ${index + 2}`
-                            }
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 700px"
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </Container>
+                  )}
+                </div>
+              );
+            })}
+          </EdgeContainer>
         </Section>
       )}
 
       {/* =======================================================
-          7) CTA final
+          5) CTA final
           ======================================================= */}
       <Section spacing="py-24 md:py-32" aria-labelledby="project-cta-title">
         <Container>
@@ -358,21 +145,17 @@ export default function ProjectContent({ project, t = {} }) {
               id="project-cta-title"
               className="text-3xl font-bold md:text-4xl"
             >
-              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
-              {t?.cta?.title?.before ??
-                "Ready for your project to look this"}{" "}
+              {t?.cta?.title?.before ?? "Ready for your project to look this"}{" "}
               <span className="text-gradient">
                 {t?.cta?.title?.highlight ?? "professional"}
               </span>
               {t?.cta?.title?.after ?? "?"}
             </h2>
             <p className="mt-4 mb-8 text-lg text-brand-cream opacity-90">
-              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
               {t?.cta?.description ??
                 "Let’s talk about your brand and how we can take it to the next level."}
             </p>
             <Button href="/contact" variant="gradient">
-              {/* ✅ CORREGIDO: Usamos `t` con fallback */}
               {t?.cta?.primary ?? "Start a Conversation"}
             </Button>
           </div>

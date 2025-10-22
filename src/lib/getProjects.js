@@ -9,15 +9,6 @@ const PROJECTION = /* groq */ `
   overview,
   description,
   projectType,
-  client,
-  services,
-  year,
-  location,
-  contextLine,
-  deliverables,
-  challenge,
-  solution,
-  impact,
   url,
   showUrlButton,
   cardImage{
@@ -108,7 +99,6 @@ export async function getAllCategories(lang = "en") {
  * Busca primero en el idioma solicitado, si no encuentra, busca en inglés
  */
 export async function getProjectBySlug(slug, lang = "en") {
-  // Primero intenta obtener el proyecto en el idioma solicitado
   const query = /* groq */ `
     *[_type == "project" && slug.current == $slug && language == $lang][0]{
       ${PROJECTION}
@@ -121,7 +111,6 @@ export async function getProjectBySlug(slug, lang = "en") {
     { next: { revalidate: 60 } }
   );
 
-  // Si no encuentra el proyecto y el idioma no es inglés, intenta en inglés
   if (!project && lang !== "en") {
     const fallbackQuery = /* groq */ `
       *[_type == "project" && slug.current == $slug && language == "en"][0]{
@@ -138,7 +127,6 @@ export async function getProjectBySlug(slug, lang = "en") {
 
   if (!project) return null;
 
-  // Filtrar categorías para que coincidan con el idioma del proyecto
   return {
     ...project,
     categories: (project.categories || []).filter(
@@ -182,7 +170,7 @@ export async function getAllProjectSlugs() {
 }
 
 /**
- * 7) VERIFICAR SI EXISTE UN PROYECTO (útil para validación)
+ * 7) VERIFICAR SI EXISTE UN PROYECTO
  */
 export async function projectExists(slug, lang = "en") {
   const query = /* groq */ `

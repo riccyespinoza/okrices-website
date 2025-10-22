@@ -176,4 +176,18 @@
     background-position: right 0.9rem center;
     background-size: 12px;
   }
+
+  /* ===============================
+   Reusable section width (hero-like)
+   =============================== */
+  .section-rounded {
+    @apply mx-auto w-[92%] md:w-[90%] overflow-hidden rounded-3xl;
+  }
+
+  /* ===============================
+   Sección con el mismo margen que el Hero
+   =============================== */
+  .section-hero-margin {
+    @apply mx-auto w-[90%] md:w-[88%] overflow-hidden rounded-3xl;
+  }
 }

@@ -108,7 +108,7 @@ export default function Home({ params }) {
           secondary={{
             label: t.ctaFinal.secondary.label,
             href: withLocale(t.ctaFinal.secondary.href),
-            variant: "ghost",
+            variant: "secondary",
           }}
         />
       </section>

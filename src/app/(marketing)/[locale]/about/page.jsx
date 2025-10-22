@@ -66,7 +66,7 @@ export default function AboutPage({ params }) {
           secondary={{
             label: t.cta.secondary,
             href: `/${locale}/projects`,
-            variant: "ghost",
+            variant: "secondary",
           }}
         />
       </section>

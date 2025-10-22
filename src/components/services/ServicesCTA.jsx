@@ -23,7 +23,7 @@ export default function ServicesCTA({
         secondary={{
           label: "Our Process",
           href: "/about",
-          variant: "ghost",
+          variant: "secondary",
         }}
       />
     </section>

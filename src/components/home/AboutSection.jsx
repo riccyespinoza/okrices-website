@@ -58,7 +58,7 @@ export default function AboutSection({ title, text, cta }) {
 
         {cta?.href && (
           <motion.div {...itemAnimProps}>
-            <Button href={cta.href} variant="secondary">
+            <Button href={cta.href} variant="gradient">
               {cta.label}
             </Button>
           </motion.div>

@@ -57,7 +57,7 @@ export default function WhyOkricesSection({ title, intro, bullets = [], cta }) {
 
           {cta?.href && (
             <div>
-              <Button href={cta.href} variant="secondary">
+              <Button href={cta.href} variant="gradient">
                 {cta.label}
               </Button>
             </div>

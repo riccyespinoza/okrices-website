@@ -111,7 +111,7 @@ export default function ContactForm({ locale }) {
           />
         </div>
 
-        <Button type="submit" variant="secondary" className="w-full rounded-lg">
+        <Button type="submit" variant="gradient" className="w-full rounded-lg">
           {t.pages.contact.form.submitLabel}
         </Button>
       </form>

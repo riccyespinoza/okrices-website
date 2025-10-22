@@ -67,7 +67,7 @@ export default function ServicesWeb({
             ))}
           </ul>
 
-          <Button href={ctaHref} variant="secondary">
+          <Button href={ctaHref} variant="gradient">
             {ctaLabel}
           </Button>
         </motion.div>

@@ -18,7 +18,7 @@ export default function ProjectsHero({ title, subtitle, ctaLabel, ctaHref }) {
       )}
       {ctaLabel && ctaHref && (
         <div className="mt-8">
-          <Button href={ctaHref} variant="secondary" aria-label={ctaLabel}>
+          <Button href={ctaHref} variant="gradient" aria-label={ctaLabel}>
             {ctaLabel}
           </Button>
         </div>

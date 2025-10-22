@@ -66,9 +66,8 @@ export default async function ProjectsPage({ params }) {
           />
         </Reveal>
       </Section>
-
-      {/* GALERÍA */}
-      <Section withContainer spacing="pb-24 md:pb-32">
+      {/* GALERÍA */}{" "}
+      <Section withContainer={false} spacing="pb-24 md:pb-32">
         <ProjectsGallery
           projects={projects}
           locale={locale}

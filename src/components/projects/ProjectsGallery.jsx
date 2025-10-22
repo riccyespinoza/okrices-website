@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import ProjectCard from "@/components/projects/ProjectCard";
+import EdgeContainer from "@/components/ui/EdgeContainer"; // ⬅️ importar
 
 /**
  * props:
@@ -34,9 +35,9 @@ export default function ProjectsGallery({
   }, [projects, activeSlug]);
 
   return (
-    <div>
+    <EdgeContainer rounded={false} className="space-y-10">
       {/* Filtros */}
-      <div className="mb-10 flex flex-wrap items-center justify-center gap-3">
+      <div className="mb-2 flex flex-wrap items-center justify-center gap-3">
         {filterItems.map((item) => {
           const isActive = activeSlug === item.slug;
           return (
@@ -67,6 +68,6 @@ export default function ProjectsGallery({
           ))}
         </ul>
       )}
-    </div>
+    </EdgeContainer>
   );
 }

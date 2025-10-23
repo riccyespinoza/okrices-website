@@ -1,12 +1,39 @@
-// src/components/contact/ContactForm.jsx
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { getDic } from "@/lib/i18n/config";
 
 export default function ContactForm({ locale }) {
   const t = getDic(locale);
+  const [status, setStatus] = useState("idle"); // idle | sending | ok | error
+  const [error, setError] = useState("");
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    setStatus("sending");
+    setError("");
+
+    const fd = new FormData(e.currentTarget);
+    const payload = Object.fromEntries(fd.entries());
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "UNKNOWN");
+
+      setStatus("ok");
+      e.currentTarget.reset();
+    } catch (err) {
+      setStatus("error");
+      setError(err.message || "UNKNOWN");
+    }
+  }
 
   return (
     <motion.section
@@ -25,7 +52,17 @@ export default function ContactForm({ locale }) {
         {t.pages.contact.form.title}
       </h2>
 
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={onSubmit} noValidate>
+        {/* Honeypot oculto */}
+        <input
+          type="text"
+          name="hp"
+          tabIndex={-1}
+          autoComplete="off"
+          className="hidden"
+          aria-hidden="true"
+        />
+
         {/* Nombre */}
         <div className="form-group">
           <label htmlFor="name" className="form-label">
@@ -53,6 +90,7 @@ export default function ContactForm({ locale }) {
             type="email"
             required
             autoComplete="email"
+            inputMode="email"
             className="form-field"
             placeholder={t.pages.contact.form.fields.email.placeholder}
           />
@@ -73,7 +111,7 @@ export default function ContactForm({ locale }) {
           />
         </div>
 
-        {/* Servicio de interés */}
+        {/* Servicio */}
         <div className="form-group">
           <label htmlFor="service" className="form-label">
             {t.pages.contact.form.fields.service.label}
@@ -89,7 +127,7 @@ export default function ContactForm({ locale }) {
                 "Select an option"}
             </option>
             {t.pages.contact.form.serviceOptions.map((opt, i) => (
-              <option key={i} className="text-neutral-900">
+              <option key={i} className="text-neutral-900" value={opt}>
                 {opt}
               </option>
             ))}
@@ -111,9 +149,30 @@ export default function ContactForm({ locale }) {
           />
         </div>
 
-        <Button type="submit" variant="gradient" className="w-full rounded-lg">
-          {t.pages.contact.form.submitLabel}
+        <Button
+          type="submit"
+          variant="gradient"
+          className="w-full rounded-lg"
+          disabled={status === "sending"}
+        >
+          {status === "sending"
+            ? (t.pages.contact.form.sendingLabel ?? "Sending…")
+            : t.pages.contact.form.submitLabel}
         </Button>
+
+        {status === "ok" && (
+          <p role="status" className="text-sm text-green-400">
+            {t.pages.contact.form.successLabel ??
+              "Message sent. We’ll be in touch soon."}
+          </p>
+        )}
+        {status === "error" && (
+          <p role="alert" className="text-sm text-red-400">
+            {t.pages.contact.form.errorLabel ??
+              "We couldn’t send your message. Please try again later."}
+            {process.env.NODE_ENV !== "production" ? ` (${error})` : null}
+          </p>
+        )}
       </form>
     </motion.section>
   );

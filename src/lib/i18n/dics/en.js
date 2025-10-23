@@ -156,6 +156,12 @@ export default {
         },
         serviceOptions: ["Branding", "Web Development", "Both", "Not sure yet"],
         submitLabel: "Send message",
+        // 🔽 nuevos
+        sendingLabel: "Sending...",
+        successLabel:
+          "✅ Your message was sent successfully. We'll get back to you soon.",
+        errorLabel: "❌ We couldn’t send your message. Please try again later.",
+        invalidLabel: "⚠️ Please complete all required fields.",
       },
       info: {
         title: "Or if you prefer, contact us directly:",
@@ -167,7 +173,6 @@ export default {
         ctaLabel: "Let’s talk about your brand",
       },
     },
-
     about: {
       title: "About",
       hero: {

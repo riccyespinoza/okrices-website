@@ -140,32 +140,38 @@ export default {
       title: "Contacto",
       hero: {
         title: "Hablemos de tu marca",
-        text: "Tu próxima etapa comienza aquí. Un espacio para transformar la manera en que tu marca comunica, crece y se presenta al mundo.",
+        text: "Tu siguiente etapa empieza aquí. Un espacio para transformar cómo tu marca comunica, crece y se presenta al mundo.",
         ctaLabel: "Enviar mensaje",
       },
       form: {
         title: "Envíanos un mensaje",
         fields: {
           name: { label: "Nombre completo *", placeholder: "Tu nombre" },
-          email: { label: "Correo electrónico *", placeholder: "tu@email.com" },
+          email: { label: "Correo *", placeholder: "tucorreo@ejemplo.com" },
           company: { label: "Empresa (opcional)", placeholder: "Tu empresa" },
           service: { label: "Servicio de interés" },
           message: {
             label: "Mensaje *",
-            placeholder: "Cuéntanos brevemente sobre tu proyecto",
+            placeholder: "Cuéntanos brevemente tu proyecto",
           },
         },
         serviceOptions: [
           "Branding",
-          "Desarrollo web",
+          "Desarrollo Web",
           "Ambos",
-          "Aún no lo tengo claro",
+          "Aún no estoy seguro",
         ],
         submitLabel: "Enviar mensaje",
+        // 🔽 nuevos
+        sendingLabel: "Enviando...",
+        successLabel:
+          "✅ Tu mensaje fue enviado con éxito. Te responderemos pronto.",
+        errorLabel: "❌ No pudimos enviar tu mensaje. Inténtalo nuevamente.",
+        invalidLabel: "⚠️ Por favor completa los campos requeridos.",
       },
       info: {
-        title: "O si lo prefieres, escríbenos directamente:",
-        email: "contacto@okrices.com",
+        title: "O si prefieres, contáctanos directamente:",
+        email: "contact@okrices.com",
         location: "Fort Lauderdale, Florida",
       },
       closing: {
@@ -173,7 +179,6 @@ export default {
         ctaLabel: "Hablemos de tu marca",
       },
     },
-
     about: {
       title: "Sobre nosotros",
       hero: {

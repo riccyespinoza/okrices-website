@@ -1,179 +1,151 @@
-"use client";
+// src/app/api/contact/route.js
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
+import { z } from "zod";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import Button from "@/components/ui/Button";
-import { getDic } from "@/lib/i18n/config";
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-export default function ContactForm({ locale }) {
-  const t = getDic(locale);
-  const [status, setStatus] = useState("idle"); // idle | sending | ok | error
-  const [error, setError] = useState("");
+// GET diagnóstico (puedes quitarlo cuando acabes las pruebas)
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    route: "/api/contact",
+    hasKey: Boolean(process.env.RESEND_API_KEY),
+  });
+}
 
-  async function onSubmit(e) {
-    e.preventDefault();
-    setStatus("sending");
-    setError("");
+export async function OPTIONS() {
+  return NextResponse.json({ ok: true });
+}
 
-    const fd = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(fd.entries());
+// Validación
+const Schema = z.object({
+  name: z.string().min(2).max(100),
+  email: z.string().email(),
+  company: z.string().optional().nullable().or(z.literal("")),
+  service: z.string().optional().nullable().or(z.literal("")),
+  message: z.string().min(2).max(3000),
+  hp: z.string().max(0).optional().nullable(), // honeypot
+  locale: z.string().optional().nullable().or(z.literal("")),
+});
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || "UNKNOWN");
-
-      setStatus("ok");
-      e.currentTarget.reset();
-    } catch (err) {
-      setStatus("error");
-      setError(err.message || "UNKNOWN");
+export async function POST(req) {
+  try {
+    const ct = req.headers.get("content-type") || "";
+    if (!ct.includes("application/json")) {
+      return NextResponse.json(
+        { ok: false, error: "CONTENT_TYPE" },
+        { status: 415 }
+      );
     }
+
+    const payload = await req.json();
+    const parsed = Schema.safeParse(payload);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { ok: false, error: "INVALID_INPUT" },
+        { status: 400 }
+      );
+    }
+
+    const { hp, locale, ...data } = parsed.data;
+    if (hp) return NextResponse.json({ ok: true }); // bot atrapado
+
+    // Idioma
+    const lang = (locale || "").toLowerCase().startsWith("es") ? "es" : "en";
+
+    // Plantillas: notificación (para ti) y auto-reply (para el usuario)
+    const subjectAdmin =
+      `New contact — ${data.name}` + (data.company ? ` @ ${data.company}` : "");
+    const htmlAdmin = `
+      <h2>New inquiry</h2>
+      <p><b>Name:</b> ${data.name}</p>
+      <p><b>Email:</b> ${data.email}</p>
+      ${data.company ? `<p><b>Company:</b> ${data.company}</p>` : ""}
+      ${data.service ? `<p><b>Service:</b> ${data.service}</p>` : ""}
+      <p><b>Message:</b></p>
+      <p style="white-space:pre-line">${data.message}</p>
+    `;
+
+    const subjectUser =
+      lang === "es"
+        ? "Hemos recibido tu mensaje — Okrices"
+        : "We received your message — Okrices";
+
+    const htmlUser =
+      lang === "es"
+        ? `
+        <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6">
+          <h2>¡Gracias por contactarnos, ${escapeHtml(data.name)}!</h2>
+          <p>Hemos recibido tu mensaje y nuestro equipo te responderá muy pronto.</p>
+          <hr />
+          <p style="margin:0 0 4px"><b>Resumen de tu mensaje</b></p>
+          <p style="white-space:pre-line">${escapeHtml(data.message)}</p>
+          <p style="color:#94a3b8;font-size:12px;margin-top:16px">Okrices · hello@okrices.com</p>
+        </div>`
+        : `
+        <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6">
+          <h2>Thanks for reaching out, ${escapeHtml(data.name)}!</h2>
+          <p>We’ve received your message and our team will get back to you shortly.</p>
+          <hr />
+          <p style="margin:0 0 4px"><b>Your message</b></p>
+          <p style="white-space:pre-line">${escapeHtml(data.message)}</p>
+          <p style="color:#94a3b8;font-size:12px;margin-top:16px">Okrices · hello@okrices.com</p>
+        </div>`;
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const from = process.env.CONTACT_FROM || "hello@okrices.com";
+    const toAdmin = process.env.CONTACT_TO || "hello@okrices.com";
+    const fromHeader = `Okrices <${from}>`;
+
+    // 1) Notificación a tu inbox
+    const notif = await resend.emails.send({
+      from: fromHeader,
+      to: toAdmin,
+      subject: subjectAdmin,
+      html: htmlAdmin,
+      reply_to: data.email, // responde directo al cliente
+    });
+
+    // Si la notificación falla, respondemos error (no tiene sentido seguir)
+    if (notif?.error) {
+      console.error("RESEND notif error:", notif.error);
+      return NextResponse.json(
+        { ok: false, error: "RESEND_ERROR" },
+        { status: 502 }
+      );
+    }
+
+    // 2) Auto-reply al usuario (si su email existe/valida)
+    try {
+      await resend.emails.send({
+        from: fromHeader,
+        to: data.email,
+        subject: subjectUser,
+        html: htmlUser,
+        reply_to: from, // si responde, cae a tu inbox
+      });
+    } catch (autoErr) {
+      // No “rompemos” la UX si el auto-reply falla; dejamos constancia
+      console.warn("Auto-reply failed:", autoErr);
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("contact-api error:", e);
+    return NextResponse.json(
+      { ok: false, error: "SERVER_ERROR" },
+      { status: 500 }
+    );
   }
+}
 
-  return (
-    <motion.section
-      id="contact-form"
-      aria-labelledby="contact-form-title"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="glass-effect rounded-2xl border border-white/5 p-6 md:p-8 transition hover:-translate-y-1 hover:shadow-lg"
-    >
-      <h2
-        id="contact-form-title"
-        className="mb-6 text-2xl font-bold text-light"
-      >
-        {t.pages.contact.form.title}
-      </h2>
-
-      <form className="space-y-6" onSubmit={onSubmit} noValidate>
-        {/* Honeypot oculto */}
-        <input
-          type="text"
-          name="hp"
-          tabIndex={-1}
-          autoComplete="off"
-          className="hidden"
-          aria-hidden="true"
-        />
-
-        {/* Nombre */}
-        <div className="form-group">
-          <label htmlFor="name" className="form-label">
-            {t.pages.contact.form.fields.name.label}
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            autoComplete="name"
-            className="form-field"
-            placeholder={t.pages.contact.form.fields.name.placeholder}
-          />
-        </div>
-
-        {/* Correo */}
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            {t.pages.contact.form.fields.email.label}
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            inputMode="email"
-            className="form-field"
-            placeholder={t.pages.contact.form.fields.email.placeholder}
-          />
-        </div>
-
-        {/* Empresa */}
-        <div className="form-group">
-          <label htmlFor="company" className="form-label">
-            {t.pages.contact.form.fields.company.label}
-          </label>
-          <input
-            id="company"
-            name="company"
-            type="text"
-            autoComplete="organization"
-            className="form-field"
-            placeholder={t.pages.contact.form.fields.company.placeholder}
-          />
-        </div>
-
-        {/* Servicio */}
-        <div className="form-group">
-          <label htmlFor="service" className="form-label">
-            {t.pages.contact.form.fields.service.label}
-          </label>
-          <select
-            id="service"
-            name="service"
-            className="form-select"
-            defaultValue=""
-          >
-            <option value="" disabled hidden>
-              {t.pages.contact.form.fields.service.placeholder ??
-                "Select an option"}
-            </option>
-            {t.pages.contact.form.serviceOptions.map((opt, i) => (
-              <option key={i} className="text-neutral-900" value={opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Mensaje */}
-        <div className="form-group">
-          <label htmlFor="message" className="form-label">
-            {t.pages.contact.form.fields.message.label}
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={5}
-            required
-            className="form-textarea"
-            placeholder={t.pages.contact.form.fields.message.placeholder}
-          />
-        </div>
-
-        <Button
-          type="submit"
-          variant="gradient"
-          className="w-full rounded-lg"
-          disabled={status === "sending"}
-        >
-          {status === "sending"
-            ? (t.pages.contact.form.sendingLabel ?? "Sending…")
-            : t.pages.contact.form.submitLabel}
-        </Button>
-
-        {status === "ok" && (
-          <p role="status" className="text-sm text-green-400">
-            {t.pages.contact.form.successLabel ??
-              "Message sent. We’ll be in touch soon."}
-          </p>
-        )}
-        {status === "error" && (
-          <p role="alert" className="text-sm text-red-400">
-            {t.pages.contact.form.errorLabel ??
-              "We couldn’t send your message. Please try again later."}
-            {process.env.NODE_ENV !== "production" ? ` (${error})` : null}
-          </p>
-        )}
-      </form>
-    </motion.section>
-  );
+// Utilidad simple para evitar inyectar HTML en el auto-reply
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }

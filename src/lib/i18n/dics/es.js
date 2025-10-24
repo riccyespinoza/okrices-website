@@ -171,7 +171,7 @@ export default {
       },
       info: {
         title: "O si prefieres, contáctanos directamente:",
-        email: "contact@okrices.com",
+        email: "hello@okrices.com",
         location: "Fort Lauderdale, Florida",
       },
       closing: {

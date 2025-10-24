@@ -190,4 +190,13 @@
   .section-hero-margin {
     @apply mx-auto w-[90%] md:w-[88%] overflow-hidden rounded-3xl;
   }
+
+  img {
+    image-rendering: auto; /* evita suavizado por defecto en zoom */
+  }
+  /* globals.css */
+  /* Evita re-rasterizados blandos y asegura capa propia en el wrapper */
+  .group {
+    backface-visibility: hidden;
+  }
 }

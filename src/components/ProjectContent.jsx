@@ -98,7 +98,7 @@ export default function ProjectContent({ project, t = {} }) {
               return (
                 <div
                   key={img.asset?._id || index}
-                  className="grid min-h-[450px] items-stretch gap-8 md:grid-cols-5"
+                  className="grid min-h-[650px] items-stretch gap-8 md:grid-cols-5"
                 >
                   <div
                     className={isReversed ? "md:col-span-2" : "md:col-span-3"}

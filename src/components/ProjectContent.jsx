@@ -37,16 +37,20 @@ export default function ProjectContent({ project, t = {} }) {
         aria-label="project-hero"
       >
         {mainImageUrl && (
-          <EdgeContainer className="relative h-[75vh] md:h-[85vh]" shadow>
-            <Image
-              src={mainImageUrl}
-              alt={project?.mainImage?.alt || `${project?.title} hero`}
-              fill
-              priority
-              fetchPriority="high"
-              sizes="100vw"
-              className="object-cover"
-            />
+          <EdgeContainer className="relative" shadow>
+            {/* 🔸 En móvil: fija el aspect ratio (igual que las miniaturas) */}
+            {/* 4:3 en xs, 16:9 en sm; en md+ usamos altura en viewport */}
+            <div className="relative overflow-hidden rounded-2xl aspect-[4/3] sm:aspect-[16/9] md:aspect-auto md:h-[70vh] lg:h-[80vh]">
+              <Image
+                src={mainImageUrl}
+                alt={project?.mainImage?.alt || `${project?.title} hero`}
+                fill
+                priority
+                fetchPriority="high"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1280px"
+                className="object-cover"
+              />
+            </div>
           </EdgeContainer>
         )}
       </Section>

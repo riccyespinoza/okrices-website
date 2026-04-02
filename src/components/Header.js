@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+// Añade esta línea debajo de tus otros imports
+import LanguageSwitcher from "./LanguageSwitcher";
 
 // --- Analiza la ruta actual ---
 function parsePath(pathname = "/") {

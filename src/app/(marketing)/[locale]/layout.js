@@ -21,13 +21,14 @@ const outfit = Outfit({
 export const metadata = {
   title: "Okrices – Visual Identity & Web Studio",
   description: "Transforming ideas into clear and functional brands.",
-  themeColor: "#060a12",
+  // themeColor ELIMINADO de aquí
 };
 
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#060a12", // AGREGADO aquí
 };
 
 export default function RootLayout({ children, params }) {

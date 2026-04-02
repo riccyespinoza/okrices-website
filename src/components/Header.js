@@ -165,6 +165,7 @@ export default function Header() {
           >
             {texts.contact}
           </Link>
+          <LanguageSwitcher />
         </nav>
 
         {/* Botón móvil */}

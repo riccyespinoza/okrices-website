@@ -34,15 +34,16 @@ export default function MaintenancePage() {
 
       {/* Contenedor Principal - Espaciado de Flujo Variable */}
       <div className="w-full max-w-2xl text-center space-y-10 md:space-y-16">
-        {/* Logo - Implementación Forzada */}
-        <div className="flex justify-center relative z-50">
-          <img
-            src="/logo-octopus_white.svg"
-            alt="Logo"
-            style={{ width: "80px", height: "80px", display: "block" }}
-            className="md:w-32 md:h-32 object-contain"
-            onError={(e) => console.error("Error cargando logo:", e)}
-          />
+        {/* Logo / Branding */}
+        <div className="flex justify-center">
+          <div className="flex items-center justify-center">
+            <img
+              src="/logo-okrices.svg"
+              alt="Okrices Logo"
+              className="w-24 h-24 md:w-32 md:h-32 object-contain" // Tamaño grande y responsivo
+              fetchPriority="high" // Esta es la forma correcta para <img>
+            />
+          </div>
         </div>
         {/* BLOQUE DE TEXTO */}
         <div className="space-y-5 px-2">

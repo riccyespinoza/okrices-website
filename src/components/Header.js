@@ -1,226 +1,100 @@
-"use client";
+import Image from "next/image"; // Importación necesaria al inicio
+import { Mail, Phone } from "lucide-react";
+import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
 
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
-// Añade esta línea debajo de tus otros imports
-import LanguageSwitcher from "./LanguageSwitcher";
+export const metadata = {
+  title: "En Reestructuración | Okrices",
+  robots: { index: false, follow: false },
+};
 
-// --- Analiza la ruta actual ---
-function parsePath(pathname = "/") {
-  const parts = pathname.split("/").filter(Boolean);
-  const hasLocale = parts[0] === "en" || parts[0] === "es";
-  const root = hasLocale ? (parts[1] ?? "") : (parts[0] ?? "");
-  const depth = hasLocale ? parts.length - 1 : parts.length;
-  const locale = hasLocale ? parts[0] : "en";
-  return { locale, root, depth };
-}
-
-export default function Header() {
-  const pathname = usePathname() || "/";
-  const { locale, root, depth } = parsePath(pathname);
-  const isSpanish = locale === "es";
-  const prefix = isSpanish ? "/es" : "";
-
-  const isProjectDetailPage =
-    (root === "projects" && depth > 1) ||
-    /^\/projects\/[^/]+$/.test(pathname) ||
-    /^\/es\/projects\/[^/]+$/.test(pathname);
-
-  // Solo marcar activo en raíz (no en home ni slugs)
-  const isActive = (targetRoot) => {
-    if (!targetRoot) return false;
-    if (root === "projects" && depth > 1) return false;
-    return root === targetRoot && depth === 1;
-  };
-
-  // --- Scroll / UI ---
-  const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const panelRef = useRef(null);
-
-  const texts = isSpanish
-    ? {
-        about: "Sobre Nosotros",
-        services: "Servicios",
-        projects: "Proyectos",
-        contact: "Contacto",
-      }
-    : {
-        about: "About",
-        services: "Services",
-        projects: "Projects",
-        contact: "Contact",
-      };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 10);
-
-      if (mobileOpen) {
-        setVisible(true);
-        setLastScrollY(currentScrollY);
-        return;
-      }
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setVisible(false);
-      } else {
-        setVisible(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, mobileOpen]);
-
-  useEffect(() => {
-    function onClickOutside(e) {
-      if (panelRef.current && !panelRef.current.contains(e.target)) {
-        setMobileOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, []);
-
-  // 🔹 Clases visuales (mantiene tamaño de texto)
-  const navIdle =
-    "text-brand-cream/80 hover:text-brand-sand transition-colors duration-300";
-  const navActive =
-    "text-accent hover:text-accent-light font-semibold transition-colors duration-300";
+export default function MaintenancePage() {
+  const socialLinks = [
+    {
+      icon: <FaInstagram className="w-6 h-6" />,
+      href: "https://instagram.com/okrices",
+      label: "Instagram",
+    },
+    {
+      icon: <FaFacebook className="w-6 h-6" />,
+      href: "https://facebook.com/okrices",
+      label: "Facebook",
+    },
+    {
+      icon: <FaWhatsapp className="w-6 h-6" />,
+      href: "https://wa.me/7542714741",
+      label: "WhatsApp",
+    },
+  ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 px-6 py-3 transition-all duration-300 ${
-        scrolled || mobileOpen ? "glass-effect" : "bg-transparent"
-      } ${visible ? "translate-y-0" : "-translate-y-full"}`}
-    >
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <Link href={isSpanish ? "/es" : "/"} className="flex items-center">
-          <div className="hidden md:block">
-            <Image
-              src={
-                isProjectDetailPage && !scrolled
-                  ? "/logo-okrices_white.svg"
-                  : "/logo-okrices.svg"
-              }
-              alt="Okrices logo"
-              width={150}
-              height={45}
-              priority
-            />
-          </div>
-          <div className="block md:hidden">
-            <Image
-              src={
-                isProjectDetailPage && !scrolled
-                  ? "/logo-octopus_white.svg"
-                  : "/logo-octopus.svg"
-              }
-              alt="Okrices isotype"
-              width={40}
-              height={40}
-              priority
-            />
-          </div>
-        </Link>
+    <main className="relative min-h-screen w-full bg-page-gradient flex flex-col items-center justify-center p-4 sm:p-6 text-light font-sans animate-fade-in overflow-hidden relative">
+      {/* Reflejos Ambientales (Fondo Limpio) */}
+      <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+      <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-brand-steel/10 blur-[120px] rounded-full pointer-events-none -z-10" />
 
-        {/* Navegación Desktop */}
-        <nav className="hidden md:flex items-center space-x-8 lg:space-x-10 text-base">
-          <Link
-            href={`${prefix}/about`}
-            className={isActive("about") ? navActive : navIdle}
-            aria-current={isActive("about") ? "page" : undefined}
-          >
-            {texts.about}
-          </Link>
-
-          <Link
-            href={`${prefix}/services`}
-            className={isActive("services") ? navActive : navIdle}
-            aria-current={isActive("services") ? "page" : undefined}
-          >
-            {texts.services}
-          </Link>
-
-          <Link
-            href={`${prefix}/projects`}
-            className={isActive("projects") ? navActive : navIdle}
-            aria-current={isActive("projects") ? "page" : undefined}
-          >
-            {texts.projects}
-          </Link>
-
-          <Link
-            href={`${prefix}/contact`}
-            className={isActive("contact") ? navActive : navIdle}
-            aria-current={isActive("contact") ? "page" : undefined}
-          >
-            {texts.contact}
-          </Link>
-          <LanguageSwitcher />
-        </nav>
-
-        {/* Botón móvil */}
-        <button
-          className="md:hidden text-2xl"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <FaTimes /> : <FaBars />}
-        </button>
-      </div>
-
-      {/* Panel móvil */}
-      {mobileOpen && (
-        <div
-          ref={panelRef}
-          className="md:hidden bg-transparent border-t border-white/10"
-        >
-          <nav className="flex flex-col px-6 py-4 space-y-5 text-base">
-            <Link
-              href={`${prefix}/about`}
-              onClick={() => setMobileOpen(false)}
-              className={isActive("about") ? navActive : navIdle}
-            >
-              {texts.about}
-            </Link>
-
-            <Link
-              href={`${prefix}/services`}
-              onClick={() => setMobileOpen(false)}
-              className={isActive("services") ? navActive : navIdle}
-            >
-              {texts.services}
-            </Link>
-
-            <Link
-              href={`${prefix}/projects`}
-              onClick={() => setMobileOpen(false)}
-              className={isActive("projects") ? navActive : navIdle}
-            >
-              {texts.projects}
-            </Link>
-
-            <Link
-              href={`${prefix}/contact`}
-              onClick={() => setMobileOpen(false)}
-              className={isActive("contact") ? navActive : navIdle}
-            >
-              {texts.contact}
-            </Link>
-          </nav>
+      {/* Contenedor Principal - Espaciado de Flujo Variable */}
+      <div className="w-full max-w-2xl text-center space-y-10 md:space-y-16">
+        {/* Logo - Implementación Forzada */}
+        <div className="flex justify-center relative z-50">
+          <img
+            src="/logo-octopus_white.svg"
+            alt="Logo"
+            style={{ width: "80px", height: "80px", display: "block" }}
+            className="md:w-32 md:h-32 object-contain"
+            onError={(e) => console.error("Error cargando logo:", e)}
+          />
         </div>
-      )}
-    </header>
+        {/* BLOQUE DE TEXTO */}
+        <div className="space-y-5 px-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-light leading-tight md:leading-[1.1]">
+            Reestructurando nuestra <br className="hidden md:block" />{" "}
+            plataforma.
+          </h1>
+          <p className="text-base md:text-xl text-brand-cream/60 max-w-sm md:max-w-lg mx-auto font-light leading-relaxed">
+            Nuestra web vuelve pronto, pero nuestro equipo sigue trabajando en
+            nuevos proyectos.
+          </p>
+        </div>
+
+        {/* ACCIONES DE INTERACCIÓN */}
+        <div className="flex flex-col items-center space-y-5 w-full max-w-xs mx-auto">
+          {/* WhatsApp Primary CTA */}
+          <a
+            href="https://wa.me/7542714741"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-3 py-4 px-8 bg-accent-gradient text-light font-semibold rounded-full shadow-accent hover:scale-[1.02] transition-transform active:scale-95"
+          >
+            <FaWhatsapp className="w-5 h-5 shrink-0" />
+            <span>Contactar por WhatsApp</span>
+          </a>
+
+          {/* Email Secondary Link */}
+          <a
+            href="mailto:hello@okrices.com"
+            className="flex items-center gap-2 text-brand-sand hover:text-light transition-colors duration-300 text-sm md:text-base border-b border-transparent hover:border-brand-sand pb-1 px-3" // Padding aumentado
+          >
+            <Mail className="w-4 h-4 shrink-0" />
+            <span>Enviar Email</span>
+          </a>
+        </div>
+
+        {/* FOOTER MINIMALISTA */}
+        <footer className="pt-10 md:pt-16 w-full flex justify-center gap-6 md:gap-8 border-t border-white/5 text-brand-cream/30">
+          {socialLinks.map((link, idx) => (
+            <a
+              key={idx}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-accent transition-colors p-2"
+              aria-label={link.label}
+            >
+              {link.icon}
+            </a>
+          ))}
+        </footer>
+      </div>
+    </main>
   );
 }

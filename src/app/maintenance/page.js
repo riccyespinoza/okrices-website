@@ -1,71 +1,102 @@
-import { Hammer, Mail, Timer } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
+import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
 
 export const metadata = {
-  title: "Mantenimiento | Okrices",
+  title: "En Reestructuración | Okrices",
   robots: { index: false, follow: false },
 };
 
 export default function MaintenancePage() {
+  const socialLinks = [
+    {
+      icon: <FaInstagram className="w-6 h-6" />,
+      href: "https://instagram.com/okrices",
+      label: "Instagram",
+    },
+    {
+      icon: <FaFacebook className="w-6 h-6" />,
+      href: "https://facebook.com/okrices",
+      label: "Facebook",
+    },
+    {
+      icon: <FaWhatsapp className="w-6 h-6" />,
+      href: "https://wa.me/7542714741",
+      label: "WhatsApp",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-page-gradient flex flex-col items-center justify-center p-6 text-light font-sans animate-fade-in">
-      {/* Círculo de fondo decorativo usando tus colores de marca */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-88 h-88 bg-accent/10 blur-[120px] rounded-full animate-pulse-slow -z-10" />
+    <main className="relative min-h-screen w-full bg-page-gradient flex flex-col items-center justify-center p-4 sm:p-6 text-light font-sans animate-fade-in overflow-hidden relative">
+      {/* Reflejos Ambientales (Fondo Limpio) */}
+      <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+      <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-brand-steel/10 blur-[120px] rounded-full pointer-events-none -z-10" />
 
-      <div className="max-w-xl w-full text-center space-y-8">
-        {/* Iconografía con tu color accent */}
+      {/* Contenedor Principal - Espaciado de Flujo Variable */}
+      <div className="w-full max-w-2xl text-center space-y-10 md:space-y-16">
+        {/* LOGO - INTEGRACIÓN DE SVG */}
         <div className="flex justify-center">
-          <div className="relative">
-            <div className="absolute inset-0 bg-accent blur-xl opacity-20 animate-pulse" />
-            <div className="relative bg-dark border border-accent/30 p-5 rounded-2xl shadow-accent">
-              <Hammer className="w-12 h-12 text-accent" />
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-light to-brand-cream bg-clip-text text-transparent">
-            Estamos evolucionando
-          </h1>
-          <p className="text-lg text-brand-cream/70 leading-relaxed max-w-md mx-auto">
-            Actualmente estamos reestructurando nuestra plataforma para
-            ofrecerte una mejor experiencia de servicios.
-          </p>
-        </div>
-
-        {/* Indicador de progreso estilizado */}
-        <div className="bg-dark/50 border border-brand-steel/30 p-6 rounded-2xl backdrop-blur-sm shadow-soft">
-          <div className="flex items-center justify-between mb-3 text-sm font-medium">
-            <span className="flex items-center gap-2 text-brand-sand">
-              <Timer className="w-4 h-4" /> Progreso de actualización
-            </span>
-            <span className="text-accent">60%</span>
-          </div>
-          <div className="h-2 w-full bg-primary rounded-full overflow-hidden border border-white/5">
-            <div
-              className="h-full bg-accent-gradient shadow-[0_0_15px_rgba(165,81,48,0.5)]"
-              style={{ width: "60%" }}
+          <div className="h-12 flex items-center justify-center">
+            {/* Si estás en Next.js, usa Image. Si es React puro, usa <img> */}
+            <img
+              src="/logo-okrices.svg"
+              alt="Okrices Logo"
+              className="w-24 h-24 md:w-32 md:h-32 object-contain"
+              fetchPriority="high"
             />
           </div>
         </div>
 
-        {/* Contacto */}
-        <div className="pt-8 border-t border-brand-steel/20 flex flex-col items-center gap-4">
-          <p className="text-sm text-brand-cream/50 uppercase tracking-widest">
-            ¿Necesitas algo urgente?
+        {/* BLOQUE DE TEXTO */}
+        <div className="space-y-5 px-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-light leading-tight md:leading-[1.1]">
+            Reestructurando nuestra <br className="hidden md:block" />{" "}
+            plataforma.
+          </h1>
+          <p className="text-base md:text-xl text-brand-cream/60 max-w-sm md:max-w-lg mx-auto font-light leading-relaxed">
+            Nuestra web vuelve pronto, pero nuestro equipo sigue trabajando en
+            nuevos proyectos.
           </p>
+        </div>
+
+        {/* ACCIONES DE INTERACCIÓN */}
+        <div className="flex flex-col items-center space-y-5 w-full max-w-xs mx-auto">
+          {/* WhatsApp Primary CTA */}
           <a
-            href="mailto:tu-email@dominio.com"
-            className="flex items-center gap-2 text-light hover:text-accent-light transition-colors duration-300 group"
+            href="https://wa.me/7542714741"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-3 py-4 px-8 bg-accent-gradient text-light font-semibold rounded-full shadow-accent hover:scale-[1.02] transition-transform active:scale-95"
           >
-            <div className="p-2 bg-brand-steel-dark rounded-lg group-hover:bg-accent/20 transition-colors">
-              <Mail className="w-5 h-5" />
-            </div>
-            <span className="font-medium underline underline-offset-4 text-base">
-              contacto@okrices.com
-            </span>
+            <FaWhatsapp className="w-5 h-5 shrink-0" />
+            <span>Contactar por WhatsApp</span>
+          </a>
+
+          {/* Email Secondary Link */}
+          <a
+            href="mailto:hello@okrices.com"
+            className="flex items-center gap-2 text-brand-sand hover:text-light transition-colors duration-300 text-sm md:text-base border-b border-transparent hover:border-brand-sand pb-1 px-3" // Padding aumentado
+          >
+            <Mail className="w-4 h-4 shrink-0" />
+            <span>Enviar Email</span>
           </a>
         </div>
+
+        {/* FOOTER MINIMALISTA */}
+        <footer className="pt-10 md:pt-16 w-full flex justify-center gap-6 md:gap-8 border-t border-white/5 text-brand-cream/30">
+          {socialLinks.map((link, idx) => (
+            <a
+              key={idx}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-accent transition-colors p-2"
+              aria-label={link.label}
+            >
+              {link.icon}
+            </a>
+          ))}
+        </footer>
       </div>
-    </div>
+    </main>
   );
 }

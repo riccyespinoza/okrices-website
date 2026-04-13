@@ -33,15 +33,15 @@ export default function MaintenancePage() {
 
       {/* Contenedor Principal - Espaciado de Flujo Variable */}
       <div className="w-full max-w-2xl text-center space-y-10 md:space-y-16">
-        {/* LOGO - INTEGRACIÓN DE SVG */}
+        {/* Logo - Versión final para Producción */}
         <div className="flex justify-center">
-          <div className="h-12 flex items-center justify-center">
-            {/* Si estás en Next.js, usa Image. Si es React puro, usa <img> */}
+          <div className="flex items-center justify-center">
             <img
               src="/logo-okrices.svg"
               alt="Okrices Logo"
               className="w-24 h-24 md:w-32 md:h-32 object-contain"
               fetchPriority="high"
+              // Se eliminó onError porque causa error en Server Components
             />
           </div>
         </div>
